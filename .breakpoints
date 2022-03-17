@@ -1,0 +1,68 @@
+{
+  "files": {
+    "index.js": [
+      {
+        "id": "48dd80c4-5f9f-4c40-95bc-bee924bb18dc",
+        "line": 15,
+        "version": 625,
+        "index": 403
+      }
+    ],
+    "routes/admin.js": [
+      {
+        "id": "c92fad72-fcaa-4370-a64a-c9e3ef2608b8",
+        "line": 1,
+        "version": 3256,
+        "index": 0
+      },
+      {
+        "id": "fb7e0053-bb43-4714-9abd-ccdc19be42b9",
+        "line": 3,
+        "version": 3256,
+        "index": 105
+      },
+      {
+        "id": "fa10c524-ec25-4719-9c5a-3152eac3e538",
+        "line": 3,
+        "version": 3256,
+        "index": 105
+      },
+      {
+        "id": "0a3eeb73-8d40-4c17-84fc-d037a6e657e1",
+        "line": 47,
+        "version": 3256,
+        "index": 1302
+      }
+    ],
+    "routes/index.js": [
+      {
+        "id": "65614a99-c43e-4de2-8f81-aa96c1c55ddf",
+        "line": 161,
+        "version": 3298,
+        "index": 5509
+      }
+    ],
+    "views/admin.ejs": [
+      {
+        "id": "7694689e-dc55-4967-9a82-4a8d0d380dec",
+        "line": 13,
+        "version": 1180,
+        "index": 409
+      },
+      {
+        "id": "b9180969-c5f7-411f-9be4-eb094a90436b",
+        "line": 31,
+        "version": 1180,
+        "index": 1190
+      }
+    ],
+    "views/index.ejs": [
+      {
+        "id": "7fdbfe5d-4386-4bd3-a30a-15c1c1c445ed",
+        "line": 66,
+        "version": 1607,
+        "index": 3135
+      }
+    ]
+  }
+}

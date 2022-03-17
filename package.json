@@ -1,0 +1,28 @@
+{
+  "name": "tinyurl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.26.0",
+    "body-parser": "^1.19.2",
+    "cookie-parser": "^1.4.6",
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "express-rate-limit": "^6.3.0",
+    "express-session": "^1.17.2",
+    "fetch-cookie-v2": "^0.0.2",
+    "http-errors": "^2.0.0",
+    "mongoose": "^6.2.2",
+    "morgan": "^1.10.0",
+    "node-fetch": "^2.6.7",
+    "passport": "^0.5.2",
+    "passport-local": "^1.0.0"
+  }
+}
