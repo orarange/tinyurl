@@ -19,6 +19,7 @@
     "express-session": "^1.17.2",
     "fetch-cookie-v2": "^0.0.2",
     "http-errors": "^2.0.0",
+    "js-cookie": "^3.0.1",
     "mongoose": "^6.2.2",
     "morgan": "^1.10.0",
     "node-fetch": "^2.6.7",

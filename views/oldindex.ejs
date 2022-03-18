@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <title>URL短縮サービス</title>
+        <meta name="description" content="URLを短縮するサイトです。">
+        <meta name="keywords" content="短縮,URL,URL短縮,短縮URL,tiny-url.cf">    
+        <meta name="theme-color" content="#6E3DD9">
+        <link rel="stylesheet" href="/css/style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="/images/favicon.ico">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4006009538073290"
+     crossorigin="anonymous"></script>
+    </head>
+    <body class="index_body">
+        <div class="overlay">
+            <div class="btn_area">
+                <p><a href="/policy">利用規約</a>をよくお読みいただいたうえで利用規約に同意のボタンをお押しください</p>
+                <button>利用規約に同意</button>
+            </div>
+        </div>
+        <h3 class="login"><a href="/login">login</a></h3>
+        <h3 class="api-page"><a href="/api/reference">api</a></h3>
+        <h3 class="policy"><a href="/policy">利用規約</a></h3>
+        <h1 class="top">URL短縮サービス</h1>
+        <% if (name) { %>
+            <h2>こんにちは<%=name%>さん:)</h2>
+        <% } %> 
+            
+        <p>超長いURLを短くしたいときにおすすめです<br>※月末にすべてリセットされます</p>
+        <% if ( !premiu ) {%>
+            <h3 id="buttonstyle">あなたはfreeプランです</h3>
+        <% }else{ %>
+            <h3 id="buttonstyle">あなたはpremiumプランです</h3>
+        <% } %>
+        <form method="POST" action="/tiny_url">
+            <p>短縮したいURL：<input id="formstyle" type="text" name="original" required></p>
+            <% if ( premiu ){ %>
+                <p>使いたいドメイン：
+                    <select id="selectstyle" name="domain" id="domain">
+                        <option value="tiny-url.cf/t" selected>デフォルト</option>
+                        <option value="hjbi.cf">hjbi.cf</option>
+                        <option value="hjdi.ga">hjdi.ga</option>
+                        <option value="hjdi.gq" <%= demo %>>hjdi.gq</option>
+                        <option value="hjdi.tk" <%= demo %>>hjdi.tk</option>
+                    </select>
+                </p>                
+                <p>カスタムURL:<input id="formstyle" type="text" name="custom" value="<%= url %>"></p>
+            <% } %>
+            <p><input id="buttonstyle" type="submit" value="URL作成"></p>
+        </form>
+        <hr>
+        <% if (tiny){%>
+        <% if ( tiny === 'Registered' ){%>
+            <h4>申し訳ございません。指定されたURLはすでに登録されています。</h4>
+        <% }else{ %>
+            <input type="text" id="copyTarget_tiny" value=<%= tiny %> readonly>
+            <br>
+            <button onclick="copy()">Copy TinyURL</button>
+        <% }} %>
+        <br>
+        <p>不具合等あれば<a href="https://discord.com/users/757106917947605034" target="about:blank">製作者</a>か<a href="https://discord.gg/EXk6gDwQWp" target="about:blank">よく活動してるサーバー</a>にて伝えてください<br>※当サイトが原因で起こったトラブルについては一切の責任を負いません</p>
+    </body>
+    <script type="text/javascript">
+        function copy() {
+            // コピー対象をJavaScript上で変数として定義する
+            var copyTarget = document.getElementById("copyTarget_tiny");
+
+            // コピー対象のテキストを選択する
+            copyTarget.select();
+
+            // 選択しているテキストをクリップボードにコピーする
+            document.execCommand("Copy");
+
+        }
+
+        $(function(){
+            $(".overlay").show();
+            $.cookie('policy') == 'on'?$(".overlay").hide():$(".overlay").show();
+            $(".btn_area button").click(function(){
+                $(".overlay").fadeOut();
+                $.cookie('policy', 'on', { expires: 30,path: '/' }); //cookieの保存
+            });
+        });
+    </script>
+</html>

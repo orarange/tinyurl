@@ -1,7 +1,10 @@
 <!DOCTYPE html>
   <!-- Coding by CodingLab | www.codinglabweb.com -->
-<html lang="en">
+<html lang="jp">
 <head>
+    <title>URL短縮サービス｜管理用ページ</title>
+    <meta name="description" content="URLを短縮するサイトです。">  
+    <meta name="theme-color" content="#6E3DD9">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,24 +33,10 @@
 
             <i class='bx bx-chevron-right toggle'></i>
         </header>
-        <div class="urls">
-            <table>
-                <% for(var i in content) { %>
-                    <tr>
-                        <% var obj = content[i]; %>
-                        <th class="admin"><%= Number(i)+1 %>：<%= obj.original %></th>
-                        <td class="admin"><%= obj.tiny %></td>
-                    </tr>
-                <% } %>
-            </table>
-        </div>
+
         <div class="menu-bar">
             <div class="menu">
 
-                <li class="search-box">
-                    <i class='bx bx-search icon'></i>
-                    <input type="text" placeholder="Search...">
-                </li>
 
                 <ul class="menu-links">
                     <li class="nav-link">
@@ -66,7 +55,7 @@
 
                 </ul>
             </div>
-
+    
             <div class="bottom-content">
                 <li class="">
                     <a href="#">
@@ -94,23 +83,46 @@
 
     <section class="home">
         <div class="text">free plan</div>
+        <div class="urls">
+            <table>
+                <% for(var i in content) { %>
+                    <tr>
+                        <% var obj = content[i]; %>
+                        <th class="admin"><%= Number(i)+1 %>：<%= obj.original %></th>
+                        <td class="admin"><%= obj.tiny %></td>
+                    </tr>
+                <% } %>
+            </table>
+        </div>
+        <form method="POST" action="/admin/delete">
+            <% for(var n in content) { %>
+                <% let number = content[n]; %>
+                <input type="checkbox" name="delnum" value="<%=content[n].tiny %>"><%= Number(n)+1 %></input>
+            <% } %>
+            <p><input type="submit" value="消去"></p>
+        </form>
+        <form method="POST" action="/admin/alldelete">
+            <p><input type="submit" value="全消去"></p>
+        </form>
+        <div id="premiumadd">
+            <form method="POST" action="/admin/premiumadd">
+                <p><input type="text" name="id"></p>
+                <p><input type="submit" value="追加"></p>
+                <p><input type="submit" name="demo" value="デモとして追加"></p>
+            </form>
+        </div>
     </section>
 
     <script>
         const body = document.querySelector('body'),
       sidebar = body.querySelector('nav'),
       toggle = body.querySelector(".toggle"),
-      searchBtn = body.querySelector(".search-box"),
       modeSwitch = body.querySelector(".toggle-switch"),
       modeText = body.querySelector(".mode-text");
 
 
 toggle.addEventListener("click" , () =>{
     sidebar.classList.toggle("close");
-})
-
-searchBtn.addEventListener("click" , () =>{
-    sidebar.classList.remove("close");
 })
 
 modeSwitch.addEventListener("click" , () =>{

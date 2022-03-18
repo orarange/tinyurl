@@ -34,10 +34,10 @@ router.get('/', async (req, res) => {
         
     }else{
     
-        if (!req.cookies.refresh_token||req.cookies.refresh_token==="undefined") {
+        if (req.cookies.refresh_token===undefined) {
         
             
-            res.render('index', { url:'' ,tiny:'',premiu:'',name:'',demo:'',log:'in'});
+            res.render('nindex', { url:'' ,tiny:'',premiu:'',name:'',demo:''});
         
         }else{
             const {token_type,access_token,refresh_token} = await refresh(req.cookies.refresh_token);
@@ -49,20 +49,19 @@ router.get('/', async (req, res) => {
             
             preuser.findOne({id:id}).then(d=>{
                 if(!d){
-                    res.render('index', { url: '' ,tiny:'',premiu:'',name:username,demo:'',log:"out"});
+                    res.render('nindex', { url: '' ,tiny:'',premiu:'',name:username,demo:''});
                 }else{
                     if (!d.demo){
                         //res.render('promo')
-                        res.render('index', { url: '' ,tiny:'',premiu:'yes',name:username,demo:'',log:'out'});
+                        res.render('nindex', { url: '' ,tiny:'',premiu:'yes',name:username,demo:''});
                     }else{
-                        res.render('index', { url: '' ,tiny:'',premiu:'yes',name:username,demo:'disabled',log:'out'});
+                        res.render('nindex', { url: '' ,tiny:'',premiu:'yes',name:username,demo:'disabled'});
                         //res.render('promo')
                     }
                 }
             });
         
         }
-        
     }
 });
 
@@ -91,14 +90,9 @@ router.post('/tiny_url',async (req,res) => {
                 res.cookie('refresh_token', refresh_token, {
                     httpOnly: false
                 });
-                if (!req.cookies.refresh_token||req.cookies.refresh_token==="undefined") {
-        
+                
+                res.render('nindex',{url:'',tiny:`https://tiny-url.cf/t/${tinyuRl}`,premiu:'',name:username,demo:''})
             
-                    res.render('index',{url:'',tiny:`https://tiny-url.cf/t/${tinyuRl}`,premiu:'',name:username,demo:'',log:'in'})
-        
-                }else{
-                    res.render('index',{url:'',tiny:`https://tiny-url.cf/t/${tinyuRl}`,premiu:'',name:username,demo:'',log:'out'})
-                }
             }else{
             console.log('premium plan')
                 //premiumの処理
@@ -120,14 +114,15 @@ router.post('/tiny_url',async (req,res) => {
                                 httpOnly: true
                             });
                             
-                            res.render('index',{url:'',tiny:`https://${domain}/${custom}`,premiu:'yes',name:username,demo:'',log:'out'})
+                            res.render('nindex',{url:'',tiny:`https://${domain}/${custom}`,premiu:'yes',name:username,demo:''})                            
+                        
                         }else{
                             //あったときの処理
                             res.cookie('refresh_token', refresh_token, {
                                 httpOnly: true
                             });
                             
-                            res.render('index',{url:custom,tiny:'Registered',premiu:'yes',name:username,demo:'',log:'out'})
+                            res.render('nindex',{url:custom,tiny:'Registered',premiu:'yes',name:username,demo:''})
                         
                         }
                     
@@ -147,7 +142,7 @@ router.post('/tiny_url',async (req,res) => {
                         httpOnly: true
                     });
                             
-                    res.render('index',{url:'',tiny:`https://${domain}/${tinyuRl}`,premiu:'yes',name:username,demo:'',log:'out'})                            
+                    res.render('nindex',{url:'',tiny:`https://${domain}/${tinyuRl}`,premiu:'yes',name:username,demo:''})                            
    
                 }
             
@@ -157,14 +152,8 @@ router.post('/tiny_url',async (req,res) => {
         
     }else{
         //URLじゃなかったときの処理
-        if (!req.cookies.refresh_token||req.cookies.refresh_token==="undefined") {
-        
-            
-            res.render('index', { url:'' ,tiny:'',premiu:'',name:username,demo:'',log:'in'});
-        
-        }else{
-            res.render('index',{url:'',tiny:'',premiu:'',name:username,demo:'',log:'out'})
-        }
+        res.render('nindex',{url:'',tiny:'',premiu:'',name:username,demo:''})
+    
     }
 
 })

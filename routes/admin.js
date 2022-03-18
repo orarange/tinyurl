@@ -21,10 +21,11 @@ router.get('/', async (req, res) => {
     const {token_type,access_token,refresh_token} = await refresh(req.cookies.refresh_token);
     const {username,id} = await userdat(token_type,access_token)
 
-    preuser.findOne({id:id}).then(d=>{
+    admin.findOne({id:id}).then(d=>{
         if(!d){
             
             console.log('not admin')
+            res.status(403)
             res.send('ページへのアクセス権限がありません。');
             
         }else{
@@ -47,9 +48,28 @@ router.get('/', async (req, res) => {
 
 });
 
-router.post('/alldelete',function(req,res){
-    tinyurl.remove({ __v: 0 }).then(x => console.log(x.deletedCount))
-    res.redirect('/admin')
+router.post('/alldelete',async function(req,res){
+    const {token_type,access_token,refresh_token} = await refresh(req.cookies.refresh_token);
+    const {username,id} = await userdat(token_type,access_token)
+
+    admin.findOne({id:id}).then(d=>{
+        if(!d){
+            
+            console.log('not admin')
+            res.status(403)
+            res.send('ページへのアクセス権限がありません。');
+            
+        }else{
+            console.log(`admin:${username}`)
+            tinyurl.remove({ __v: 0 }).then(x => console.log(x.deletedCount))
+    
+            res.cookie('refresh_token', refresh_token, {
+                  httpOnly: true
+            });
+            
+        }
+    });
+    
 })
 
 router.post('/delete',function(req,res){

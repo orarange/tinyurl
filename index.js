@@ -17,7 +17,8 @@ const admin = require('./routes/admin');
 const login = require('./routes/login');
 const policy= require('./routes/policy');
 const refe= require('./routes/refe');
-//const goglin = require('./routes/gollogin');
+const bata= require('./routes/bata');
+const buy = require('./routes/buypremium');
 
 //API用のルーター読み込み
 const API1 = require('./APIs/index');
@@ -49,7 +50,8 @@ app.use('/login',login);
 app.use('/admin',admin);
 app.use('/policy',policy);
 app.use('/api/reference',refe);
-//app.use('/google',goglin)
+app.use('/bata/home',bata);
+app.use('/buy',buy)
 
 //API用
 app.use('/api',API1)
