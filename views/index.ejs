@@ -11,7 +11,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4006009538073290"
      crossorigin="anonymous"></script>
-    <script type="module" src="/path/to/js.cookie.mjs"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,7 +34,7 @@
         <header>
             <div class="image-text">
                 <span class="image">
-                    <img src="/images/favicon.ico" alt="">
+                    <a href="/"><img src="/images/favicon.ico" alt=""></a>
                 </span>
 
                 <div class="text logo-text">
@@ -54,14 +53,14 @@
                     <li class="nav-link">
                         <a href="#">
                             <i class='bx bx-home-alt icon' ></i>
-                            <span class="text nav-text">Dashboard</span>
+                            <span class="text nav-text">home</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="#">
+                        <a href="/api/reference">
                             <i class='bx bx-bar-chart-alt-2 icon' ></i>
-                            <span class="text nav-text">Revenue</span>
+                            <span class="text nav-text">API</span>
                         </a>
                     </li>
 
@@ -87,7 +86,7 @@
                     </li>
 
                     <li class="nav-link">
-                        <a href="#">
+                        <a href="buy">
                             <i class='bx bx-wallet icon' ></i>
                             <span class="text nav-text">Plemium</span>
                         </a>
@@ -100,7 +99,7 @@
                 <li class="">
                     <a href="#" onclick="log<%= log %>()">
                         <i class='bx bx-log-<%= log %> icon' ></i>
-                        <span class="text nav-text" >Logout</span>
+                        <span class="text nav-text" >Log<%= log %></span>
                     </a>
                 </li>
 
@@ -185,21 +184,41 @@
             document.execCommand("Copy");
 
         }
-        
-
-
 
         toggle.addEventListener("click" , () =>{
             sidebar.classList.toggle("close");
         })
+
+        try{        
+            const cookieValue = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('mode'))
+                .split('=')[1];
+            if (cookieValue == 'dark'){
+                body.classList.toggle("dark");
+                modeText.innerText = "Dark mode";
+            }else{
+                modeText.innerText = "Light mode";
+                console.log(cookieValue)
+            }
+        } catch (error){
+            document.cookie = 'mode=light; max-age=604800';
+        }
+
+        
+
         
         modeSwitch.addEventListener("click" , () =>{
             body.classList.toggle("dark");
             
             if(body.classList.contains("dark")){
+                document.cookie = 'mode=light"; max-age=0';
                 modeText.innerText = "Light mode";
+                document.cookie = 'mode = dark; max-age=604800';
             }else{
+                document.cookie = 'mode = dark"; max-age=0';
                 modeText.innerText = "Dark mode";
+                document.cookie = 'mode=light; max-age=604800';
                 
             }
         });

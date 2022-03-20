@@ -121,20 +121,40 @@
       modeText = body.querySelector(".mode-text");
 
 
-toggle.addEventListener("click" , () =>{
-    sidebar.classList.toggle("close");
-})
-
-modeSwitch.addEventListener("click" , () =>{
-    body.classList.toggle("dark");
-    
-    if(body.classList.contains("dark")){
-        modeText.innerText = "Light mode";
-    }else{
-        modeText.innerText = "Dark mode";
+        toggle.addEventListener("click" , () =>{
+            sidebar.classList.toggle("close");
+        })
         
-    }
-});
+        try{        
+            const cookieValue = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('mode'))
+                .split('=')[1];
+            if (cookieValue == 'dark'){
+                body.classList.toggle("dark");
+                modeText.innerText = "Dark mode";
+            }else{
+                modeText.innerText = "Light mode";
+                console.log(cookieValue)
+            }
+        } catch (error){
+            document.cookie = 'mode=light; max-age=604800';
+        }
+        
+        modeSwitch.addEventListener("click" , () =>{
+            body.classList.toggle("dark");
+            
+            if(body.classList.contains("dark")){
+                document.cookie = 'mode=light"; max-age=0';
+                modeText.innerText = "Light mode";
+                document.cookie = 'mode = dark';
+            }else{
+                document.cookie = 'mode = dark"; max-age=0';
+                document.cookie = 'mode=light';
+                modeText.innerText = "Dark mode";
+                
+            }
+        });
     </script>
 
 </body>

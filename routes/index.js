@@ -20,50 +20,37 @@ async function main() {
 
 
 router.get('/', async (req, res) => {
-    const { code } = req.query;
 
-
-    if (code){
+    if (!req.cookies.refresh_token||req.cookies.refresh_token==="undefined") {
         
-        const oauthdata= await oauth(code);
-        res.cookie('refresh_token', oauthdata.refresh_token, {
-            httpOnly: false
-        });
-        const userdata= await userdat(oauthdata.token_type, oauthdata.access_token);
-        res.redirect('/');
+            
+        res.render('index', { url:'' ,tiny:'',premiu:'',name:'',demo:'',log:'in'});
         
     }else{
-    
-        if (!req.cookies.refresh_token||req.cookies.refresh_token==="undefined") {
-        
-            
-            res.render('index', { url:'' ,tiny:'',premiu:'',name:'',demo:'',log:'in'});
-        
-        }else{
-            const {token_type,access_token,refresh_token} = await refresh(req.cookies.refresh_token);
-            const {username,id} = await userdat(token_type,access_token)
+        const {token_type,access_token,refresh_token} = await refresh(req.cookies.refresh_token);
+        const {username,id} = await userdat(token_type,access_token)
 
-            res.cookie('refresh_token', refresh_token, {
-                httpOnly: true
-            });
+        res.cookie('refresh_token', refresh_token, {
+            httpOnly: true
+        });
             
-            preuser.findOne({id:id}).then(d=>{
-                if(!d){
-                    res.render('index', { url: '' ,tiny:'',premiu:'',name:username,demo:'',log:"out"});
+        preuser.findOne({id:id}).then(d=>{
+            if(!d){
+                res.render('index', { url: '' ,tiny:'',premiu:'',name:username,demo:'',log:"out"});
+            }else{
+                if (!d.demo){
+                    //res.render('promo')
+                    res.render('index', { url: '' ,tiny:'',premiu:'yes',name:username,demo:'',log:'out'});
                 }else{
-                    if (!d.demo){
-                        //res.render('promo')
-                        res.render('index', { url: '' ,tiny:'',premiu:'yes',name:username,demo:'',log:'out'});
-                    }else{
-                        res.render('index', { url: '' ,tiny:'',premiu:'yes',name:username,demo:'disabled',log:'out'});
-                        //res.render('promo')
-                    }
+                    res.render('index', { url: '' ,tiny:'',premiu:'yes',name:username,demo:'disabled',log:'out'});
+                    //res.render('promo')
                 }
-            });
-        
-        }
+            }
+        });
         
     }
+        
+
 });
 
 router.post('/tiny_url',async (req,res) => {

@@ -2,16 +2,17 @@
   <!-- Coding by CodingLab | www.codinglabweb.com -->
 <html lang="ja">
 <head>
-    <title>URL短縮サービス</title>
+    <title>URL短縮サービス｜プレミアムプラン購入</title>
     <meta name="description" content="URLを短縮するサイトです。">
     <meta name="keywords" content="短縮,URL,URL短縮,短縮URL,tiny-url.cf">    
     <meta name="theme-color" content="#6E3DD9">
     <link rel="shortcut icon" href="/images/favicon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4006009538073290"
-     crossorigin="anonymous"></script>
-    <script type="module" src="/path/to/js.cookie.mjs"></script>
+
+    <script type="module" src="js.cookie.mjs"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=sb&enable-funding=venmo&currency=JPY" data-sdk-integration-source="button-factory"></script>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,7 +36,7 @@
         <header>
             <div class="image-text">
                 <span class="image">
-                    <img src="/images/favicon.ico" alt="">
+                    <a href="/"><img src="/images/favicon.ico" alt=""></a>
                 </span>
 
                 <div class="text logo-text">
@@ -52,7 +53,7 @@
 
                 <ul class="menu-links">
                     <li class="nav-link">
-                        <a href="#">
+                        <a href="/">
                             <i class='bx bx-home-alt icon' ></i>
                             <span class="text nav-text">Dashboard</span>
                         </a>
@@ -100,7 +101,7 @@
                 <li class="">
                     <a href="#" onclick="log<%= log %>()">
                         <i class='bx bx-log-<%= log %> icon' ></i>
-                        <span class="text nav-text" >Logout</span>
+                        <span class="text nav-text" >Log<%= log %></span>
                     </a>
                 </li>
 
@@ -129,31 +130,110 @@
         <% } %>
         <% if (name) { %>
             <h2 class="text">こんにちは<%=name%>さん:)</h2>
-        <% } %> 
-        <form method="POST" action="/tiny_url">
-            <p class="text" >短縮したいURL：<input class="form" id="formstyle" type="text" name="original" required></p>
-            <% if ( premiu ){ %>
-                <p class="text" >使いたいドメイン：
-                    <select class="form" id="selectstyle" name="domain" id="domain">
-                        <option class="form" value="tiny-url.cf/t" selected>デフォルト</option>
-                        <option value="hjbi.cf">hjbi.cf</option>
-                        <option value="hjdi.ga">hjdi.ga</option>
-                        <option value="hjdi.gq" <%= demo %>>hjdi.gq</option>
-                        <option value="hjdi.tk" <%= demo %>>hjdi.tk</option>
-                    </select>
-                </p>                
-                <p class="text">カスタムURL:<input class="form" id="formstyle" type="text" name="custom" value="<%= url %>"></p>
-            <% } %>
-            <p><input class="form" id="buttonstyle" type="submit" value="URL作成"></p>
-        </form>
-        <% if (tiny){%>
-        <% if ( tiny === 'Registered' ){%>
-            <h4 class="text">申し訳ございません。指定されたURLはすでに登録されています。</h4>
-        <% }else{ %>
-            <input type="text" id="copyTarget_tiny" value=<%= tiny %> readonly>
-            <br>
-            <button onclick="copy()" class="form">Copy TinyURL</button>
-        <% }} %>
+        <% } %>
+<div id="smart-button-container">
+      <div style="text-align: center;">
+        <div style="margin-bottom: 1.25rem;">
+          <p></p>
+          <select id="item-options"><option value="1か月" price="20">1か月 - 20 JPY</option><option value="1年" price="20">1年 - 20 JPY</option></select>
+          <select style="visibility: hidden" id="quantitySelect"></select>
+        </div>
+      <div id="paypal-button-container"></div>
+      </div>
+    </div>
+    <script src="https://www.paypal.com/sdk/js?client-id=sb&enable-funding=venmo&currency=JPY" data-sdk-integration-source="button-factory"></script>
+    <script>
+      function initPayPalButton() {
+        var shipping = 0;
+        var itemOptions = document.querySelector("#smart-button-container #item-options");
+    var quantity = parseInt();
+    var quantitySelect = document.querySelector("#smart-button-container #quantitySelect");
+    if (!isNaN(quantity)) {
+      quantitySelect.style.visibility = "visible";
+    }
+    var orderDescription = '';
+    if(orderDescription === '') {
+      orderDescription = 'Item';
+    }
+    paypal.Buttons({
+      style: {
+        shape: 'pill',
+        color: 'blue',
+        layout: 'vertical',
+        label: 'buynow',
+        
+      },
+      createOrder: function(data, actions) {
+        var selectedItemDescription = itemOptions.options[itemOptions.selectedIndex].value;
+        var selectedItemPrice = parseFloat(itemOptions.options[itemOptions.selectedIndex].getAttribute("price"));
+        var tax = (0 === 0 || false) ? 0 : (selectedItemPrice * (parseFloat(0)/100));
+        if(quantitySelect.options.length > 0) {
+          quantity = parseInt(quantitySelect.options[quantitySelect.selectedIndex].value);
+        } else {
+          quantity = 1;
+        }
+
+        tax *= quantity;
+        tax = Math.round(tax * 100) / 100;
+        var priceTotal = quantity * selectedItemPrice + parseFloat(shipping) + tax;
+        priceTotal = Math.round(priceTotal * 100) / 100;
+        var itemTotalValue = Math.round((selectedItemPrice * quantity) * 100) / 100;
+
+        return actions.order.create({
+          purchase_units: [{
+            description: orderDescription,
+            amount: {
+              currency_code: 'JPY',
+              value: priceTotal,
+              breakdown: {
+                item_total: {
+                  currency_code: 'JPY',
+                  value: itemTotalValue,
+                },
+                shipping: {
+                  currency_code: 'JPY',
+                  value: shipping,
+                },
+                tax_total: {
+                  currency_code: 'JPY',
+                  value: tax,
+                }
+              }
+            },
+            items: [{
+              name: selectedItemDescription,
+              unit_amount: {
+                currency_code: 'JPY',
+                value: selectedItemPrice,
+              },
+              quantity: quantity
+            }]
+          }]
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(orderData) {
+          
+          // Full available details
+          console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+
+          // Show a success message within this page, e.g.
+          const element = document.getElementById('paypal-button-container');
+          element.innerHTML = '';
+          element.innerHTML = '<h3>Thank you for your payment!</h3>';
+
+          // Or go to another URL:  actions.redirect('thank_you.html');
+
+        });
+      },
+      onError: function(err) {
+        console.log(err);
+      },
+    }).render('#paypal-button-container');
+  }
+  initPayPalButton();
+    </script>
+    
     </section>
 
     <script>
@@ -187,7 +267,18 @@
         }
         
 
-
+        const cookieValue = document.cookie
+          .split('; ')
+          .find(row => row.startsWith('mode'))
+          .split('=')[1];
+        
+        if (cookieValue == 'dark'){
+            body.classList.toggle("dark");
+            modeText.innerText = "Dark mode";
+        }else{
+            modeText.innerText = "Dark mode";
+            console.log(cookieValue)
+        }
 
         toggle.addEventListener("click" , () =>{
             sidebar.classList.toggle("close");
@@ -211,6 +302,8 @@
                 $.cookie('policy', 'on', { expires: 30,path: '/' }); //cookieの保存
             });
         });
+    
+
     </script>
 
 </body>
