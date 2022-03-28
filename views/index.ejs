@@ -24,12 +24,7 @@
     <!--<title>Dashboard Sidebar Menu</title>--> 
 </head>
 <body>
-    <div class="overlay">
-        <div class="btn_area">
-            <p><a href="/policy">利用規約</a>をよくお読みいただいたうえで利用規約に同意のボタンをお押しください</p>
-            <button>利用規約に同意</button>
-        </div>
-    </div>
+
     <nav class="sidebar close">
         <header>
             <div class="image-text">
@@ -121,6 +116,7 @@
     </nav>
 
     <section class="home">
+        
         <% if (!premiu){%>
             <div class="text">あなたはフリープランです</div>
         <% }else{ %>
@@ -164,12 +160,21 @@
         
         function login(){
 
-            document.location = "https://discord.com/api/oauth2/authorize?client_id=952497517487071292&redirect_uri=https%3A%2F%2Ftiny-url.cf%2Flogin&response_type=code&scope=identify";
+            document.location = "https://discord.com/api/oauth2/authorize?client_id=952497517487071292&redirect_uri=https%3A%2F%2Ft-ur.site%2Flogin&response_type=code&scope=identify";
         }
 
-        function logout(){
-
-            document.location = "https://discord.com/api/oauth2/authorize?client_id=952497517487071292&redirect_uri=https%3A%2F%2Ftiny-url.cf%2Flogin&response_type=code&scope=identify";
+        function logout(){     
+            try{        
+                const cookieValue = document.cookie
+                    .split('; ')
+                    .find(row => row.startsWith('refresh_token'))
+                    .split('=')[1];
+                if (cookieValue === 'undefined'){
+                    document.cookie = 'refresh_token=undefined";';
+                }
+            } catch (error){
+                console.log(error)
+            }
         }
         
         

@@ -11,17 +11,17 @@
     /* ===== Colors ===== */
     --body-color: #E4E9F7;
     --sidebar-color: #FFF;
-    --primary-color: #695CFE;
+    --primary-color: #0097ff;
     --primary-color-light: #F6F5FF;
     --toggle-color: #DDD;
     --text-color: #707070;
     --border-color: #0097FF;
 
     /* ====== Transition ====== */
-    --tran-03: all 0.2s ease;
-    --tran-03: all 0.3s ease;
-    --tran-04: all 0.3s ease;
-    --tran-05: all 0.3s ease;
+    --tran-03: all 0.6s ease;
+    --tran-03: all 0.7s ease;
+    --tran-04: all 0.7s ease;
+    --tran-05: all 0.7s ease;
 }
 
 body{
@@ -314,6 +314,7 @@ body.dark .home .text{
     color:var(--text-color);    
     background:var(--sidebar-color);
     background-color:var(--sidebar-color)
+    transition: var(--tran-05);
 }
 
 

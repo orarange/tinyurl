@@ -37,9 +37,9 @@
     "routes/index.js": [
       {
         "id": "65614a99-c43e-4de2-8f81-aa96c1c55ddf",
-        "line": 159,
-        "version": 3458,
-        "index": 5649
+        "line": 163,
+        "version": 3498,
+        "index": 5867
       }
     ],
     "views/admin.ejs": [
@@ -60,7 +60,7 @@
       {
         "id": "7fdbfe5d-4386-4bd3-a30a-15c1c1c445ed",
         "line": 2,
-        "version": 2660,
+        "version": 2882,
         "index": 16
       }
     ]

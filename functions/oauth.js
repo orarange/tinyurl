@@ -11,7 +11,7 @@ async function oauth(code){
                 client_secret: client_secret,
                 code,
                 grant_type: 'authorization_code',
-                redirect_uri: `https://tiny-url.cf/login`,
+                redirect_uri: `https://t-ur.site/login`,
                 scope: 'identify',
             }),
             headers: {
