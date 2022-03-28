@@ -17,7 +17,6 @@ async function main() {
     console.log('mongodb connected')
 }
 
-
 router.get('/', async (req, res) => {
 
     if (!req.cookies.refresh_token||req.cookies.refresh_token==="undefined") {
