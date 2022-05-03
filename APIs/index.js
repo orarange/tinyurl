@@ -36,7 +36,7 @@ router.post('/make',async (req,res) => {
                     
                     _tinyurl.save();
                     
-                    res.json({status:'200',message:'request was successful!',tiny:`https://tiny-url.cf/t/${tinyuRl}`})
+                    res.json({status:'200',message:'request was successful!',tiny:`https://tinyurl-1.orraorange.repl.co/t/${tinyuRl}`})
                 
                 }else{
                 console.log('premium plan')
@@ -56,7 +56,7 @@ router.post('/make',async (req,res) => {
                                     
                                     _premium.save();
                                     
-                                    res.json({status:'200',message:'request was successful!',tiny:`https://tiny-url.cf/t/${custom}`})                            
+                                    res.json({status:'200',message:'request was successful!',tiny:`https://tinyurl-1.orraorange.repl.co/t/${custom}`})                            
                                 
                                 }else{
                                     //あったときの処理
@@ -78,7 +78,7 @@ router.post('/make',async (req,res) => {
                             _premium.save();
                                     
                                     
-                            res.json({status:'200',message:'request was successful!',tiny:`https://tiny-url.cf/t/${tinyuRl}`})                            
+                            res.json({status:'200',message:'request was successful!',tiny:`https://tinyurl-1.orraorange.repl.co/t/${tinyuRl}`})                            
            
                         }
                     
