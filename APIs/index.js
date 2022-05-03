@@ -18,7 +18,7 @@ router.get('/',function(req,res){
     res.json({hello:'world'})
 })
 
-router.post('/tiny_url',async (req,res) => {
+router.post('/make',async (req,res) => {
     const tinyuRl=Math.random().toString(32).substring(2)
     const {original,custom,domain,id} = req.body;
     console.log(req.body)
