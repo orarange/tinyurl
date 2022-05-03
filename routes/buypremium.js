@@ -12,9 +12,8 @@ const userdat = require('../functions/userdata');
 main().catch(err => console.log(err));
 
 async function main() {
-    console.log('mongodb connecting')
+
     await mongoose.connect(process.env.mongo_url);
-    console.log('mongodb connected')
 }
 
 
