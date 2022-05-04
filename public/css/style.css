@@ -85,7 +85,10 @@ body{
   padding: 13px;
   margin-bottom: 15px;
   width:70%;
-  box-sizing: border-box;
+  box-sizing: border-box;   
+  background:var(--sidebar-color);
+  background-color:var(--sidebar-color);
+  transition: var(--tran-05);
 }
 
 .urls{
