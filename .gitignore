@@ -2,4 +2,3 @@ node_modules/*
 replit.nix
 .replit
 .breakpoints
-package-lock.json
