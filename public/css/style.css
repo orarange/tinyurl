@@ -76,7 +76,7 @@ body{
   width:70%;
 }
 #formstyle {
-  color:black; 
+  color:var(--text-color); 
   font-weight:500;
   font-size: 18px;
   border-radius: 5px;

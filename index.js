@@ -19,6 +19,7 @@ const policy= require('./routes/policy');
 const refe= require('./routes/refe');
 const bata= require('./routes/bata');
 const buy = require('./routes/buypremium');
+const regiater = require('./routes/register');
 
 //API用のルーター読み込み
 const API1 = require('./APIs/index');
@@ -51,7 +52,8 @@ app.use('/admin',admin);
 app.use('/policy',policy);
 app.use('/api/reference',refe);
 app.use('/bata/home',bata);
-app.use('/buy',buy)
+app.use('/buy',buy);
+app.use('/register',regiater);
 
 //API用
 app.use('/api',API1)

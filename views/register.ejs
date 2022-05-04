@@ -116,39 +116,17 @@
     </nav>
 
     <section class="home">
-        
-        <% if (!premiu){%>
-            <div class="text">あなたはフリープランです</div>
-        <% }else{ %>
-            <div class="text">あなたはプレミアムプランです</div>
-        <% } %>
-        <% if (name) { %>
-            <h2 class="text">こんにちは<%=name%>さん:)</h2>
-        <% } %> 
-        <form method="POST" action="/tiny_url">
-            <p class="text" >短縮したいURL:<input class="form" id="formstyle" type="text" name="original" required></p>
-            <% if ( premiu ){ %>
-                <p class="text" >使いたいドメイン：
-                    <select class="form" id="selectstyle" name="domain" id="domain">
-                        <option class="form" value="tiny-url.cf/t" selected>デフォルト</option>
-                        <option value="hjbi.cf">hjbi.cf</option>
-                        <option value="hjdi.ga">hjdi.ga</option>
-                        <option value="hjdi.gq" <%= demo %>>hjdi.gq</option>
-                        <option value="hjdi.tk" <%= demo %>>hjdi.tk</option>
-                    </select>
-                </p>                
-                <p class="text">カスタムURL:<input class="form" id="formstyle" type="text" name="custom" value="<%= url %>"></p>
-            <% } %>
-            <p><input class="form" id="buttonstyle" type="submit" value="URL作成"></p>
-        </form>
-        <% if (tiny){%>
-        <% if ( tiny === 'Registered' ){%>
-            <h4 class="text">申し訳ございません。指定されたURLはすでに登録されています。</h4>
-        <% }else{ %>
-            <input type="text" id="copyTarget_tiny" value=<%= tiny %> readonly>
-            <br>
-            <button onclick="copy()" class="form">Copy TinyURL</button>
-        <% }} %>
+        <h1 class="text">ユーザー登録</h1>
+
+        <div>
+            <form method="POST" action="/register">
+                <p class="text"><input class="form" id="formstyle" type="name" name="name" placeholder="ユーザー名" required></p>
+                <p class="text"><input class="form" id="formstyle" type="email" name="email" placeholder="メールアドレス" required></p>
+                <p class="text"><input class="form" id="formstyle" type="password" name="password" placeholder="パスワード" required></p>
+                <p class="text"><input class="form" id="formstyle" type="password" name="password_confirmation" placeholder="パスワード確認" required></p>
+                <p><input class="form" id="buttonstyle" type="submit" value="登録"></p>
+            </form>
+        </div>
     </section>
 
     <script>
@@ -158,37 +136,7 @@
          modeSwitch = body.querySelector(".toggle-switch"),
         modeText = body.querySelector(".mode-text");
         
-        function login(){
-
-            document.location = "https://discord.com/api/oauth2/authorize?client_id=952497517487071292&redirect_uri=https%3A%2F%2Ft-ur.site%2Flogin&response_type=code&scope=identify";
-        }
-
-        function logout(){     
-            try{        
-                const cookieValue = document.cookie
-                    .split('; ')
-                    .find(row => row.startsWith('refresh_token'))
-                    .split('=')[1];
-                if (cookieValue === 'undefined'){
-                    document.cookie = 'refresh_token=undefined";';
-                }
-            } catch (error){
-                console.log(error)
-            }
-        }
-        
-        
-        function copy() {
-            // コピー対象をJavaScript上で変数として定義する
-            var copyTarget = document.getElementById("copyTarget_tiny");
-
-            // コピー対象のテキストを選択する
-            copyTarget.select();
-
-            // 選択しているテキストをクリップボードにコピーする
-            document.execCommand("Copy");
-
-        }
+ 
 
         toggle.addEventListener("click" , () =>{
             sidebar.classList.toggle("close");
