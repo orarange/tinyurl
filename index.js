@@ -7,8 +7,10 @@ const bodyParser = require("body-parser")
 const app = express();
 const axios = require('axios');
 const rateLimit = require('express-rate-limit');
+const cron = require('node-cron');
 
 
+const remover = require('./functions/dataremove');
 
 //サイト側のレンダリング用ルーター読み込み
 const home = require('./routes/index');
@@ -57,6 +59,11 @@ app.use('/register',regiater);
 
 //API用
 app.use('/api',API1)
+
+//月初めにデータを削除する
+cron.schedule('0 16 1 * *', () => {
+	remover.dataRemove();
+});
 
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!');
