@@ -126,7 +126,7 @@
             <h2 class="text">こんにちは<%=name%>さん:)</h2>
         <% } %> 
         <form method="POST" action="/tiny_url">
-            <p class="text" >短縮したいURL:<input class="form" id="formstyle" type="text" name="original" required></p>
+            <p class="text" >短縮したいURL:<input class="form"  type="text" name="original" required></p>
             <% if ( premiu ){ %>
                 <p class="text" >使いたいドメイン：
                     <select class="form" id="selectstyle" name="domain" id="domain">
@@ -137,7 +137,7 @@
                         <option value="hjdi.tk" <%= demo %>>hjdi.tk</option>
                     </select>
                 </p>                
-                <p class="text">カスタムURL:<input class="form" id="formstyle" type="text" name="custom" value="<%= url %>"></p>
+                <p class="text">カスタムURL:<input class="form"  type="text" name="custom" value="<%= url %>"></p>
             <% } %>
             <p><input class="form" id="buttonstyle" type="submit" value="URL作成"></p>
         </form>
@@ -145,7 +145,7 @@
         <% if ( tiny === 'Registered' ){%>
             <h4 class="text">申し訳ございません。指定されたURLはすでに登録されています。</h4>
         <% }else{ %>
-            <input type="text" id="copyTarget_tiny formstyle" value=<%= tiny %> readonly>
+            <input type="text" id="copyTarget_tiny" value=<%= tiny %> readonly>
             <br>
             <button onclick="copy()" id="buttonstyle" class="form">Copy TinyURL</button>
         <% }} %>

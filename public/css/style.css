@@ -75,7 +75,7 @@ body{
   height:50px;
   width:70%;
 }
-#formstyle {
+.form {
   color:var(--text-color); 
   font-weight:500;
   font-size: 18px;
