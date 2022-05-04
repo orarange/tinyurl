@@ -145,9 +145,9 @@
         <% if ( tiny === 'Registered' ){%>
             <h4 class="text">申し訳ございません。指定されたURLはすでに登録されています。</h4>
         <% }else{ %>
-            <input type="text" id="copyTarget_tiny" value=<%= tiny %> readonly>
+            <input type="text" id="copyTarget_tiny formstyle" value=<%= tiny %> readonly>
             <br>
-            <button onclick="copy()" class="form">Copy TinyURL</button>
+            <button onclick="copy()" id="buttonstyle" class="form">Copy TinyURL</button>
         <% }} %>
     </section>
 
