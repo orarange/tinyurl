@@ -35,7 +35,7 @@ app.set('view engine', 'ejs');
 
 
 const apiLimiter = rateLimit({
-	windowMs: 1800 , // 30分
+	windowMs: 18*100*1000 , // 30分
 	max: 50, // 各IPを `window` ごとに50リクエストに制限する (ここでは、30分ごと)
 	standardHeaders: true, // レートリミット情報を `RateLimit-*` ヘッダで返します。
 	legacyHeaders: false, // X-RateLimit-*` ヘッダを無効にする。
