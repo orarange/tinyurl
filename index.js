@@ -27,6 +27,8 @@ const regiater = require('./routes/register');
 
 //API用のルーター読み込み
 const API1 = require('./APIs/index');
+const pull = require('./APIs/pull');
+
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -62,6 +64,8 @@ app.use('/register',regiater);
 
 //API用
 app.use('/api',API1)
+app.use('/api/pull',pull)
+
 
 //月初めにデータを削除する
 cron.schedule('0 16 1 * *', () => {
