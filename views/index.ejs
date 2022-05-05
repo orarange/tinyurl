@@ -172,8 +172,10 @@
                     .split('=')[1];
                 if (cookieValue === "undefined"){
                     document.cookie = 'refresh_token=undefined; max-age=0';
+                    location.reload();
                 }else{
                     document.cookie = `refresh_token=${cookieValue}; max-age=0`;
+                    location.reload();
                 }
             } catch (error){
                 console.log(error)
