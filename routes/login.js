@@ -14,7 +14,7 @@ router.get('/',async function(req,res){
         const oauthdata= await oauth(code);
    
         res.cookie('refresh_token', oauthdata.refresh_token, {
-            httpOnly: false
+            httpOnly: true
         });
         const userdata = await userdat(oauthdata.token_type,oauthdata.access_token);
         res.redirect('/');

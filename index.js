@@ -17,11 +17,13 @@ const home = require('./routes/index');
 const tiny = require('./routes/tiny');
 const admin = require('./routes/admin');
 const login = require('./routes/login');
+const logout = require('./routes/logout');
 const policy= require('./routes/policy');
 const refe= require('./routes/refe');
 const bata= require('./routes/bata');
 const buy = require('./routes/buypremium');
 const regiater = require('./routes/register');
+
 
 //API用のルーター読み込み
 const API1 = require('./APIs/index');
@@ -50,6 +52,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/',home);
 app.use('/t',tiny);
 app.use('/login',login);
+app.use('/logout',logout);
 app.use('/admin',admin);
 app.use('/policy',policy);
 app.use('/api/reference',refe);

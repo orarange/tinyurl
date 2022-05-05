@@ -93,8 +93,12 @@
 
             <div class="bottom-content">
                 <li class="">
-                    <a href="#" onclick="log<%= log %>()">
-                        <i class='bx bx-log-<%= log %> icon' ></i>
+                    <% if (log !== 'in') { %>
+                        <a href="/logout">
+                    <% } else { %>
+                        <a href="#" onclick="login()">
+                    <% } %>    
+                            <i class='bx bx-log-<%= log %> icon' ></i>
                         <span class="text nav-text" >Log<%= log %></span>
                     </a>
                 </li>
@@ -164,23 +168,6 @@
             document.location = "https://discord.com/api/oauth2/authorize?client_id=952497517487071292&redirect_uri=https%3A%2F%2Ftiny-url.gq%2Flogin&response_type=code&scope=identify";
         }
 
-        function logout(){     
-            try{        
-                const cookieValue = document.cookie
-                    .split('; ')
-                    .find(row => row.startsWith('refresh_token'))
-                    .split('=')[1];
-                if (cookieValue === "undefined"){
-                    document.cookie = 'refresh_token=undefined; max-age=0';
-                    location.reload();
-                }else{
-                    document.cookie = `refresh_token=${cookieValue}; max-age=0`;
-                    location.reload();
-                }
-            } catch (error){
-                console.log(error)
-            }
-        }
         
         
         function copy() {
