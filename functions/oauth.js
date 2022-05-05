@@ -11,7 +11,7 @@ async function oauth(code){
                 client_secret: client_secret,
                 code,
                 grant_type: 'authorization_code',
-                redirect_uri: 'https://tiny-url.gq/login',
+                redirect_uri: 'http://localhost:3000/login',
                 scope: 'identify',
             }),
             headers: {
@@ -26,6 +26,7 @@ async function oauth(code){
     } catch (error) {
         
         console.log(error);
+        return error;
     }
 
 }
