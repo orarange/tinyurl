@@ -35,13 +35,13 @@ app.set('view engine', 'ejs');
 
 
 const apiLimiter = rateLimit({
-	windowMs: 15 * 60 * 1000, // 15 minutes
-	max: 50, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+	windowMs: 1800 , // 30分
+	max: 50, // 各IPを `window` ごとに50リクエストに制限する (ここでは、30分ごと)
+	standardHeaders: true, // レートリミット情報を `RateLimit-*` ヘッダで返します。
+	legacyHeaders: false, // X-RateLimit-*` ヘッダを無効にする。
 })
 
-// Apply the rate limiting middleware to API calls only
+// APIコールのみにレートリミットミドルウェアを適用する
 app.use('/api', apiLimiter)
 app.use('/api/tiny_url', apiLimiter)
 app.use(logger('dev'));
