@@ -14,7 +14,7 @@ router.get('/',function(req,res){
     if (t){
         tinyurl.findOne({tiny:t}).then(d=>{
             if (d){
-                res.redirect(d.original)
+                res.json({status:'200',message:'ok',original:d.original})
             }else{
                 res.json({status:'404',message:'not found'})
             }
