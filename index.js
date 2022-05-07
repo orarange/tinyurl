@@ -29,6 +29,7 @@ const regiater = require('./routes/register');
 const API1 = require('./APIs/index');
 const pull = require('./APIs/pull');
 const get = require('./APIs/geturl');
+const gettiny = require('./APIs/gettiny');
 
 
 app.set('views', path.join(__dirname, 'views'));
@@ -67,6 +68,7 @@ app.use('/register',regiater);
 app.use('/api',API1)
 app.use('/api/pull',pull)
 app.use('/api/get',get)
+app.use('/api/gettiny',gettiny)
 
 
 //月初めにデータを削除する
