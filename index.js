@@ -76,6 +76,7 @@ cron.schedule('0 16 1 * *', () => {
 	remover.dataRemove();
 });
 
-app.listen(80, function () {
+app.listen(8000,'0.0.0.0', function () {
+	process.setuid(80)
     console.log('Example app listening on port 80!');
 });
