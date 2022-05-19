@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const {client_id,client_secret} = process.env;
+const {client_id,client_secret,domain} = process.env;
 
 async function oauth(code){  
 
@@ -11,7 +11,7 @@ async function oauth(code){
                 client_secret: client_secret,
                 code,
                 grant_type: 'authorization_code',
-                redirect_uri: 'http://localhost:3000/login',
+                redirect_uri: `https://${domain}/login`,
                 scope: 'identify',
             }),
             headers: {
