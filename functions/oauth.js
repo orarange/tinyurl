@@ -20,7 +20,7 @@ async function oauth(code){
         });
         
         const oauthData = await oauthResult.json();
-        
+        console.log(oauthData)
         return oauthData;
 
     } catch (error) {
