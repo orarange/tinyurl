@@ -10,10 +10,12 @@ const rateLimit = require('express-rate-limit');
 const cron = require('node-cron');
 const cloudflare = require('cloudflare-express');
 const fs = require('fs');
-const server = require('https').createServer({
-    key: fs.readFileSync('/etc/ssl/t-ur.site.pem'),
-    cert: fs.readFileSync('/etc/ssl/t-ur.site.key'),
-}, app)
+var options = {
+    key: fs.readFileSync('/etc/letsencrypt/live/XXXXX.com/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/XXXXX.com/fullchain.pem'),
+}
+
+var server = https.createServer(options, app);
 
 
 const remover = require('./functions/dataremove');
