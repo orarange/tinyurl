@@ -25,8 +25,8 @@ router.get('/', async (req, res) => {
         if(!d){
             
             console.log('not admin')
-            res.status(403)
-            res.send('ページへのアクセス権限がありません。');
+            console.log(req.cf_ip)
+            res.sutatus(403).send('ページへのアクセス権限がありません。');
             
         }else{
             console.log(`admin:${username}`)
@@ -56,8 +56,8 @@ router.post('/alldelete',async function(req,res){
         if(!d){
             
             console.log('not admin')
-            res.status(403)
-            res.send('ページへのアクセス権限がありません。');
+            
+            res.status(403).send('ページへのアクセス権限がありません。');
             
         }else{
             console.log(`admin:${username}`)
@@ -84,7 +84,7 @@ router.post('/delete',function(req,res){
         tinyurl.remove({ tiny: str }).then(x => console.log(x.deletedCount))
         console.log(str2)
     }
-    res.redirect('/admin')
+    res.status(301).redirect('/admin')
 })
 
 router.post('/premiumadd',async (req,res)=>{
@@ -106,7 +106,7 @@ router.post('/premiumadd',async (req,res)=>{
             _preuser.save();   
         }
     }
-    res.redirect('/admin')
+    res.status(301).redirect('/admin')
 })
 
 module.exports = router;
