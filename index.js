@@ -11,8 +11,8 @@ const cron = require('node-cron');
 const cloudflare = require('cloudflare-express');
 const fs = require('fs');
 var options = {
-    key: fs.readFileSync('/etc/letsencrypt/live/XXXXX.com/privkey.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/XXXXX.com/fullchain.pem'),
+    key: fs.readFileSync('/etc/ssl/t-ur.site.pem'),
+    cert: fs.readFileSync('/etc/ssl/t-ur.site.key'),
 }
 
 var server = https.createServer(options, app);
