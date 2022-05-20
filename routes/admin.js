@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
             
             console.log('not admin')
             console.log(req.cf_ip)
-            res.sutatus(403).send('ページへのアクセス権限がありません。');
+            res.status(403).send('ページへのアクセス権限がありません。');
             
         }else{
             console.log(`admin:${username}`)
@@ -34,7 +34,7 @@ router.get('/', async (req, res) => {
                 const data = {
                     content: docs
                 };
-                res.render('dash', data);
+                res.status(200).render('dash', data);
             });
     
             res.cookie('refresh_token', refresh_token, {
