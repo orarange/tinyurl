@@ -74,6 +74,7 @@ app.use('/api/gettiny',gettiny)
 
 //404ルーティング
 app.use(function(req, res, next){
+console.log(req.ip)
     res.status(404);
     res.render('404', {title: "お探しのページは存在しません。"});
 });
