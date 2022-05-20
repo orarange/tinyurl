@@ -9,6 +9,12 @@ const axios = require('axios');
 const rateLimit = require('express-rate-limit');
 const cron = require('node-cron');
 const cloudflare = require('cloudflare-express');
+const fs = require('fs');
+const server = require('https').createServer({
+    key: fs.readFileSync('./t-ur.site.pem'),
+    cert: fs.readFileSync('./t-ur.site.key'),
+}, app)
+
 
 const remover = require('./functions/dataremove');
 
@@ -85,6 +91,6 @@ cron.schedule('0 16 1 * *', () => {
 	remover.dataRemove();
 });
 
-app.listen(3030, function () {
+server.listen(3030, function () {
     console.log('Example app listening on port 80!');
 });
