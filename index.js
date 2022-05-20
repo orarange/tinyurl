@@ -8,7 +8,7 @@ const app = express();
 const axios = require('axios');
 const rateLimit = require('express-rate-limit');
 const cron = require('node-cron');
-
+const cloudflare = require('cloudflare-express');
 
 const remover = require('./functions/dataremove');
 
@@ -46,6 +46,7 @@ const apiLimiter = rateLimit({
 })
 
 // APIコールのみにレートリミットミドルウェアを適用する
+app.use(cloudflare.restore());
 app.use('/api', apiLimiter)
 app.use('/api/make', apiLimiter)
 app.use(logger('dev'));
@@ -75,8 +76,8 @@ app.use('/api/gettiny',gettiny)
 //404ルーティング
 app.use(function(req, res, next){
 console.log(req.ip)
-    res.status(404);
-    res.render('404', {title: "お探しのページは存在しません。"});
+    console.log(req.cf_ip)
+    res.status(404).render('404', {title: "お探しのページは存在しません。"});
 });
 
 //月初めにデータを削除する
