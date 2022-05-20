@@ -72,6 +72,11 @@ app.use('/api/pull',pull)
 app.use('/api/get',get)
 app.use('/api/gettiny',gettiny)
 
+//404ルーティング
+app.use(function(req, res, next){
+    res.status(404);
+    res.render('404', {title: "お探しのページは存在しません。"});
+});
 
 //月初めにデータを削除する
 cron.schedule('0 16 1 * *', () => {
