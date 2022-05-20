@@ -20,11 +20,11 @@ async function main() {
 
 
 router.get('/', async (req, res) => {
+    const {domain} = process.env;
 
     if (!req.cookies.refresh_token||req.cookies.refresh_token==="undefined") {
         
-        res.status(200)
-        res.render('index', { url:'' ,tiny:'',premiu:'',name:'',demo:'',log:'in'});
+        res.status(200).render('index', { url:'' ,tiny:'',premiu:'',name:'',demo:'',log:'in',domain:domain});
         
     }else{
         const {token_type,access_token,refresh_token} = await refresh(req.cookies.refresh_token);
@@ -36,15 +36,15 @@ router.get('/', async (req, res) => {
             
         preuser.findOne({id:id}).then(d=>{
             if(!d){
-                res.render('index', { url: '' ,tiny:'',premiu:'',name:username,demo:'',log:"out"});
+                res.status(200).render('index', { url: '' ,tiny:'',premiu:'',name:username,demo:'',log:"out",domain:domain});
             }else{
                 if (!d.demo){
                     //res.render('promo')
-                    res.status(200)
-                    res.render('index', { url: '' ,tiny:'',premiu:'yes',name:username,demo:'',log:'out'});
+
+                    res.status(200).render('index', { url: '' ,tiny:'',premiu:'yes',name:username,demo:'',log:'out',domain:domain});
                 }else{
-                    res.status(200)
-                    res.render('index', { url: '' ,tiny:'',premiu:'yes',name:username,demo:'disabled',log:'out'});
+
+                    res.status(200).render('index', { url: '' ,tiny:'',premiu:'yes',name:username,demo:'disabled',log:'out',domain:domain});
                     //res.render('promo')
                 }
             }
@@ -82,12 +82,12 @@ router.post('/tiny_url',async (req,res) => {
                 });
                 if (!req.cookies.refresh_token||req.cookies.refresh_token==="undefined") {
         
-                    res.status(200)
-                    res.render('index',{url:'',tiny:`https://t-ur.site/t/${tinyuRl}`,premiu:'',name:username,demo:'',log:'in'})
+
+                    res.status(200).render('index',{url:'',tiny:`https://t-ur.site/t/${tinyuRl}`,premiu:'',name:username,demo:'',log:'in',domain:domain})
         
                 }else{
-                    res.status(200)
-                    res.render('index',{url:'',tiny:`https://t-ur.site/t/${tinyuRl}`,premiu:'',name:username,demo:'',log:'out'})
+
+                    res.status(200).render('index',{url:'',tiny:`https://t-ur.site/t/${tinyuRl}`,premiu:'',name:username,demo:'',log:'out',domain:domain})
                 }
             }else{
             console.log('premium plan')
@@ -109,15 +109,15 @@ router.post('/tiny_url',async (req,res) => {
                             res.cookie('refresh_token', refresh_token, {
                                 httpOnly: true
                             });
-                            res.status(200)
-                            res.render('index',{url:'',tiny:`https://${domain}/${custom}`,premiu:'yes',name:username,demo:'',log:'out'})
+                            
+                            res.status(200).render('index',{url:'',tiny:`https://${domain}/${custom}`,premiu:'yes',name:username,demo:'',log:'out',domain:domain})
                         }else{
                             //あったときの処理
                             res.cookie('refresh_token', refresh_token, {
                                 httpOnly: true
                             });
-                            res.status(400)
-                            res.render('index',{url:custom,tiny:'Registered',premiu:'yes',name:username,demo:'',log:'out'})
+                            
+                            res.status(400).render('index',{url:custom,tiny:'Registered',premiu:'yes',name:username,demo:'',log:'out',domain:domain})
                         
                         }
                     
@@ -136,8 +136,8 @@ router.post('/tiny_url',async (req,res) => {
                     res.cookie('refresh_token', refresh_token, {
                         httpOnly: true
                     });
-                    res.status(200)
-                    res.render('index',{url:'',tiny:`https://${domain}/${tinyuRl}`,premiu:'yes',name:username,demo:'',log:'out'})                            
+                    
+                    res.status(200).render('index',{url:'',tiny:`https://${domain}/${tinyuRl}`,premiu:'yes',name:username,demo:'',log:'out',domain:domain})                            
    
                 }
             
@@ -149,12 +149,12 @@ router.post('/tiny_url',async (req,res) => {
         //URLじゃなかったときの処理
         if (!req.cookies.refresh_token||req.cookies.refresh_token==="undefined") {
         
-            res.status(400)
-            res.render('index', { url:'' ,tiny:'',premiu:'',name:username,demo:'',log:'in'});
+
+            res.status(400).render('index', { url:'' ,tiny:'',premiu:'',name:username,demo:'',log:'in',domain:domain});
         
         }else{
-            res.status(400)
-            res.render('index',{url:'',tiny:'',premiu:'',name:username,demo:'',log:'out'})
+
+            res.status(400).render('index',{url:'',tiny:'',premiu:'',name:username,demo:'',log:'out',domain:domain})
         }
     }
 

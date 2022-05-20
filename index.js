@@ -8,22 +8,11 @@ const app = express();
 const axios = require('axios');
 const rateLimit = require('express-rate-limit');
 const cron = require('node-cron');
-const http = require( 'http' )
-const https = require( 'https' )
-const cfenv = require( 'cfenv' )
-const fs = require( 'fs' )
-const appEnv = cfenv.getAppEnv();
 
-const options = {
-	key: fs.readFileSync( './server_key.pem' ),
-	cert: fs.readFileSync( './server_crt.pem' )
-};
-
-const server = https.createServer( options, app ).listen( appEnv.port, function(){
-	console.log( "server stating on " + appEnv.port + " ..." );
-});
 
 const remover = require('./functions/dataremove');
+
+
 
 //サイト側のレンダリング用ルーター読み込み
 const home = require('./routes/index');
@@ -89,6 +78,6 @@ cron.schedule('0 16 1 * *', () => {
 	remover.dataRemove();
 });
 
-app.listen(3030,'0.0.0.0', function () {
+app.listen(3030, function () {
     console.log('Example app listening on port 80!');
 });
