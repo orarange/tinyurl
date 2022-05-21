@@ -9,12 +9,7 @@ const axios = require('axios');
 const rateLimit = require('express-rate-limit');
 const cron = require('node-cron');
 const cloudflare = require('cloudflare-express');
-const fs = require('fs');
-const https = require('https')
-const server = https.createServer({
-    key: fs.readFileSync('/etc/ssl/t-ursite.pem'),
-    cert: fs.readFileSync('/etc/ssl/t-ursite.key'),
-}, app);
+
 
 
 const remover = require('./functions/dataremove');
