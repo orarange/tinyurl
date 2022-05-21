@@ -11,12 +11,12 @@ const cron = require('node-cron');
 const cloudflare = require('cloudflare-express');
 const fs = require('fs');
 const https = require('https')
-var options = {
+const options = {
     key: fs.readFileSync('/etc/ssl/t-ur.site.pem'),
     cert: fs.readFileSync('/etc/ssl/t-ur.site.key'),
 }
 
-var server = https.createServer(options, app);
+const  server = https.createServer(options, app);
 
 
 const remover = require('./functions/dataremove');
