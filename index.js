@@ -12,8 +12,8 @@ const cloudflare = require('cloudflare-express');
 const fs = require('fs');
 const https = require('https')
 const server = https.createServer({
-    key: fs.readFileSync('/etc/ssl/t-ur.site.pem'),
-    cert: fs.readFileSync('/etc/ssl/t-ur.site.key'),
+    key: fs.readFileSync('/etc/ssl/t-ursite.pem'),
+    cert: fs.readFileSync('/etc/ssl/t-ursite.key'),
 }, app);
 
 
