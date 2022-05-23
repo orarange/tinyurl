@@ -48,16 +48,6 @@ const apiLimiter = rateLimit({
 	legacyHeaders: false, // X-RateLimit-*` ヘッダを無効にする。
 })
 
-// APIコールのみにレートリミットミドルウェアを適用する
-app.use(cloudflare.restore());
-app.use('/api', apiLimiter)
-app.use('/api/make', apiLimiter)
-app.use(logger('dev'),{stream: accessLogStream});
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
 const FileStreamRotator = require('file-stream-rotator')
 
 const logDirectory = __dirname + '/log'
@@ -70,6 +60,18 @@ const accessLogStream = FileStreamRotator.getStream({
   verbose: false,
   date_format: "YYYY-MM-DD"
 })
+
+// APIコールのみにレートリミットミドルウェアを適用する
+app.use(cloudflare.restore());
+app.use('/api', apiLimiter)
+app.use('/api/make', apiLimiter)
+app.use(logger('dev'),{stream: accessLogStream});
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+
 
 //サイト用
 app.use('/',home);
