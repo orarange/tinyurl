@@ -10,7 +10,6 @@ const rateLimit = require('express-rate-limit');
 const cron = require('node-cron');
 const cloudflare = require('cloudflare-express');
 const fs = require('fs');
-rfs = require("rotating-file-stream").createStream;
 
 
 const remover = require('./functions/dataremove');
@@ -50,14 +49,7 @@ const apiLimiter = rateLimit({
 
 
 
-const logDirectory = __dirname + '/log'
 
-accessLogStream = rfs('access.log', {
-    size:'10MB',//ファイルが10MBを超えるとローテートします
-    interval: '10d',
-    compress: 'gzip',
-    path: logDirectory
-});
 
 // APIコールのみにレートリミットミドルウェアを適用する
 app.use(cloudflare.restore());
