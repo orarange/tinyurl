@@ -58,14 +58,13 @@ const accessLogStream = FileStreamRotator.getStream({
   filename: logDirectory + '/access-%DATE%.log',
   frequency: 'daily',
   verbose: false,
-  date_format: "YYYY-MM-DD"
 })
 
 // APIコールのみにレートリミットミドルウェアを適用する
 app.use(cloudflare.restore());
 app.use('/api', apiLimiter)
 app.use('/api/make', apiLimiter)
-app.use(logger('dev',{stream: accessLogStream}));
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -95,6 +94,8 @@ app.use('/api/gettiny',gettiny)
 app.use(function(req, res, next){
 console.log(req.ip)
     console.log(req.cf_ip)
+    fs.appendFile(accessLogStream, req.cf_ip, (err) => {
+    });
     res.status(404).render('404', {title: "お探しのページは存在しません。"});
 });
 
