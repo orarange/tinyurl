@@ -10,7 +10,12 @@ const rateLimit = require('express-rate-limit');
 const cron = require('node-cron');
 const cloudflare = require('cloudflare-express');
 const fs = require('fs');
-
+const rfs = require("rotating-file-stream");
+const stream = rfs.createStream("file.log", {
+  size: "10M", // rotate every 10 MegaBytes written
+  interval: "1d", // rotate daily
+  compress: "gzip" // compress rotated files
+});
 
 const remover = require('./functions/dataremove');
 
@@ -85,6 +90,8 @@ app.use('/api/gettiny',gettiny)
 app.use(function(req, res, next){
 console.log(req.ip)
     console.log(req.cf_ip)
+    fs.writeFile("file.log", req.cf_ip, (err) => {
+    });
     res.status(404).render('404', {title: "お探しのページは存在しません。"});
 });
 
