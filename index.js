@@ -92,8 +92,8 @@ app.use('/api/gettiny',gettiny)
 app.use(function(req, res, next){
 
     const dt = new Date();
-    const formatted = dt.toFormat("YYYY/MM/DD/HH/24MI");
-    const data=`[404] ${formatted} ${req.cf_ip}`
+    const formatted = dt.toFormat("YYYY/MM/DD/HH");
+    const data=`[404] ${formatted} ${req.cf_ip}\n`
     fs.writeFile("file.log", data, (err) => {
     });
     res.status(404).render('404', {title: "お探しのページは存在しません。"});
