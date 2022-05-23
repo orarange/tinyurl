@@ -52,12 +52,11 @@ const apiLimiter = rateLimit({
 app.use(cloudflare.restore());
 app.use('/api', apiLimiter)
 app.use('/api/make', apiLimiter)
-app.use(logger('dev'));
+app.use(logger('dev'),{stream: accessLogStream});
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(morgan('combined', {stream: accessLogStream}))
 
 const FileStreamRotator = require('file-stream-rotator')
 
