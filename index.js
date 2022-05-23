@@ -10,7 +10,7 @@ const rateLimit = require('express-rate-limit');
 const cron = require('node-cron');
 const cloudflare = require('cloudflare-express');
 const fs = require('fs');
-
+rfs = require("rotating-file-stream").createStream;
 
 
 const remover = require('./functions/dataremove');
@@ -48,18 +48,15 @@ const apiLimiter = rateLimit({
 	legacyHeaders: false, // X-RateLimit-*` ヘッダを無効にする。
 })
 
-const FileStreamRotator = require('file-stream-rotator')
+
 
 const logDirectory = __dirname + '/log'
 
-fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
-
-const accessLogStream = FileStreamRotator.getStream({
+accessLogStream = rfs('access.log', {
     size:'10MB',//ファイルが10MBを超えるとローテートします
     interval: '10d',
     compress: 'gzip',
-    path: logDirectory,
-    filename:'Access_Log.txt'
+    path: logDirectory
 });
 
 // APIコールのみにレートリミットミドルウェアを適用する
