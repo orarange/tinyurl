@@ -15,6 +15,9 @@ const fs = require('fs');
   //interval: "1d", // rotate daily
   //compress: "gzip" // compress rotated files
 //});
+require('date-utils');
+
+
 
 const remover = require('./functions/dataremove');
 
@@ -87,8 +90,10 @@ app.use('/api/gettiny',gettiny)
 
 //404ルーティング
 app.use(function(req, res, next){
-console.log(req.ip)
-    console.log(req.cf_ip)
+
+    const dt = new Date();
+    const formatted = dt.toFormat("YYYYMMDDHH24MISS");
+    const data="404 
     fs.writeFile("file.log", req.cf_ip, (err) => {
     });
     res.status(404).render('404', {title: "お探しのページは存在しません。"});
