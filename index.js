@@ -65,7 +65,7 @@ const accessLogStream = FileStreamRotator.getStream({
 app.use(cloudflare.restore());
 app.use('/api', apiLimiter)
 app.use('/api/make', apiLimiter)
-app.use(logger('dev'),{stream: accessLogStream});
+app.use(logger('combined'),{stream: accessLogStream});
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
