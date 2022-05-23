@@ -10,11 +10,24 @@ const rateLimit = require('express-rate-limit');
 const cron = require('node-cron');
 const cloudflare = require('cloudflare-express');
 const fs = require('fs');
-//const rfs = require("rotating-file-stream").createStream("file.log", {
-  //size: "10M", // rotate every 10 MegaBytes written
-  //interval: "1d", // rotate daily
-  //compress: "gzip" // compress rotated files
-//});
+const pad = num => (num > 9 ? "" : "0") + num;
+const generator = (time, index) => {
+  if (!time) return "file.log";
+
+  var month = time.getFullYear() + "" + pad(time.getMonth() + 1);
+  var day = pad(time.getDate());
+  var hour = pad(time.getHours());
+  var minute = pad(time.getMinutes());
+
+  return `${month}/${month}${day}-${hour}${minute}-${index}-file.log`;
+};
+
+const rfs = require("rotating-file-stream");
+const stream = rfs(generator, {
+  size: "10M",
+  interval: "30m"
+});
+Note: if both of options
 require('date-utils');
 
 
