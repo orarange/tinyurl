@@ -91,7 +91,7 @@ cron.schedule('0 16 1 * *', () => {
 	remover.dataRemove();
 });
 
-const accessLogStream = rfs('access.log', {
+const accessLogStream = fs('access.log', {
     size:'10MB',//ファイルが10MBを超えるとローテートします
     interval: '10d',
     compress: 'gzip',
