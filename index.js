@@ -85,8 +85,6 @@ app.use('/api/gettiny',gettiny)
 app.use(function(req, res, next){
 console.log(req.ip)
     console.log(req.cf_ip)
-    fs.appendFile(accessLogStream, req.cf_ip, (err) => {
-    });
     res.status(404).render('404', {title: "お探しのページは存在しません。"});
 });
 
