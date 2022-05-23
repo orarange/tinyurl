@@ -56,6 +56,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+const logDirectory = path.join(__dirname, './log');
+
+const fs = require('fs-extra');
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
 
 //サイト用
 app.use('/',home);
@@ -86,6 +90,17 @@ console.log(req.ip)
 cron.schedule('0 16 1 * *', () => {
 	remover.dataRemove();
 });
+
+const accessLogStream = rfs('access.log', {
+    size:'10MB',//ファイルが10MBを超えるとローテートします
+    interval: '10d',
+    compress: 'gzip',
+    path: logDirectory
+});
+
+preformat = ':date[clf] - :method :url - :response-time ms'
+
+
 
 app.listen(3030, function () {
     console.log('Example app listening on port 80!');
