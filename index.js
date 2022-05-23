@@ -54,7 +54,7 @@ const logDirectory = __dirname + '/log'
 
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
 
-const accessLogStream = FileStreamRotator.getStream{
+const accessLogStream = FileStreamRotator.getStream({
     size:'10MB',//ファイルが10MBを超えるとローテートします
     interval: '10d',
     compress: 'gzip',
