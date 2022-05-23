@@ -36,7 +36,6 @@ const pull = require('./APIs/pull');
 const get = require('./APIs/geturl');
 const gettiny = require('./APIs/gettiny');
 
-const accessLogStream = fs.createWriteStream(__dirname + '/access.log', {flags: 'a'})
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
