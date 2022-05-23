@@ -10,11 +10,11 @@ const rateLimit = require('express-rate-limit');
 const cron = require('node-cron');
 const cloudflare = require('cloudflare-express');
 const fs = require('fs');
-const rfs = require("rotating-file-stream").createStream("file.log", {
-  size: "10M", // rotate every 10 MegaBytes written
-  interval: "1d", // rotate daily
-  compress: "gzip" // compress rotated files
-});
+//const rfs = require("rotating-file-stream").createStream("file.log", {
+  //size: "10M", // rotate every 10 MegaBytes written
+  //interval: "1d", // rotate daily
+  //compress: "gzip" // compress rotated files
+//});
 
 const remover = require('./functions/dataremove');
 
