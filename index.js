@@ -27,7 +27,7 @@ const stream = rfs(generator, {
   size: "10M",
   interval: "30m"
 });
-Note: if both of options
+
 require('date-utils');
 
 
