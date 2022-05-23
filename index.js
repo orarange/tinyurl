@@ -54,11 +54,13 @@ const logDirectory = __dirname + '/log'
 
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
 
-const accessLogStream = FileStreamRotator.getStream({
-  filename: logDirectory + '/access-%DATE%.log',
-  frequency: 'daily',
-  verbose: false,
-})
+const accessLogStream = FileStreamRotator.getStream{
+    size:'10MB',//ファイルが10MBを超えるとローテートします
+    interval: '10d',
+    compress: 'gzip',
+    path: logDirectory,
+    filename:'Access_Log.txt'
+});
 
 // APIコールのみにレートリミットミドルウェアを適用する
 app.use(cloudflare.restore());
