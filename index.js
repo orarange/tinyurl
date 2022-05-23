@@ -9,6 +9,7 @@ const axios = require('axios');
 const rateLimit = require('express-rate-limit');
 const cron = require('node-cron');
 const cloudflare = require('cloudflare-express');
+const fs = require('fs');
 
 
 
@@ -35,6 +36,7 @@ const pull = require('./APIs/pull');
 const get = require('./APIs/geturl');
 const gettiny = require('./APIs/gettiny');
 
+const accessLogStream = fs.createWriteStream(__dirname + '/access.log', {flags: 'a'})
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -56,11 +58,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-const logDirectory = path.join(__dirname, './log');
+app.use(morgan('combined', {stream: accessLogStream}))
 
-const fs = require('fs-extra');
-fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
-const rfs = require("rotating-file-stream").createStream;
+const FileStreamRotator = require('file-stream-rotator')
+
+const logDirectory = __dirname + '/log'
+
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
+
+const accessLogStream = FileStreamRotator.getStream({
+  filename: logDirectory + '/access-%DATE%.log',
+  frequency: 'daily',
+  verbose: false,
+  date_format: "YYYY-MM-DD"
+})
+
 //サイト用
 app.use('/',home);
 app.use('/t',tiny);
@@ -90,16 +102,6 @@ console.log(req.ip)
 cron.schedule('0 16 1 * *', () => {
 	remover.dataRemove();
 });
-
-const accessLogStream = rfs('raccess.log', {
-    size:'10MB',//ファイルが10MBを超えるとローテートします
-    interval: '10d',
-    compress: 'gzip',
-    path: logDirectory
-});
-
-preformat = ':date[clf] - :method :url - :response-time ms'
-
 
 
 app.listen(3030, function () {
