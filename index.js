@@ -60,7 +60,7 @@ const logDirectory = path.join(__dirname, './log');
 
 const fs = require('fs-extra');
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
-
+const rfs = require("rotating-file-stream").createStream;
 //サイト用
 app.use('/',home);
 app.use('/t',tiny);
@@ -91,7 +91,7 @@ cron.schedule('0 16 1 * *', () => {
 	remover.dataRemove();
 });
 
-const accessLogStream = fs('access.log', {
+const accessLogStream = rfs('raccess.log', {
     size:'10MB',//ファイルが10MBを超えるとローテートします
     interval: '10d',
     compress: 'gzip',
