@@ -96,7 +96,7 @@ app.use(function(req, res, next){
     const formatted = dt.toFormat("YYYY/MM/DD/HH");
     const data=`[404] ${req.originalUrl} ${formatted} ${req.cf_ip}\n`
 
-    fs.appendFile("access.log", data, (err) => {
+    fs.appendFile("./log/access.log", data, (err) => {
     });
     
     res.status(404).render('404', {title: "お探しのページは存在しません。"});
