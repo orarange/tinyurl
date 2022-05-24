@@ -10,11 +10,11 @@ const rateLimit = require('express-rate-limit');
 const cron = require('node-cron');
 const cloudflare = require('cloudflare-express');
 const fs = require('fs');
-
+const logDirectory = path.join(__dirname, './log');
 
 
 require('date-utils');
-
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
 
 
 const remover = require('./functions/dataremove');
@@ -52,9 +52,12 @@ const apiLimiter = rateLimit({
 	legacyHeaders: false, // X-RateLimit-*` ヘッダを無効にする。
 })
 
-
-
-
+rfs('access.log', {
+    size:'10MB',//ファイルが10MBを超えるとローテートします
+    interval: '10d',
+    compress: 'gzip',
+    path: logDirectory
+});
 
 // APIコールのみにレートリミットミドルウェアを適用する
 app.use(cloudflare.restore());
@@ -92,8 +95,10 @@ app.use(function(req, res, next){
     const dt = new Date();
     const formatted = dt.toFormat("YYYY/MM/DD/HH");
     const data=`[404] ${req.originalUrl} ${formatted} ${req.cf_ip}\n`
-    fs.appendFile("file.log", data, (err) => {
+
+    fs.appendFile("access.log", data, (err) => {
     });
+    
     res.status(404).render('404', {title: "お探しのページは存在しません。"});
 });
 
