@@ -11,7 +11,7 @@ const cron = require('node-cron');
 const cloudflare = require('cloudflare-express');
 const fs = require('fs');
 const logDirectory = path.join(__dirname, './log');
-
+const rfs = require("rotating-file-stream").createStream;
 
 require('date-utils');
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
