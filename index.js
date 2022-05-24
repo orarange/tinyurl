@@ -52,12 +52,7 @@ const apiLimiter = rateLimit({
 	legacyHeaders: false, // X-RateLimit-*` ヘッダを無効にする。
 })
 
-rfs('access.log', {
-    size:'10MB',//ファイルが10MBを超えるとローテートします
-    interval: '10d',
-    compress: 'gzip',
-    path: logDirectory
-});
+
 
 // APIコールのみにレートリミットミドルウェアを適用する
 app.use(cloudflare.restore());
@@ -97,6 +92,12 @@ app.use(function(req, res, next){
     const data=`[404] ${req.originalUrl} ${formatted} ${req.cf_ip}\n`
 
     fs.appendFile("./log/access.log", data, (err) => {
+    rfs('access.log', {
+        size:'10MB',//ファイルが10MBを超えるとローテートします
+        interval: '10d',
+        compress: 'gzip',
+        path: logDirectory
+    });
     });
     
     res.status(404).render('404', {title: "お探しのページは存在しません。"});
