@@ -225,7 +225,12 @@
         });
         $(function(){
             $(".policyp").show();
-            $.cookie('policy') == 'on'?$(".policyp").hide():$(".policyp").show();
+            if($.cookie('policy') == 'on'){
+                $(".policyp").hide()
+                policy()
+            }else{
+                $(".policyp").show();
+            }
             $(".policyp").click(function(){
                 $(".policyp").fadeOut();
                 $.cookie('policy', 'on', { expires: 30,path: '/' }); //cookieの保存
