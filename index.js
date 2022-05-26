@@ -92,7 +92,7 @@ app.use(function(req, res, next){
     const data=`[404] ${req.originalUrl} ${formatted} ${req.cf_ip}\n`
 
     fs.appendFile("./log/access.log", data, (err) => {
-    rfs('./log/access.log', {
+    rfs('access.log', {
         size:'10MB',//ファイルが10MBを超えるとローテートします
         interval: '10d',
         compress: 'gzip',
