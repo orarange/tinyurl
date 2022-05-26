@@ -88,18 +88,16 @@ app.use('/api/gettiny',gettiny)
 app.use(function(req, res, next){
 
     const dt = new Date();
-    const formatted = dt.toFormat("YYYY/MM/DD/HH");
+    const formatted = dt.toFormat("YYYY/MM/DD/HH24/MI");
     const data=`[404] ${req.originalUrl} ${formatted} ${req.cf_ip}\n`
 
-    fs.appendFile("./log/access.log", data, (err) => {
+    fs.appendFile("./log/access.log", data, (err) => {});
     rfs('access.log', {
         size:'10MB',//ファイルが10MBを超えるとローテートします
         interval: '10d',
         compress: 'gzip',
         path: logDirectory
-    });
-    });
-    
+    });    
     res.status(404).render('404', {title: "お探しのページは存在しません。"});
 });
 
