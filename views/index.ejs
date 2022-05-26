@@ -143,7 +143,7 @@
                 </p>                
                 <p class="text">カスタムURL:<input class="form" id="formstyle" type="text" name="custom" value="<%= url %>"></p>
             <% } %>
-            <p class="policyp"><input type="checkbox" onclick="policy()"></p>
+            <p class="policyp text"><input type="checkbox">「<a href="https://minato37103710.github.io/Tiny-URL-Policies/">利用規約</a>」これを読み同意しました</p>
             <p><input class="form subm" id="buttonstyle" type="submit" value="URL作成" disabled></p>
         </form>
         <% if (tiny){%>
@@ -229,6 +229,7 @@
             $(".policyp").click(function(){
                 $(".policyp").fadeOut();
                 $.cookie('policy', 'on', { expires: 30,path: '/' }); //cookieの保存
+                policy();
             });
         });
     </script>
