@@ -95,7 +95,7 @@ app.use(function(req, res, next){
     rfs('access.log', {
         size:'10MB',//ファイルが10MBを超えるとローテートします
         interval: '10d',
-        compress: 'gzip',
+        compress: true,
         path: logDirectory
     });    
     res.status(404).render('404', {title: "お探しのページは存在しません。"});
