@@ -19,7 +19,22 @@ fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
 
 const remover = require('./functions/dataremove');
 
+async function _404_logger() {
+    const log_404 = rfs('404.log', {
+        interval: '1d',
+        path: logDirectory
+    });
+    app.use(function (req, res, next) {
+        res.on('finish', function () {
+            if (res.statusCode === 404) {
+                log_404.write(req.url + ' '+req.cf_ip+'\n');
+            }
+        }
+        );
+        next();
+    });
 
+}
 
 //サイト側のレンダリング用ルーター読み込み
 const home = require('./routes/index');
