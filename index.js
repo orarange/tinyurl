@@ -10,31 +10,11 @@ const rateLimit = require('express-rate-limit');
 const cron = require('node-cron');
 const cloudflare = require('cloudflare-express');
 const fs = require('fs');
-const logDirectory = path.join(__dirname, './log');
-const rfs = require("rotating-file-stream").createStream;
+
 
 require('date-utils');
-fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
-
 
 const remover = require('./functions/dataremove');
-
-async function _404_logger() {
-    const log_404 = rfs('404.log', {
-        interval: '1d',
-        path: logDirectory
-    });
-    app.use(function (req, res, next) {
-        res.on('finish', function () {
-            if (res.statusCode === 404) {
-                log_404.write(req.url + ' '+req.cf_ip+'\n');
-            }
-        }
-        );
-        next();
-    });
-
-}
 
 //サイト側のレンダリング用ルーター読み込み
 const home = require('./routes/index');
@@ -99,22 +79,18 @@ app.use('/api/pull',pull)
 app.use('/api/get',get)
 app.use('/api/gettiny',gettiny)
 
-//404ルーティング
-app.use(function(req, res, next){
-
-    const dt = new Date();
-    const formatted = dt.toFormat("YYYY/MM/DD/HH24/MI");
-    const data=`[404] ${req.originalUrl} ${formatted} ${req.cf_ip}\n`
-
-    fs.appendFile("./log/access.log", data, (err) => {});
-    rfs('access.log', {
-        size:'10MB',//ファイルが10MBを超えるとローテートします
-        interval: '10d',
-        compress: true,
-        path: logDirectory
-    });    
-    res.status(404).render('404', {title: "お探しのページは存在しません。"});
+app.use(function(req, res, next) {
+	//一時間ごとの404ログをとる
+	var date = new Date();
+	var date_str = date.toFormat("YYYY/MM/DD HH24:MI:SS");
+	var log = date_str + " " + req.url + " 404 Not Found\n" + req.cf_ip + "\n";
+	fs.appendFile('./log/'+new Date().toFormat("YYYY.MM.DD.HH") + '.log', log, function(err){});
+	//404レンダリング
+    res.status(404).render('404');
+	next();
 });
+
+
 
 //月初めにデータを削除する
 cron.schedule('0 16 1 * *', () => {
