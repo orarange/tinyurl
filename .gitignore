@@ -3,3 +3,4 @@ replit.nix
 .replit
 .breakpoints
 *.log
+log/*
