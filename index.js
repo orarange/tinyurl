@@ -82,15 +82,15 @@ app.use('/api/gettiny',gettiny)
 app.use(function(req, res, next) {
 	//一時間ごとの404ログをとる
 	var date = new Date();
-	var date_str = date.toFormat("YYYY/MM/DD HH24:MI:SS");
-	var log = date_str + " " + req.url + " 404 Not Found\n" + req.cf_ip + "\n";
-	fs.appendFile('./log/'+new Date().toFormat("YYYY.MM.DD.HH") + '.log', log, function(err){});
+	var date_str = date.toFormat("YYYY/MM/DD")+" "+(Number(date.toFormat("HH"))+9) +date.toFormat(":MI:SS");
+	var log = date_str + " " + req.url + " 404 Not Found " + req.cf_ip + "\n";
+	fs.appendFile('./log/'+new Date().toFormat("YYYY.MM.DD.")+(Number(new Date().toFormat("HH"))+9) + '.log', log, function(err){});
 	//404レンダリング
     res.status(404).render('404');
 	next();
 });
 
-
+console.log(Number(new Date().toFormat("HH"))+9)
 
 //月初めにデータを削除する
 cron.schedule('0 16 1 * *', () => {
