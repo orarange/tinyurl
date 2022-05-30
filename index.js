@@ -99,7 +99,7 @@ cron.schedule('0 16 1 * *', () => {
 	remover.dataRemove();
 });
 
-cron.schedule('* */1 * * *', () => {
+cron.schedule('0 */1 * * *', () => {
 	hook.send('送信しています')
 	if (fs.existsSync('./log/'+new Date().toFormat("YYYY.MM.DD.")+(Number(new Date().toFormat("HH"))+8) + '.log')){
 		hook.sendFile('./log/'+new Date().toFormat("YYYY.MM.DD.")+(Number(new Date().toFormat("HH"))+8) + '.log');
