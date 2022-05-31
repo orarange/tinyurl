@@ -125,7 +125,7 @@
                 <p class="text"><input class="form" id="formstyle" type="password" name="password" placeholder="パスワード" required></p>
                 <p class="text"><input class="form" id="formstyle" type="password" name="password_confirmation" placeholder="パスワード確認" required></p>
                 <div class="h-captcha" data-sitekey="0c982011-6731-452a-8b2b-07aaf2151a20" data-callback="callback"></div>
-                <p><input class="form" id="buttonstyle subm" type="submit" value="登録" disabled></p>
+                <p><input class="form subm" id="buttonstyle" type="submit" value="登録" disabled></p>
             </form>
         </div>
     </section>
@@ -138,7 +138,7 @@
         modeText = body.querySelector(".mode-text");
         
         function callback() {
-            const element = document.getElementById('subm');
+            const element = document.querySelector('subm');
             element.removeAttribute('disabled');
         }
 
