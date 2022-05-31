@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="/css/responsive.css">
     <!----===== Boxicons CSS ===== -->
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-    
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
     <!--<title>Dashboard Sidebar Menu</title>--> 
 </head>
 <body>
@@ -124,6 +124,7 @@
                 <p class="text"><input class="form" id="formstyle" type="email" name="email" placeholder="メールアドレス" required></p>
                 <p class="text"><input class="form" id="formstyle" type="password" name="password" placeholder="パスワード" required></p>
                 <p class="text"><input class="form" id="formstyle" type="password" name="password_confirmation" placeholder="パスワード確認" required></p>
+                <div class="h-captcha" data-sitekey="your_site_key"></div>
                 <p><input class="form" id="buttonstyle" type="submit" value="登録"></p>
             </form>
         </div>
