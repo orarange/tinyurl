@@ -75,6 +75,9 @@ app.use('/api/reference',refe);
 app.use('/bata/home',bata);
 app.use('/buy',buy);
 app.use('/register',regiater);
+app.use('/sitemap.xml',function(req,res){
+	res.sendFile(__dirname+'/sitemap.xml');
+});
 
 //API用
 app.use('/api',API1)
