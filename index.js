@@ -70,7 +70,6 @@ app.use('/t',tiny);
 app.use('/login',login);
 app.use('/logout',logout);
 app.use('/admin',admin);
-app.use('/policy',policy);
 app.use('/api/reference',refe);
 app.use('/bata/home',bata);
 app.use('/buy',buy);
