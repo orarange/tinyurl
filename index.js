@@ -83,6 +83,7 @@ app.use('/api/get',get)
 app.use('/api/gettiny',gettiny)
 
 app.use(function(req, res, next) {
+	console.log(req.cf_ip);
 	//一時間ごとの404ログをとる
 	var date = new Date();
 	var date_str = date.toFormat("YYYY/MM/DD")+" "+(Number(date.toFormat("HH"))+9) +date.toFormat(":MI:SS");
