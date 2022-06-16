@@ -90,7 +90,7 @@ app.use(function(req, res, next) {
 	var date = new Date();
 	var date_str = date.toFormat("YYYY/MM/DD")+" "+(Number(date.toFormat("HH"))+9) +date.toFormat(":MI:SS");
 	var log = date_str + " " + req.url + " 404 Not Found " + req.cf_ip + "\n";
-	fs.appendFile('./log/'+new Date().toFormat("YYYY.MM.DD.")+(Number(new Date().toFormat("HH"))+9) + '.log', log, function(err){});
+	fs.appendFile('./log/'+new Date().toFormat("YYYY.MM.DD") + '.log', log, function(err){});
 	//404レンダリング
     res.status(404).render('404');
 	next();
@@ -102,10 +102,10 @@ cron.schedule('0 16 1 * *', () => {
 	remover.dataRemove();
 });
 
-cron.schedule('0 */1 * * *', () => {
+cron.schedule('0 0 */1 * *', () => {
 	hook.send('送信しています')
-	if (fs.existsSync('./log/'+new Date().toFormat("YYYY.MM.DD.")+(Number(new Date().toFormat("HH"))+8) + '.log')){
-		hook.sendFile('./log/'+new Date().toFormat("YYYY.MM.DD.")+(Number(new Date().toFormat("HH"))+8) + '.log');
+	if (fs.existsSync('./log/'+new Date().toFormat("YYYY.MM.DD")+ '.log')){
+		hook.sendFile('./log/'+new Date().toFormat("YYYY.MM.DD")+ '.log');
 	}else{
 		hook.send('ファイルが存在しません');
 	}
