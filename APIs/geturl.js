@@ -8,19 +8,19 @@ async function main() {
 }
 
 
-router.get('/',function(req,res){
-    const {t} = req.query;
+router.get('/', function (req, res) {
+    const { t } = req.query;
 
-    if (t){
-        tinyurl.findOne({tiny:t}).then(d=>{
-            if (d){
-                res.status(200).json({status:200,original:d.original});
-            }else{
-                res.status(404).json({status:'404',message:'not found'})
+    if (t) {
+        tinyurl.findOne({ tiny: t }).then(d => {
+            if (d) {
+                res.status(200).json({ status: 200, original: d.original });
+            } else {
+                res.status(404).json({ status: '404', message: 'not found' })
             }
         })
-    }else{
-        res.status(400).json({status:'400',message:'bad request'})
+    } else {
+        res.status(400).json({ status: '400', message: 'bad request' })
     }
 })
 

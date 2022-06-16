@@ -11,99 +11,99 @@ const userdat = require('../functions/userdata');
 
 main().catch(err => console.log(err));
 
-async function main() {	
+async function main() {
     await mongoose.connect(process.env.mongo_url);
 }
 
 
 
 router.get('/', async (req, res) => {
-    const {token_type,access_token,refresh_token} = await refresh(req.cookies.refresh_token);
-    const {username,id} = await userdat(token_type,access_token)
+    const { token_type, access_token, refresh_token } = await refresh(req.cookies.refresh_token);
+    const { username, id } = await userdat(token_type, access_token)
 
-    admin.findOne({id:id}).then(d=>{
-        if(!d){
-            
+    admin.findOne({ id: id }).then(d => {
+        if (!d) {
+
             console.log('not admin')
             console.log(req.cf_ip)
             res.status(403).send('ページへのアクセス権限がありません。');
-            
-        }else{
+
+        } else {
             console.log(`admin:${username}`)
-            tinyurl.find({}, function(err, docs) {
+            tinyurl.find({}, function (err, docs) {
                 const data = {
                     content: docs
                 };
                 res.status(200).render('dash', data);
             });
-    
+
             res.cookie('refresh_token', refresh_token, {
-                  httpOnly: true
+                httpOnly: true
             });
-            
+
         }
     });
 
-    
+
 
 });
 
-router.post('/alldelete',async function(req,res){
-    const {token_type,access_token,refresh_token} = await refresh(req.cookies.refresh_token);
-    const {username,id} = await userdat(token_type,access_token)
+router.post('/alldelete', async function (req, res) {
+    const { token_type, access_token, refresh_token } = await refresh(req.cookies.refresh_token);
+    const { username, id } = await userdat(token_type, access_token)
 
-    admin.findOne({id:id}).then(d=>{
-        if(!d){
-            
+    admin.findOne({ id: id }).then(d => {
+        if (!d) {
+
             console.log('not admin')
-            
+
             res.status(403).send('ページへのアクセス権限がありません。');
-            
-        }else{
+
+        } else {
             console.log(`admin:${username}`)
             tinyurl.remove({ __v: 0 }).then(x => console.log(x.deletedCount))
-    
+
             res.cookie('refresh_token', refresh_token, {
-                  httpOnly: true
+                httpOnly: true
             });
-            
+
         }
     });
-    
+
 })
 
-router.post('/delete',function(req,res){
+router.post('/delete', function (req, res) {
     let str = req.body.delnum;
     const str2 = Array.isArray(str);
-    if (str2){
-        for (let i in str){
+    if (str2) {
+        for (let i in str) {
             tinyurl.remove({ tiny: str[i] }).then(x => console.log(x.deletedCount))
             console.log(str2)
         }
-    }else{
+    } else {
         tinyurl.remove({ tiny: str }).then(x => console.log(x.deletedCount))
         console.log(str2)
     }
     res.status(301).redirect('/admin')
 })
 
-router.post('/premiumadd',async (req,res)=>{
-    const token=Math.random().toString(32).substring(2)
-    const {id,demo} = req.body;
+router.post('/premiumadd', async (req, res) => {
+    const token = Math.random().toString(32).substring(2)
+    const { id, demo } = req.body;
     console.log(req.body)
-    if (id){
-        if (demo){
+    if (id) {
+        if (demo) {
             const _preuser = new preuser({
-                id:id,
-                demo:true
+                id: id,
+                demo: true
             });
             _preuser.save();
-        }else{
+        } else {
             const _preuser = new preuser({
-                id:id,
-                demo:false
+                id: id,
+                demo: false
             });
-            _preuser.save();   
+            _preuser.save();
         }
     }
     res.status(301).redirect('/admin')

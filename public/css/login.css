@@ -1,17 +1,17 @@
-body{
+body {
     text-align: center;
 }
 
-.discord{
+.discord {
     display: inline-block;
 }
 
-.google{
-    margin-left:10%;
+.google {
+    margin-left: 10%;
     display: inline-block;
 }
 
-.create{
-    margin-left:10%;
+.create {
+    margin-left: 10%;
     display: inline-block;
 }

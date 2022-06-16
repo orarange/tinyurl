@@ -12,7 +12,7 @@ const cloudflare = require('cloudflare-express');
 const fs = require('fs');
 const { Webhook } = require('discord-webhook-node');
 const hook = new Webhook(process.env.WEBHOOK_URL);
- 
+
 
 
 require('date-utils');
@@ -25,9 +25,9 @@ const tiny = require('./routes/tiny');
 const admin = require('./routes/admin');
 const login = require('./routes/login');
 const logout = require('./routes/logout');
-const policy= require('./routes/policy');
-const refe= require('./routes/refe');
-const bata= require('./routes/bata');
+const policy = require('./routes/policy');
+const refe = require('./routes/refe');
+const bata = require('./routes/bata');
 const buy = require('./routes/buypremium');
 const regiater = require('./routes/register');
 
@@ -44,7 +44,7 @@ app.set('view engine', 'ejs');
 
 
 const apiLimiter = rateLimit({
-	windowMs: 10000 , // 30分
+	windowMs: 10000, // 30分
 	max: 5, // 各IPを `window` ごとに50リクエストに制限する (ここでは、30分ごと)
 	standardHeaders: true, // レートリミット情報を `RateLimit-*` ヘッダで返します。
 	legacyHeaders: false, // X-RateLimit-*` ヘッダを無効にする。
@@ -65,34 +65,34 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //サイト用
-app.use('/',home);
-app.use('/t',tiny);
-app.use('/login',login);
-app.use('/logout',logout);
-app.use('/admin',admin);
-app.use('/api/reference',refe);
-app.use('/bata/home',bata);
-app.use('/buy',buy);
-app.use('/register',regiater);
-app.use('/sitemap.xml',function(req,res){
-	res.sendFile(__dirname+'/sitemap.xml');
+app.use('/', home);
+app.use('/t', tiny);
+app.use('/login', login);
+app.use('/logout', logout);
+app.use('/admin', admin);
+app.use('/api/reference', refe);
+app.use('/bata/home', bata);
+app.use('/buy', buy);
+app.use('/register', regiater);
+app.use('/sitemap.xml', function (req, res) {
+	res.sendFile(__dirname + '/sitemap.xml');
 });
 
 //API用
-app.use('/api',API1)
-app.use('/api/pull',pull)
-app.use('/api/get',get)
-app.use('/api/gettiny',gettiny)
+app.use('/api', API1)
+app.use('/api/pull', pull)
+app.use('/api/get', get)
+app.use('/api/gettiny', gettiny)
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
 	console.log(req.cf_ip);
 	//一時間ごとの404ログをとる
 	var date = new Date();
-	var date_str = date.toFormat("YYYY/MM/DD")+" "+(Number(date.toFormat("HH"))+9) +date.toFormat(":MI:SS");
+	var date_str = date.toFormat("YYYY/MM/DD") + " " + (Number(date.toFormat("HH")) + 9) + date.toFormat(":MI:SS");
 	var log = date_str + " " + req.url + " 404 Not Found " + req.cf_ip + "\n";
-	fs.appendFile('./log/'+new Date().toFormat("YYYY.MM.DD") + '.log', log, function(err){});
+	fs.appendFile('./log/' + new Date().toFormat("YYYY.MM.DD") + '.log', log, function (err) { });
 	//404レンダリング
-    res.status(404).render('404');
+	res.status(404).render('404');
 	next();
 });
 
@@ -104,13 +104,13 @@ cron.schedule('0 16 1 * *', () => {
 
 cron.schedule('0 0 */1 * *', () => {
 	hook.send('送信しています')
-	if (fs.existsSync('./log/'+new Date().toFormat("YYYY.MM.DD")+ '.log')){
-		hook.sendFile('./log/'+new Date().toFormat("YYYY.MM.DD")+ '.log');
-	}else{
+	if (fs.existsSync('./log/' + new Date().toFormat("YYYY.MM.DD") + '.log')) {
+		hook.sendFile('./log/' + new Date().toFormat("YYYY.MM.DD") + '.log');
+	} else {
 		hook.send('ファイルが存在しません');
 	}
 });
 
 app.listen(3030, function () {
-    console.log('Example app listening on port 80!');
+	console.log('Example app listening on port 80!');
 });

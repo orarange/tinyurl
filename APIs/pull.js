@@ -3,13 +3,13 @@ const router = express.Router();
 const exec = require('child_process').exec;
 
 
-router.post('/',async function(req,res){
+router.post('/', async function (req, res) {
 
 
-    function pull(){
+    function pull() {
         exec('git pull origin master', (err, stdout, stderr) => {
-        if (err) { console.log(err); }
-        console.log(stdout);
+            if (err) { console.log(err); }
+            console.log(stdout);
         });
     }
 

@@ -10,136 +10,136 @@ const mongoose = require('mongoose');
 
 main().catch(err => console.log(err));
 
-async function main() {	
+async function main() {
     await mongoose.connect(process.env.mongo_url);
 }
 
-router.get('/',function(req,res){
-    res.json({hello:'world'})
+router.get('/', function (req, res) {
+    res.json({ hello: 'world' })
 })
 
-router.post('/make',async (req,res) => {
-    const tinyuRl=Math.random().toString(32).substring(2)
-    const {original,custom,domain,id} = req.body;
+router.post('/make', async (req, res) => {
+    const tinyuRl = Math.random().toString(32).substring(2)
+    const { original, custom, domain, id } = req.body;
     console.log(req.body)
-    if (original){
-        if (original.match(/^https?/)){
-            preuser.findOne({id:id}).then(d=>{
-    
-                if(!d){
+    if (original) {
+        if (original.match(/^https?/)) {
+            preuser.findOne({ id: id }).then(d => {
+
+                if (!d) {
                     console.log('free plan')
                     //free planの処理
                     const _tinyurl = new tinyurl({
-                        original:original,
-                        tiny:tinyuRl
+                        original: original,
+                        tiny: tinyuRl
                     });
-                    
+
                     _tinyurl.save();
-                    
-                    res.json({status:'200',message:'request was successful!',tiny:`https://tiny-url.gq/t/${tinyuRl}`})
-                
-                }else{
-                console.log('premium plan')
-                    if (!domain){
+
+                    res.json({ status: '200', message: 'request was successful!', tiny: `https://tiny-url.gq/t/${tinyuRl}` })
+
+                } else {
+                    console.log('premium plan')
+                    if (!domain) {
                         console.log(domain)
-                        if (custom){
+                        if (custom) {
                             console.log('custom')
-                            premium.findOne({tiny:custom}).then(d=>{
-                            
-                                if(!d){
+                            premium.findOne({ tiny: custom }).then(d => {
+
+                                if (!d) {
                                     //重複customがなかった時の処理                            
                                     const _premium = new premium({
-                                        original:original,
-                                        tiny:custom,
-                                        userid:id
+                                        original: original,
+                                        tiny: custom,
+                                        userid: id
                                     });
-                                    
+
                                     _premium.save();
-                                    
-                                    res.json({status:'200',message:'request was successful!',tiny:`https://tiny-url.gq/t/${custom}`})                            
-                                
-                                }else{
+
+                                    res.json({ status: '200', message: 'request was successful!', tiny: `https://tiny-url.gq/t/${custom}` })
+
+                                } else {
                                     //あったときの処理
                                     res.status(400)
-                                    res.json({status:'400',message:'Bad Request',tiny:'Registered'})
-                                
+                                    res.json({ status: '400', message: 'Bad Request', tiny: 'Registered' })
+
                                 }
-                            
+
                             });
-        
-                        
-                        }else{
+
+
+                        } else {
                             const _premium = new premium({
-                                original:original,
-                                    tiny:tinyuRl,
-                                    userid:id
+                                original: original,
+                                tiny: tinyuRl,
+                                userid: id
                             });
-                                    
+
                             _premium.save();
-                                    
-                                    
-                            res.json({status:'200',message:'request was successful!',tiny:`https://tiny-url.gq/t/${tinyuRl}`})                            
-           
+
+
+                            res.json({ status: '200', message: 'request was successful!', tiny: `https://tiny-url.gq/t/${tinyuRl}` })
+
                         }
-                    
-                    }else{
-                    //premiumの処理
-                        if (custom){
+
+                    } else {
+                        //premiumの処理
+                        if (custom) {
                             console.log('custom')
-                            premium.findOne({tiny:custom}).then(d=>{
-                            
-                                if(!d){
+                            premium.findOne({ tiny: custom }).then(d => {
+
+                                if (!d) {
                                     //重複customがなかった時の処理                            
                                     const _premium = new premium({
-                                        original:original,
-                                        tiny:custom,
-                                        userid:id
+                                        original: original,
+                                        tiny: custom,
+                                        userid: id
                                     });
-                                    
+
                                     _premium.save();
-                                    
-                                    res.json({status:'200',message:'request was successful!',tiny:`https://${domain}/${custom}`})                            
-                                
-                                }else{
+
+                                    res.json({ status: '200', message: 'request was successful!', tiny: `https://${domain}/${custom}` })
+
+                                } else {
                                     //あったときの処理
                                     res.status(400)
-                                    res.json({status:'400',message:'Bad Request',tiny:'Registered'})
-                                
+                                    res.json({ status: '400', message: 'Bad Request', tiny: 'Registered' })
+
                                 }
-                            
+
                             });
-        
-                        
-                        }else{
+
+
+                        } else {
                             const _premium = new premium({
-                                original:original,
-                                    tiny:tinyuRl,
-                                    userid:id
+                                original: original,
+                                tiny: tinyuRl,
+                                userid: id
                             });
-                                    
+
                             _premium.save();
-                                    
-                                    
-                            res.json({status:'200',message:'request was successful!',tiny:`https://${domain}/${tinyuRl}`})                            
-           
+
+
+                            res.json({ status: '200', message: 'request was successful!', tiny: `https://${domain}/${tinyuRl}` })
+
                         }
-                    
+
                     }
                 }
-                
+
             });
-            
-        }else{
+
+        } else {
             //URLじゃなかったときの処理
             console.log('not URL')
             res.status(400)
-            res.json({status:'400',message:'Bad Request'})
-        
+            res.json({ status: '400', message: 'Bad Request' })
+
         }
-    }else{
+    } else {
         console.log('no URL')
         res.status(400)
-        res.json({status:'400',message:'Bad Request'})
+        res.json({ status: '400', message: 'Bad Request' })
     }
 })
 

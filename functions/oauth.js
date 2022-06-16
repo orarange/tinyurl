@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
-const {client_id,client_secret,domain} = process.env;
+const { client_id, client_secret, domain } = process.env;
 
-async function oauth(code){  
+async function oauth(code) {
 
     try {
         const oauthResult = await fetch('https://discord.com/api/oauth2/token', {
@@ -18,13 +18,13 @@ async function oauth(code){
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
         });
-        
+
         const oauthData = await oauthResult.json();
         console.log(oauthData)
         return oauthData;
 
     } catch (error) {
-        
+
         console.log(error);
         return error;
     }

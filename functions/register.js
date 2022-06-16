@@ -8,11 +8,11 @@ async function main() {
 async function getUsers(email) {
     if (!email) {
         return null;
-    }else{
-        User.findOne({email:email}).then(d=>{
-            if(!d){
+    } else {
+        User.findOne({ email: email }).then(d => {
+            if (!d) {
                 return 'unregistered';
-            }else{
+            } else {
                 return 'registered';
             }
         });

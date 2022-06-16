@@ -16,8 +16,8 @@ async function main() {
 
 router.get('/', async (req, res) => {
     if (!req.cookies.refresh_token || req.cookies.refresh_token === "undefined") {
-        res.render('register', { url: '' ,tiny:'',premiu:'',name:'',demo:'',log:'in'});
-    }else {
+        res.render('register', { url: '', tiny: '', premiu: '', name: '', demo: '', log: 'in' });
+    } else {
         res.redirect('/');
     }
 });

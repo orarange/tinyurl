@@ -1,28 +1,30 @@
 <!DOCTYPE html>
-  <!-- Coding by CodingLab | www.codinglabweb.com -->
+<!-- Coding by CodingLab | www.codinglabweb.com -->
 <html lang="ja">
+
 <head>
     <title>URL短縮サービス</title>
     <meta name="description" content="URLを短縮するサイトです。">
-    <meta name="keywords" content="短縮,URL,URL短縮,短縮URL,tiny-url.cf">    
+    <meta name="keywords" content="短縮,URL,URL短縮,短縮URL,tiny-url.cf">
     <meta name="theme-color" content="#6E3DD9">
     <link rel="shortcut icon" href="/images/favicon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4006009538073290"
-     crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!----======== CSS ======== -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
     <!----===== Boxicons CSS ===== -->
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
-    <!--<title>Dashboard Sidebar Menu</title>--> 
+    <!--<title>Dashboard Sidebar Menu</title>-->
 </head>
+
 <body>
 
     <nav class="sidebar close">
@@ -47,14 +49,14 @@
                 <ul class="menu-links">
                     <li class="nav-link">
                         <a href="/">
-                            <i class='bx bx-home-alt icon' ></i>
+                            <i class='bx bx-home-alt icon'></i>
                             <span class="text nav-text">home</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
                         <a href="/api/reference">
-                            <i class='bx bx-bar-chart-alt-2 icon' ></i>
+                            <i class='bx bx-bar-chart-alt-2 icon'></i>
                             <span class="text nav-text">API</span>
                         </a>
                     </li>
@@ -68,21 +70,21 @@
 
                     <li class="nav-link">
                         <a href="#">
-                            <i class='bx bx-pie-chart-alt icon' ></i>
+                            <i class='bx bx-pie-chart-alt icon'></i>
                             <span class="text nav-text">Analytics</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
                         <a href="#">
-                            <i class='bx bx-heart icon' ></i>
+                            <i class='bx bx-heart icon'></i>
                             <span class="text nav-text">Likes</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
                         <a href="buy">
-                            <i class='bx bx-wallet icon' ></i>
+                            <i class='bx bx-wallet icon'></i>
                             <span class="text nav-text">Premium</span>
                         </a>
                     </li>
@@ -93,8 +95,8 @@
             <div class="bottom-content">
                 <li class="">
                     <a href="#" onclick="log<%= log %>()">
-                        <i class='bx bx-log-<%= log %> icon' ></i>
-                        <span class="text nav-text" >Log<%= log %></span>
+                        <i class='bx bx-log-<%= log %> icon'></i>
+                        <span class="text nav-text">Log<%= log %></span>
                     </a>
                 </li>
 
@@ -109,7 +111,7 @@
                         <span class="switch"></span>
                     </div>
                 </li>
-                
+
             </div>
         </div>
 
@@ -120,11 +122,16 @@
 
         <div>
             <form method="POST" action="/register">
-                <p class="text"><input class="form" id="formstyle" type="name" name="name" placeholder="ユーザー名" required></p>
-                <p class="text"><input class="form" id="formstyle" type="email" name="email" placeholder="メールアドレス" required></p>
-                <p class="text"><input class="form" id="formstyle" type="password" name="password" placeholder="パスワード" required></p>
-                <p class="text"><input class="form" id="formstyle" type="password" name="password_confirmation" placeholder="パスワード確認" required></p>
-                <div class="h-captcha" data-sitekey="0c982011-6731-452a-8b2b-07aaf2151a20" data-callback="callback"></div>
+                <p class="text"><input class="form" id="formstyle" type="name" name="name" placeholder="ユーザー名" required>
+                </p>
+                <p class="text"><input class="form" id="formstyle" type="email" name="email" placeholder="メールアドレス"
+                        required></p>
+                <p class="text"><input class="form" id="formstyle" type="password" name="password" placeholder="パスワード"
+                        required></p>
+                <p class="text"><input class="form" id="formstyle" type="password" name="password_confirmation"
+                        placeholder="パスワード確認" required></p>
+                <div class="h-captcha" data-sitekey="0c982011-6731-452a-8b2b-07aaf2151a20" data-callback="callback">
+                </div>
                 <p><input class="form subm" id="buttonstyle" type="submit" value="登録" disabled /></p>
             </form>
         </div>
@@ -132,62 +139,63 @@
 
     <script>
         const body = document.querySelector('body'),
-         sidebar = body.querySelector('nav'),
-         toggle = body.querySelector(".toggle"),
-         modeSwitch = body.querySelector(".toggle-switch"),
-        modeText = body.querySelector(".mode-text");
-        
+            sidebar = body.querySelector('nav'),
+            toggle = body.querySelector(".toggle"),
+            modeSwitch = body.querySelector(".toggle-switch"),
+            modeText = body.querySelector(".mode-text");
+
         function callback() {
             const element = document.querySelector('subm');
             element.removeAttribute('disabled');
         }
 
-        toggle.addEventListener("click" , () =>{
+        toggle.addEventListener("click", () => {
             sidebar.classList.toggle("close");
         })
 
-        try{        
+        try {
             const cookieValue = document.cookie
                 .split('; ')
                 .find(row => row.startsWith('mode'))
                 .split('=')[1];
-            if (cookieValue == 'dark'){
+            if (cookieValue == 'dark') {
                 body.classList.toggle("dark");
                 modeText.innerText = "Dark mode";
-            }else{
+            } else {
                 modeText.innerText = "Light mode";
                 console.log(cookieValue)
             }
-        } catch (error){
+        } catch (error) {
             document.cookie = 'mode=light; max-age=604800';
         }
 
-        
 
-        
-        modeSwitch.addEventListener("click" , () =>{
+
+
+        modeSwitch.addEventListener("click", () => {
             body.classList.toggle("dark");
-            
-            if(body.classList.contains("dark")){
+
+            if (body.classList.contains("dark")) {
                 document.cookie = 'mode=light"; max-age=0';
                 modeText.innerText = "Light mode";
                 document.cookie = 'mode = dark; max-age=604800';
-            }else{
+            } else {
                 document.cookie = 'mode = dark"; max-age=0';
                 modeText.innerText = "Dark mode";
                 document.cookie = 'mode=light; max-age=604800';
-                
+
             }
         });
-        $(function(){
+        $(function () {
             $(".overlay").show();
-            $.cookie('policy') == 'on'?$(".overlay").hide():$(".overlay").show();
-            $(".btn_area button").click(function(){
+            $.cookie('policy') == 'on' ? $(".overlay").hide() : $(".overlay").show();
+            $(".btn_area button").click(function () {
                 $(".overlay").fadeOut();
-                $.cookie('policy', 'on', { expires: 30,path: '/' }); //cookieの保存
+                $.cookie('policy', 'on', { expires: 30, path: '/' }); //cookieの保存
             });
         });
     </script>
 
 </body>
+
 </html>

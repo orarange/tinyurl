@@ -7,22 +7,22 @@ const mongoose = require('mongoose');
 
 main().catch(err => console.log(err));
 
-async function main() {	
+async function main() {
     await mongoose.connect(process.env.mongo_url);
 }
 
-router.get('/:id',function(req,res){
-    tinyurl.findOne({tiny:req.params.id}).then(d=>{
-        if(!d){
-            premium.findOne({tiny:req.params.id}).then(d=>{
-                if(!d){
+router.get('/:id', function (req, res) {
+    tinyurl.findOne({ tiny: req.params.id }).then(d => {
+        if (!d) {
+            premium.findOne({ tiny: req.params.id }).then(d => {
+                if (!d) {
                     res.status(404)
                     res.render('404')
-                }else{
+                } else {
                     res.redirect(d.original)
                 }
-            });            
-        }else{
+            });
+        } else {
             res.redirect(d.original)
         }
     });
