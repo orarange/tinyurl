@@ -77,6 +77,9 @@ app.use('/register', regiater);
 app.use('/sitemap.xml', function (req, res) {
 	res.sendFile(__dirname + '/sitemap.xml');
 });
+app.use('/robots.txt', function (req, res) {
+	res.sendFile(__dirname + '/robots.txt');
+});
 
 //API用
 app.use('/api', API1)
