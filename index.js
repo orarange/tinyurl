@@ -62,7 +62,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+app.use(function (req, res, next) {
+	console.log(req.cf_ip);
+	next();
+});
 
 //サイト用
 app.use('/', home);
