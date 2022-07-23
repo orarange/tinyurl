@@ -3,7 +3,7 @@ const router = express.Router();
 
 
 router.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.render('home',{'log':'in','premiu':false,'name':undefined,'domain':undefined,'demo':'false','url':undefined,'tiny':undefined});
 }
 );
 
