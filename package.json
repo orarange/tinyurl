@@ -2,35 +2,25 @@
   "name": "tinyurl",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minato37103710/tinyurl.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/minato37103710/tinyurl/issues"
+  },
+  "homepage": "https://github.com/minato37103710/tinyurl#readme",
   "dependencies": {
-    "axios": "^0.26.0",
-    "body-parser": "^1.19.2",
-    "cloudflare-express": "^1.0.1",
-    "cookie-parser": "^1.4.6",
-    "date-util": "^1.2.1",
-    "date-utils": "^1.2.21",
-    "discord-webhook-node": "^1.1.8",
-    "ejs": "^3.1.6",
-    "express": "^4.17.3",
-    "express-rate-limit": "^6.3.0",
-    "express-session": "^1.17.2",
-    "fetch-cookie-v2": "^0.0.2",
-    "http-errors": "^2.0.0",
-    "js-cookie": "^3.0.1",
-    "mongoose": "^6.2.2",
-    "morgan": "^1.10.0",
-    "node-cron": "^3.0.0",
-    "node-fetch": "^2.6.7",
-    "nodemon": "^2.0.16",
-    "passport": "^0.5.2",
-    "passport-local": "^1.0.0",
-    "rotating-file-stream": "^3.0.4"
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "morgan": "^1.10.0"
   }
 }
