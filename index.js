@@ -10,8 +10,7 @@ const rateLimit = require('express-rate-limit');
 const cron = require('node-cron');
 const cloudflare = require('cloudflare-express');
 const fs = require('fs');
-const { Webhook } = require('discord-webhook-node');
-const hook = new Webhook(process.env.WEBHOOK_URL);
+
 
 
 
@@ -108,14 +107,7 @@ cron.schedule('0 16 1 * *', () => {
 	remover.dataRemove();
 });
 
-cron.schedule('0 0 */1 * *', () => {
-	hook.send('送信しています')
-	if (fs.existsSync('./log/' + new Date().toFormat("YYYY.MM.DD") + '.log')) {
-		hook.sendFile('./log/' + new Date().toFormat("YYYY.MM.DD") + '.log');
-	} else {
-		hook.send('ファイルが存在しません');
-	}
-});
+
 
 app.listen(3030, function () {
 	console.log('Example app listening on port 80!');
