@@ -13,7 +13,7 @@ const fs = require('fs');
 
 
 
-
+require('dotenv').config()
 require('date-utils');
 
 const remover = require('./functions/dataremove');
