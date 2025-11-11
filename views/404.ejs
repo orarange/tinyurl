@@ -28,9 +28,20 @@
     <header class="p-4 sm:p-6 bg-slate-800/80 backdrop-blur-sm shadow-lg sticky top-0 z-10">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <a href="/" class="text-3xl font-extrabold gradient-text tracking-tight">Tiny-URL</a>
-            <nav class="flex space-x-6 items-center">
+            <nav class="hidden md:flex space-x-6 items-center">
                 <a href="/" class="text-slate-300 hover:text-indigo-400 transition text-sm font-medium">ホーム</a>
             </nav>
+            <button id="menu-button" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-700 transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
+                    </path>
+                </svg>
+            </button>
+        </div>
+        <!-- モバイルメニュー -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-2">
+            <a href="/" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition">ホーム</a>
         </div>
     </header>
     <main class="flex-grow flex items-center justify-center p-4 sm:p-8">
@@ -55,6 +66,17 @@
     <footer class="p-4 sm:p-6 text-center text-slate-500 text-sm bg-slate-800 border-t border-slate-700/50">
         &copy; 2025 Tiny-URL. All rights reserved.
     </footer>
+    <script>
+        // モバイルメニューのトグル
+        const menuButton = document.getElementById('menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (menuButton && mobileMenu) {
+            menuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+    </script>
 </body>
 
 </html>

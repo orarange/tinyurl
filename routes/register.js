@@ -20,26 +20,32 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-	const { username, email, password } = req.body;
-	const register = getUsers.getUsers(email);
-	register.then(async (result) => {
-		if (result === 'unregistered') {
+	const { name, email, password, password_confirmation } = req.body;
+	
+	// パスワード確認のチェック
+	if (password !== password_confirmation) {
+		return res.render('register', { url: '', tiny: '', premiu: '', name: '', demo: '', log: 'in', error: 'パスワードが一致しません' });
+	}
+	
+	try {
+		const register = await getUsers.getUsers(email);
+		if (register === 'unregistered') {
 			const user = new tinyurl({
-				username: username,
+				username: name,
 				email: email,
 				password: password
 			});
-			user.save().then(() => {
-				res.redirect('/');
-				console.log('user created');
-			}).catch(err => {
-				res.send(err);
-			});
+			await user.save();
+			console.log('user created:', email);
+			res.redirect('/login');
 		} else {
-			console.log('user already registered');
-			res.render('register', { url: '', tiny: '', premiu: '', name: '', demo: '', log: 'in' });
+			console.log('user already registered:', email);
+			res.render('register', { url: '', tiny: '', premiu: '', name: '', demo: '', log: 'in', error: 'このメールアドレスは既に登録されています' });
 		}
-	});
+	} catch (err) {
+		console.error('Registration error:', err);
+		res.render('register', { url: '', tiny: '', premiu: '', name: '', demo: '', log: 'in', error: '登録中にエラーが発生しました' });
+	}
 });
 
 module.exports = router;

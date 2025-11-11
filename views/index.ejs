@@ -59,6 +59,23 @@
                 </svg>
             </button>
         </div>
+        <!-- モバイルメニュー -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-2">
+            <a href="/" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">ホーム</a>
+            <a href="/api/reference"
+                class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">APIリファレンス</a>
+            <% if (name) { %>
+                <a href="/dashboard"
+                    class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">ダッシュボード</a>
+                <a href="/logout"
+                    class="block px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-ease">ログアウト</a>
+                <% } else { %>
+                    <a href="/buy"
+                        class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">プレミアム</a>
+                    <a href="/login"
+                        class="block px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-ease">ログイン</a>
+                    <% } %>
+        </div>
     </header>
     <main class="flex-grow flex items-center justify-center p-4 sm:p-8">
         <div class="max-w-xl w-full">
@@ -158,6 +175,17 @@
     </footer>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // モバイルメニューのトグル
+            const menuButton = document.getElementById('menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (menuButton && mobileMenu) {
+                menuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+            // URL短縮機能
             const shortUrlOutput = document.getElementById('short-url-output');
             const copyButton = document.getElementById('copy-button');
             const copyText = document.getElementById('copy-text');

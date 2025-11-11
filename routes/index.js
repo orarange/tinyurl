@@ -20,6 +20,29 @@ async function main() {
 router.get('/', async (req, res) => {
 	const { domain } = process.env;
 
+	// メール/パスワードログインのセッションチェック
+	if (req.cookies.user_session) {
+		try {
+			const userSession = JSON.parse(req.cookies.user_session);
+			
+			preuser.findOne({ id: userSession.id }).then(d => {
+				if (!d) {
+					res.status(200).render('index', { url: '', tiny: '', premiu: '', name: userSession.username, demo: '', log: 'out', domain: domain });
+				} else {
+					if (!d.demo) {
+						res.status(200).render('index', { url: '', tiny: '', premiu: 'yes', name: userSession.username, demo: '', log: 'out', domain: domain });
+					} else {
+						res.status(200).render('index', { url: '', tiny: '', premiu: 'yes', name: userSession.username, demo: 'disabled', log: 'out', domain: domain });
+					}
+				}
+			});
+			return;
+		} catch (err) {
+			console.error('Session parse error:', err);
+		}
+	}
+
+	// Discord OAuthログインのチェック
 	if (!req.cookies.refresh_token || req.cookies.refresh_token === 'undefined') {
 		res.status(200).render('index', { url: '', tiny: '', premiu: '', name: '', demo: '', log: 'in', domain: domain });
 	} else {
@@ -47,8 +70,29 @@ router.get('/', async (req, res) => {
 router.post('/tiny_url', async (req, res) => {
 	const tinyuRl = Math.random().toString(32).substring(2);
 	const { original, custom, domain } = req.body;
-	const { token_type, access_token, refresh_token } = await refresh(req.cookies.refresh_token);
-	const { id, username } = await userdat(token_type, access_token);
+	
+	let username = '';
+	let id = '';
+	let refresh_token = '';
+
+	// メール/パスワードログインのセッションチェック
+	if (req.cookies.user_session) {
+		try {
+			const userSession = JSON.parse(req.cookies.user_session);
+			username = userSession.username;
+			id = userSession.id;
+		} catch (err) {
+			console.error('Session parse error:', err);
+		}
+	} 
+	// Discord OAuthログインのチェック
+	else if (req.cookies.refresh_token && req.cookies.refresh_token !== 'undefined') {
+		const oauthData = await refresh(req.cookies.refresh_token);
+		const userdata = await userdat(oauthData.token_type, oauthData.access_token);
+		username = userdata.username;
+		id = userdata.id;
+		refresh_token = oauthData.refresh_token;
+	}
 
 	console.log('tiny-url post');
 
@@ -64,13 +108,16 @@ router.post('/tiny_url', async (req, res) => {
 
 				_tinyurl.save();
 
-				res.cookie('refresh_token', refresh_token, {
-					httpOnly: false
-				});
-				if (!req.cookies.refresh_token || req.cookies.refresh_token === 'undefined') {
-				res.status(200).render('index', { url: '', tiny: `https://orrn.net/t/${tinyuRl}`, premiu: '', name: username, demo: '', log: 'in', domain: domain });
-			} else {
-				res.status(200).render('index', { url: '', tiny: `https://orrn.net/t/${tinyuRl}`, premiu: '', name: username, demo: '', log: 'out', domain: domain });
+				if (refresh_token) {
+					res.cookie('refresh_token', refresh_token, {
+						httpOnly: true
+					});
+				}
+				
+				if (!username) {
+					res.status(200).render('index', { url: '', tiny: `https://orrn.net/t/${tinyuRl}`, premiu: '', name: '', demo: '', log: 'in', domain: domain });
+				} else {
+					res.status(200).render('index', { url: '', tiny: `https://orrn.net/t/${tinyuRl}`, premiu: '', name: username, demo: '', log: 'out', domain: domain });
 				}
 			} else {
 				console.log('premium plan');
@@ -86,15 +133,19 @@ router.post('/tiny_url', async (req, res) => {
 
 							_premium.save();
 
-							res.cookie('refresh_token', refresh_token, {
-								httpOnly: true
-							});
+							if (refresh_token) {
+								res.cookie('refresh_token', refresh_token, {
+									httpOnly: true
+								});
+							}
 
 							res.status(200).render('index', { url: '', tiny: `https://${domain}/${custom}`, premiu: 'yes', name: username, demo: '', log: 'out', domain: domain });
 						} else {
-							res.cookie('refresh_token', refresh_token, {
-								httpOnly: true
-							});
+							if (refresh_token) {
+								res.cookie('refresh_token', refresh_token, {
+									httpOnly: true
+								});
+							}
 
 							res.status(400).render('index', { url: custom, tiny: 'Registered', premiu: 'yes', name: username, demo: '', log: 'out', domain: domain });
 						}
@@ -108,17 +159,19 @@ router.post('/tiny_url', async (req, res) => {
 
 					_premium.save();
 
-					res.cookie('refresh_token', refresh_token, {
-						httpOnly: true
-					});
+					if (refresh_token) {
+						res.cookie('refresh_token', refresh_token, {
+							httpOnly: true
+						});
+					}
 
 					res.status(200).render('index', { url: '', tiny: `https://${domain}/${tinyuRl}`, premiu: 'yes', name: username, demo: '', log: 'out', domain: domain });
 				}
 			}
 		});
 	} else {
-		if (!req.cookies.refresh_token || req.cookies.refresh_token === 'undefined') {
-			res.status(400).render('index', { url: '', tiny: '', premiu: '', name: username, demo: '', log: 'in', domain: domain });
+		if (!username) {
+			res.status(400).render('index', { url: '', tiny: '', premiu: '', name: '', demo: '', log: 'in', domain: domain });
 		} else {
 			res.status(400).render('index', { url: '', tiny: '', premiu: '', name: username, demo: '', log: 'out', domain: domain });
 		}

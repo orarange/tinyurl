@@ -9,13 +9,12 @@ async function getUsers(email) {
 	if (!email) {
 		return null;
 	} else {
-		User.findOne({ email: email }).then(d => {
-			if (!d) {
-				return 'unregistered';
-			} else {
-				return 'registered';
-			}
-		});
+		const user = await User.findOne({ email: email });
+		if (!user) {
+			return 'unregistered';
+		} else {
+			return 'registered';
+		}
 	}
 }
 

@@ -1,201 +1,174 @@
 <!DOCTYPE html>
-<!-- Coding by CodingLab | www.codinglabweb.com -->
 <html lang="ja">
 
 <head>
-    <title>URL短縮サービス</title>
-    <meta name="description" content="URLを短縮するサイトです。">
-    <meta name="keywords" content="短縮,URL,URL短縮,短縮URL,orrn.net">
-    <meta name="theme-color" content="#6E3DD9">
-    <link rel="shortcut icon" href="/images/favicon.ico">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4006009538073290"
-        crossorigin="anonymous"></script>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!----======== CSS ======== -->
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/responsive.css">
-    <!----===== Boxicons CSS ===== -->
-    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <title>新規登録 | Tiny-URL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
-    <!--<title>Dashboard Sidebar Menu</title>-->
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .gradient-text {
+            background-image: linear-gradient(90deg, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .transition-ease {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .h-captcha {
+            display: inline-block;
+        }
+    </style>
 </head>
 
-<body>
-
-    <nav class="sidebar close">
-        <header>
-            <div class="image-text">
-                <span class="image">
-                    <a href="/"><img src="/images/favicon.ico" alt=""></a>
-                </span>
-
-                <div class="text logo-text">
-                    <span class="name">短縮URLサービス</span>
-                    <span class="profession">Tiny-URL</span>
-                </div>
-            </div>
-
-            <i class='bx bx-chevron-right toggle'></i>
-        </header>
-
-        <div class="menu-bar">
-            <div class="menu">
-
-                <ul class="menu-links">
-                    <li class="nav-link">
-                        <a href="/">
-                            <i class='bx bx-home-alt icon'></i>
-                            <span class="text nav-text">home</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="/api/reference">
-                            <i class='bx bx-bar-chart-alt-2 icon'></i>
-                            <span class="text nav-text">API</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-bell icon'></i>
-                            <span class="text nav-text">Notifications</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-pie-chart-alt icon'></i>
-                            <span class="text nav-text">Analytics</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-heart icon'></i>
-                            <span class="text nav-text">Likes</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="buy">
-                            <i class='bx bx-wallet icon'></i>
-                            <span class="text nav-text">Premium</span>
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
-
-            <div class="bottom-content">
-                <li class="">
-                    <a href="/login">
-                        <i class='bx bx-log-in icon'></i>
-                        <span class="text nav-text">Login</span>
-                    </a>
-                </li>
-
-                <li class="mode">
-                    <div class="sun-moon">
-                        <i class='bx bx-moon icon moon'></i>
-                        <i class='bx bx-sun icon sun'></i>
-                    </div>
-                    <span class="mode-text text">Dark mode</span>
-
-                    <div class="toggle-switch">
-                        <span class="switch"></span>
-                    </div>
-                </li>
-
-            </div>
+<body class="min-h-screen flex flex-col antialiased">
+    <header class="p-4 sm:p-6 bg-slate-800/80 backdrop-blur-sm shadow-lg sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="/" class="text-3xl font-extrabold gradient-text tracking-tight">Tiny-URL</a>
+            <nav class="hidden md:flex space-x-6 items-center">
+                <a href="/" class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">ホーム</a>
+                <a href="/api/reference"
+                    class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">APIリファレンス</a>
+                <a href="/buy"
+                    class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">プレミアム</a>
+                <a href="/login"
+                    class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-md transition-ease">ログイン</a>
+            </nav>
+            <button id="menu-button" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-700 transition-ease">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
+                    </path>
+                </svg>
+            </button>
         </div>
-
-    </nav>
-
-    <section class="home">
-        <h1 class="text">ユーザー登録</h1>
-
-        <div>
-            <form method="POST" action="/register">
-                <p class="text"><input class="form" id="formstyle" type="name" name="name" placeholder="ユーザー名" required>
+        <!-- モバイルメニュー -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-2">
+            <a href="/" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">ホーム</a>
+            <a href="/api/reference"
+                class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">APIリファレンス</a>
+            <a href="/buy"
+                class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">プレミアム</a>
+            <a href="/login"
+                class="block px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-ease">ログイン</a>
+        </div>
+    </header>
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-8">
+        <div class="max-w-xl w-full">
+            <section class="text-center mb-12">
+                <h1
+                    class="text-5xl sm:text-6xl md:text-7xl lg:text-6xl font-extrabold leading-tight sm:leading-none tracking-tight mb-4 gradient-text">
+                    アカウント作成
+                </h1>
+                <p class="text-base sm:text-lg md:text-xl text-slate-400 mb-8 px-2 sm:px-4 leading-relaxed">
+                    無料でアカウントを作成して、<br class="hidden sm:inline">
+                    すべての機能をご利用ください。
                 </p>
-                <p class="text"><input class="form" id="formstyle" type="email" name="email" placeholder="メールアドレス"
-                        required></p>
-                <p class="text"><input class="form" id="formstyle" type="password" name="password" placeholder="パスワード"
-                        required></p>
-                <p class="text"><input class="form" id="formstyle" type="password" name="password_confirmation"
-                        placeholder="パスワード確認" required></p>
-                <div class="h-captcha" data-sitekey="0c982011-6731-452a-8b2b-07aaf2151a20" data-callback="callback">
-                </div>
-                <p><input class="form subm" id="buttonstyle" type="submit" value="登録" disabled /></p>
-            </form>
+                <form action="/register" method="POST" id="register-form"
+                    class="bg-slate-800 p-6 sm:p-8 rounded-2xl shadow-2xl border border-slate-700/50">
+                    <div
+                        class="text-xs font-semibold uppercase tracking-wider text-blue-400 bg-blue-900/30 py-1 px-3 rounded-full inline-block mb-6">
+                        新規登録
+                    </div>
+                    <div class="space-y-4">
+                        <input type="text" name="name" id="name" placeholder="ユーザー名を入力してください"
+                            class="w-full p-4 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
+                            required>
+                        <input type="email" name="email" id="email" placeholder="メールアドレスを入力してください"
+                            class="w-full p-4 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
+                            required>
+                        <input type="password" name="password" id="password" placeholder="パスワードを入力してください"
+                            class="w-full p-4 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
+                            required>
+                        <input type="password" name="password_confirmation" id="password_confirmation"
+                            placeholder="パスワードを再入力してください"
+                            class="w-full p-4 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
+                            required>
+                    </div>
+                    <div class="mt-6 flex justify-center">
+                        <div class="h-captcha" data-sitekey="0c982011-6731-452a-8b2b-07aaf2151a20"
+                            data-callback="enableSubmit"></div>
+                    </div>
+                    <button type="submit" id="register-button" disabled
+                        class="w-full mt-6 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-indigo-500/50 transition-ease active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-indigo-600">
+                        <span class="inline sm:hidden">アカウント<br>作成</span>
+                        <span class="hidden sm:inline">アカウント作成</span>
+                    </button>
+                    <div class="mt-4 flex justify-center">
+                        <label class="flex items-start cursor-pointer">
+                            <input type="checkbox" name="agree_terms" id="agree-terms" checked
+                                class="mt-1 w-4 h-4 text-indigo-600 bg-slate-700 border-slate-600 rounded focus:ring-indigo-500 transition-ease">
+                            <span class="ml-2 text-sm text-slate-400">「<a href="https://orrn.net/policy" target="_blank"
+                                    class="text-indigo-400 hover:text-indigo-300 transition-ease underline">利用規約</a>」を読み、同意しました</span>
+                        </label>
+                    </div>
+                    <div class="mt-6 text-center">
+                        <p class="text-sm text-slate-400">
+                            既にアカウントをお持ちですか？
+                            <a href="/login"
+                                class="text-indigo-400 hover:text-indigo-300 transition-ease underline">ログイン</a>
+                        </p>
+                    </div>
+                </form>
+            </section>
         </div>
-    </section>
-
+    </main>
+    <footer class="p-4 sm:p-6 text-center text-slate-500 text-sm bg-slate-800 border-t border-slate-700/50">
+        &copy; 2025 Tiny-URL. All rights reserved. | <a href="#"
+            class="hover:text-indigo-400 transition-ease">プライバシーポリシー</a> | <a href="#"
+            class="hover:text-indigo-400 transition-ease">お問い合わせ</a>
+    </footer>
     <script>
-        const body = document.querySelector('body'),
-            sidebar = body.querySelector('nav'),
-            toggle = body.querySelector(".toggle"),
-            modeSwitch = body.querySelector(".toggle-switch"),
-            modeText = body.querySelector(".mode-text");
-
-        function callback() {
-            const element = document.querySelector('subm');
-            element.removeAttribute('disabled');
+        function enableSubmit(token) {
+            const agreeTermsCheckbox = document.getElementById('agree-terms');
+            const registerButton = document.getElementById('register-button');
+            if (agreeTermsCheckbox.checked) {
+                registerButton.disabled = false;
+            }
         }
 
-        toggle.addEventListener("click", () => {
-            sidebar.classList.toggle("close");
-        })
+        document.addEventListener('DOMContentLoaded', () => {
+            // モバイルメニューのトグル
+            const menuButton = document.getElementById('menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
 
-        try {
-            const cookieValue = document.cookie
-                .split('; ')
-                .find(row => row.startsWith('mode'))
-                .split('=')[1];
-            if (cookieValue == 'dark') {
-                body.classList.toggle("dark");
-                modeText.innerText = "Dark mode";
-            } else {
-                modeText.innerText = "Light mode";
-                console.log(cookieValue)
+            if (menuButton && mobileMenu) {
+                menuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
             }
-        } catch (error) {
-            document.cookie = 'mode=light; max-age=604800';
-        }
 
+            // hCaptchaと利用規約チェックボックスの連動
+            const agreeTermsCheckbox = document.getElementById('agree-terms');
+            const registerButton = document.getElementById('register-button');
 
-
-
-        modeSwitch.addEventListener("click", () => {
-            body.classList.toggle("dark");
-
-            if (body.classList.contains("dark")) {
-                document.cookie = 'mode=light"; max-age=0';
-                modeText.innerText = "Light mode";
-                document.cookie = 'mode = dark; max-age=604800';
-            } else {
-                document.cookie = 'mode = dark"; max-age=0';
-                modeText.innerText = "Dark mode";
-                document.cookie = 'mode=light; max-age=604800';
-
+            if (agreeTermsCheckbox && registerButton) {
+                agreeTermsCheckbox.addEventListener('change', () => {
+                    const captchaResponse = document.querySelector('[name="h-captcha-response"]');
+                    if (agreeTermsCheckbox.checked && captchaResponse && captchaResponse.value) {
+                        registerButton.disabled = false;
+                    } else {
+                        registerButton.disabled = true;
+                    }
+                });
             }
-        });
-        $(function () {
-            $(".overlay").show();
-            $.cookie('policy') == 'on' ? $(".overlay").hide() : $(".overlay").show();
-            $(".btn_area button").click(function () {
-                $(".overlay").fadeOut();
-                $.cookie('policy', 'on', { expires: 30, path: '/' }); //cookieの保存
-            });
         });
     </script>
-
 </body>
 
 </html>
