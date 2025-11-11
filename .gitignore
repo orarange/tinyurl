@@ -4,3 +4,7 @@ replit.nix
 .breakpoints
 *.log
 log/*
+*.py
+.env
+*.env.local
+*bak
