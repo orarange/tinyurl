@@ -68,9 +68,9 @@ router.post('/tiny_url', async (req, res) => {
 					httpOnly: false
 				});
 				if (!req.cookies.refresh_token || req.cookies.refresh_token === 'undefined') {
-					res.status(200).render('index', { url: '', tiny: `https://t-ur.site/t/${tinyuRl}`, premiu: '', name: username, demo: '', log: 'in', domain: domain });
-				} else {
-					res.status(200).render('index', { url: '', tiny: `https://t-ur.site/t/${tinyuRl}`, premiu: '', name: username, demo: '', log: 'out', domain: domain });
+				res.status(200).render('index', { url: '', tiny: `https://orrn.net/t/${tinyuRl}`, premiu: '', name: username, demo: '', log: 'in', domain: domain });
+			} else {
+				res.status(200).render('index', { url: '', tiny: `https://orrn.net/t/${tinyuRl}`, premiu: '', name: username, demo: '', log: 'out', domain: domain });
 				}
 			} else {
 				console.log('premium plan');

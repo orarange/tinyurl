@@ -4,7 +4,7 @@ const qs = require('querystring');
 
 const client_id = process.env.google_id;
 const client_secret = process.env.google_secret;
-const redirect_uri = 'https://tiny-url.cf';
+const redirect_uri = 'https://orrn.net';
 const response_type = 'code';
 const scope = 'email';
 

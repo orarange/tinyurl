@@ -75,7 +75,7 @@ router.post('/tiny_url', async (req, res) => {
 					httpOnly: false
 				});
 
-				res.render('nindex', { url: '', tiny: `https://tiny-url.cf/t/${tinyuRl}`, premiu: '', name: username, demo: '' });
+				res.render('nindex', { url: '', tiny: `https://orrn.net/t/${tinyuRl}`, premiu: '', name: username, demo: '' });
 			} else {
 				console.log('premium plan');
 				if (custom) {
