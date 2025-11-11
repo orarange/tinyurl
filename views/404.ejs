@@ -1,20 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 
-    <head>
-        <meta name=”robots” content=”noindex” />
-        <title>404 not found</title>
-        <link rel="stylesheet" href="/css/style.css">
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4006009538073290"
-            crossorigin="anonymous"></script>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex" />
+    <title>404 Not Found | Tiny-URL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
 
-    <body>
-        <h1>404 Not Found</h1>
-        <p>お探しのページが見つかりませんでした<a href="/">サイトTOP</a>へ戻る</p>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/yduFuBC4whg" title="YouTube video player"
-            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>
-    </body>
+        .gradient-text {
+            background-image: linear-gradient(90deg, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col antialiased">
+    <header class="p-4 sm:p-6 bg-slate-800/80 backdrop-blur-sm shadow-lg sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="/" class="text-3xl font-extrabold gradient-text tracking-tight">Tiny-URL</a>
+            <nav class="flex space-x-6 items-center">
+                <a href="/" class="text-slate-300 hover:text-indigo-400 transition text-sm font-medium">ホーム</a>
+            </nav>
+        </div>
+    </header>
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-8">
+        <div class="max-w-2xl w-full text-center">
+            <div class="mb-8">
+                <h1 class="text-9xl font-extrabold gradient-text mb-4">404</h1>
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-200 mb-4">ページが見つかりません</h2>
+                <p class="text-xl text-slate-400 mb-8">お探しのページは存在しないか、移動した可能性があります。</p>
+                <a href="/"
+                    class="inline-block px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-indigo-500/50 transition active:scale-[0.99]">
+                    サイトTOPへ戻る
+                </a>
+            </div>
+            <div class="mt-12 bg-slate-800 p-6 rounded-2xl shadow-2xl border border-slate-700/50">
+                <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/yduFuBC4whg"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+        </div>
+    </main>
+    <footer class="p-4 sm:p-6 text-center text-slate-500 text-sm bg-slate-800 border-t border-slate-700/50">
+        &copy; 2025 Tiny-URL. All rights reserved.
+    </footer>
+</body>
 
 </html>

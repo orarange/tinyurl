@@ -1,168 +1,428 @@
 <!DOCTYPE html>
-<!-- Coding by CodingLab | www.codinglabweb.com -->
+<!DOCTYPE html>
+
+<html lang="ja"><!-- Coding by CodingLab | www.codinglabweb.com -->
+
 <html lang="jp">
 
 <head>
-    <title>URL短縮サービス｜管理用ページ</title>
-    <meta name="description" content="URLを短縮するサイトです。">
-    <meta name="theme-color" content="#6E3DD9">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!----======== CSS ======== -->
-    <link rel="stylesheet" href="/css/responsive.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <!----===== Boxicons CSS ===== -->
-    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-    <meta name=”robots” content=”noindex” />
-    <!--<title>Dashboard Sidebar Menu</title>-->
-</head>
+    <meta charset="UTF-8">
+
+    <head>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>URL短縮サービス｜管理用ページ</title>
+
+        <title>ダッシュボード | Tiny-URL</title>
+        <meta name="description" content="URLを短縮するサイトです。">
+
+        <meta name="description" content="URLを短縮するサイトです。">
+        <meta name="theme-color" content="#6E3DD9">
+
+        <meta name="theme-color" content="#6E3DD9">
+        <meta charset="UTF-8">
+
+        <meta name="robots" content="noindex" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <script src="https://cdn.tailwindcss.com"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+        <style>
+            <!----======== CSS ======== 
+            -->
+            body
+            {
+        <link rel="stylesheet" href="/css/responsive.css">
+
+        font-family: 'Inter', sans-serif;
+        <link rel="stylesheet" href="/css/style.css">
+
+        background-color: #0f172a; <!----===== Boxicons CSS ===== -->
+
+        color: #e2e8f0;
+        <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+
+        }
+        <meta name=”robots” content=”noindex” />
+
+        <!--<title>Dashboard Sidebar Menu</title>-->
+
+        .gradient-text {
+    </head>
+
+    background-image: linear-gradient(90deg, #6366f1, #a855f7);
+
+    -webkit-background-clip: text;
 
 <body>
-    <nav class="sidebar close">
-        <header>
-            <div class="image-text">
-                <span class="image">
-                    <!--<img src="logo.png" alt="">-->
-                </span>
 
+    -webkit-text-fill-color: transparent; <nav class="sidebar close">
+
+        background-clip: text; <header>
+
+            } <div class="image-text">
+
+                <span class="image">
+
+                    .transition-ease { <!--<img src="logo.png" alt="">-->
+
+                    transition: all 0.3s ease-in-out; </span>
+
+                }
+
+                </style>
                 <div class="text logo-text">
-                    <span class="name">URL短縮サービス</span>
+
+                    </head> <span class="name">URL短縮サービス</span>
+
                     <span class="profession">Tiny-url</span>
+
+                    <body class="min-h-screen flex flex-col antialiased">
+                </div>
+
+                <header class="p-4 sm:p-6 bg-slate-800/80 backdrop-blur-sm shadow-lg sticky top-0 z-10">
+            </div>
+
+            <div class="max-w-7xl mx-auto flex justify-between items-center">
+
+                <a href="/" class="text-3xl font-extrabold gradient-text tracking-tight">Tiny-URL</a> <i
+                    class='bx bx-chevron-right toggle'></i>
+
+                <nav class="flex space-x-6 items-center">
+        </header>
+
+        <a href="/" class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">ホーム</a>
+
+        <a href="/logout"
+            class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-lg shadow-md transition-ease">ログアウト</a>
+        <div class="menu-bar">
+
+    </nav>
+    <div class="menu">
+
+    </div>
+
+    </header>
+
+    <main class="flex-grow p-4 sm:p-8">
+        <ul class="menu-links">
+
+            <div class="max-w-7xl mx-auto">
+                <li class="nav-link">
+
+                    <div class="mb-8"> <a href="/">
+
+                            <h1 class="text-4xl sm:text-5xl font-extrabold gradient-text mb-2">ダッシュボード</h1> <i
+                                class='bx bx-home-alt icon'></i>
+
+                            <p class="text-slate-400">短縮URLの管理と統計を確認できます</p> <span class="text nav-text">free
+                                plan</span>
+
+                    </div> </a>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                </li>
+
+                <div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">
+
+                    <div class="flex items-center justify-between">
+                        <li class="nav-link">
+
+                            <div> <a href="#">
+
+                                    <p class="text-slate-400 text-sm font-medium">総URL数</p> <i
+                                        class='bx bx-bar-chart-alt-2 icon'></i>
+
+                                    <p class="text-3xl font-bold text-white mt-2">
+                                        <%= content.length %>
+                                    </p> <span class="text nav-text">premium user add</span>
+
+                            </div> </a>
+
+                            <div class="p-3 bg-indigo-600/20 rounded-xl">
+                        </li>
+
+                        <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1">
+                            </path>
+        </ul>
+
+        </svg> </div>
+
+        </div>
+
+        </div>
+        <div class="bottom-content">
+
+        </div>
+        <li class="">
+
+            <div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50"> <a href="#">
+
+                    <div class="flex items-center justify-between"> <i class='bx bx-log-out icon'></i>
+
+                        <div> <span class="text nav-text">Logout</span>
+
+                            <p class="text-slate-400 text-sm font-medium">プラン</p>
+                </a>
+
+                <p class="text-3xl font-bold text-white mt-2">フリー</p>
+        </li>
+
+        </div>
+
+        <div class="p-3 bg-green-600/20 rounded-xl">
+            <li class="mode">
+
+                <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="sun-moon">
+
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path> <i
+                            class='bx bx-moon icon moon'></i>
+
+                </svg> <i class='bx bx-sun icon sun'></i>
+
+        </div>
+        </div>
+
+        </div> <span class="mode-text text">Dark mode</span>
+
+        </div>
+
+        <div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">
+            <div class="toggle-switch">
+
+                <div class="flex items-center justify-between"> <span class="switch"></span>
+
+                    <div> </div>
+
+                    <p class="text-slate-400 text-sm font-medium">ステータス</p>
+                    </li>
+
+                    <p class="text-3xl font-bold text-white mt-2">アクティブ</p>
+
                 </div>
             </div>
 
-            <i class='bx bx-chevron-right toggle'></i>
-        </header>
+            <div class="p-3 bg-purple-600/20 rounded-xl"> </div>
 
-        <div class="menu-bar">
-            <div class="menu">
+            <svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z">
+                </path>
+                </nav>
 
-                <ul class="menu-links">
-                    <li class="nav-link">
-                        <a href="/">
-                            <i class='bx bx-home-alt icon'></i>
-                            <span class="text nav-text">free plan</span>
-                        </a>
-                    </li>
+            </svg>
 
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-bar-chart-alt-2 icon'></i>
-                            <span class="text nav-text">premium user add</span>
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
-
-            <div class="bottom-content">
-                <li class="">
-                    <a href="#">
-                        <i class='bx bx-log-out icon'></i>
-                        <span class="text nav-text">Logout</span>
-                    </a>
-                </li>
-
-                <li class="mode">
-                    <div class="sun-moon">
-                        <i class='bx bx-moon icon moon'></i>
-                        <i class='bx bx-sun icon sun'></i>
-                    </div>
-                    <span class="mode-text text">Dark mode</span>
-
-                    <div class="toggle-switch">
-                        <span class="switch"></span>
-                    </div>
-                </li>
-
-            </div>
         </div>
+        <section class="home">
 
-    </nav>
+            </div>
+            <div class="text">free plan</div>
 
-    <section class="home">
-        <div class="text">free plan</div>
-        <div class="urls">
+            </div>
+            <div class="urls">
+
+            </div>
             <table>
-                <% for(var i in content) { %>
-                    <tr>
-                        <% var obj=content[i]; %>
-                            <th class="admin">
-                                <%= Number(i)+1 %>:<%= obj.original %>
-                            </th>
+
+                <div class="bg-slate-800 p-6 sm:p-8 rounded-2xl shadow-xl border border-slate-700/50 mb-6">
+                    <% for(var i in content) { %>
+
+                        <h2 class="text-2xl font-bold text-white mb-6">短縮URL一覧</h2>
+                        <tr>
+
+                            <form method="POST" action="/admin/delete" id="deleteForm">
+                                <% var obj=content[i]; %>
+
+                                    <div class="overflow-x-auto mb-4">
+                                        <th class="admin">
+
+                                            <table class="w-full text-left">
+                                                <%= Number(i)+1 %>:<%= obj.original %>
+
+                                                        <thead>
+                                        </th>
+
+                        <tr class="border-b border-slate-700">
                             <td class="admin">
-                                <%= obj.tiny %>
-                            </td>
-                    </tr>
-                    <% } %>
-            </table>
-        </div>
-        <form method="POST" action="/admin/delete">
-            <% for(var n in content) { %>
-                <% let number=content[n]; %>
-                    <input type="checkbox" name="delnum" value="<%=content[n].tiny %>">
-                    <%= Number(n)+1 %></input>
+
+                            <th class="pb-3 text-slate-400 font-semibold text-sm">#</th>
+                            <%= obj.tiny %>
+
+                                <th class="pb-3 text-slate-400 font-semibold text-sm">オリジナルURL</th>
+                                </td>
+
+                                <th class="pb-3 text-slate-400 font-semibold text-sm">短縮URL</th>
+                        </tr>
+
+                        <th class="pb-3 text-slate-400 font-semibold text-sm">選択</th>
                         <% } %>
-                            <p><input type="submit" value="消去"></p>
-        </form>
-        <form method="POST" action="/admin/alldelete">
-            <p><input type="submit" value="全消去"></p>
-        </form>
-        <div id="premiumadd">
-            <form method="POST" action="/admin/premiumadd">
-                <p><input type="text" name="id"></p>
-                <p><input type="submit" value="追加"></p>
-                <p><input type="submit" name="demo" value="デモとして追加"></p>
+
+                            </tr>
+            </table>
+
+            </thead>
+            </div>
+
+            <tbody>
+                <form method="POST" action="/admin/delete">
+
+                    <% for(var i in content) { %>
+                        <% for(var n in content) { %>
+
+                            <% var obj=content[i]; %>
+                                <% let number=content[n]; %>
+
+                                    <tr class="border-b border-slate-700/50 hover:bg-slate-700/30 transition-ease">
+                                        <input type="checkbox" name="delnum" value="<%=content[n].tiny %>">
+
+                                        <td class="py-4 text-slate-300">
+                                            <%= Number(i)+1 %>
+                                        </td>
+                                        <%= Number(n)+1 %></input>
+
+                                            <td class="py-4 text-slate-300 max-w-md truncate">
+                                                <%= obj.original %>
+                                            </td>
+                                            <% } %>
+
+                                                <td class="py-4">
+                                                    <p><input type="submit" value="消去"></p>
+
+                                                    <a href="<%= obj.tiny %>" target="_blank"
+                                                        class="text-indigo-400 hover:text-indigo-300 transition-ease">
+                                                        <%= obj.tiny %>
+                                                    </a>
+                </form>
+
+                </td>
+                <form method="POST" action="/admin/alldelete">
+
+                    <td class="py-4">
+                        <p><input type="submit" value="全消去"></p>
+
+                        <input type="checkbox" name="delnum" value="<%= content[i].tiny %>"
+                            class="w-4 h-4 text-indigo-600 bg-slate-700 border-slate-600 rounded focus:ring-indigo-500">
+                </form>
+
+                </td>
+                <div id="premiumadd">
+
+                    </tr>
+                    <form method="POST" action="/admin/premiumadd">
+
+                        <% } %>
+                            <p><input type="text" name="id"></p>
+
+            </tbody>
+            <p><input type="submit" value="追加"></p>
+
+            </table>
+            <p><input type="submit" name="demo" value="デモとして追加"></p>
+
+            </div>
             </form>
+
+            <button type="submit"
+                class="px-6 py-3 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition-ease active:scale-[0.99]">選択したURLを削除</button>
+            </div>
+
+            </form>
+        </section>
+
         </div>
-    </section>
 
-    <script>
-        const body = document.querySelector('body'),
-            sidebar = body.querySelector('nav'),
-            toggle = body.querySelector(".toggle"),
-            modeSwitch = body.querySelector(".toggle-switch"),
-            modeText = body.querySelector(".mode-text");
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <script>
 
+				<div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">        const body = document.querySelector('body'),
 
-        toggle.addEventListener("click", () => {
-            sidebar.classList.toggle("close");
-        })
+					<h3 class="text-xl font-bold text-white mb-4">一括削除</h3>            sidebar = body.querySelector('nav'),
 
-        try {
-            const cookieValue = document.cookie
-                .split('; ')
-                .find(row => row.startsWith('mode'))
-                .split('=')[1];
-            if (cookieValue == 'dark') {
-                body.classList.toggle("dark");
-                modeText.innerText = "Dark mode";
-            } else {
-                modeText.innerText = "Light mode";
-                console.log(cookieValue)
-            }
-        } catch (error) {
-            document.cookie = 'mode=light; max-age=604800';
-        }
+					<form method="POST" action="/admin/alldelete">            toggle = body.querySelector(".toggle"),
 
-        modeSwitch.addEventListener("click", () => {
-            body.classList.toggle("dark");
+						<p class="text-slate-400 text-sm mb-4">すべての短縮URLを削除します（この操作は取り消せません）</p>            modeSwitch = body.querySelector(".toggle-switch"),
 
-            if (body.classList.contains("dark")) {
-                document.cookie = 'mode=light"; max-age=0';
-                modeText.innerText = "Light mode";
-                document.cookie = 'mode = dark';
-            } else {
-                document.cookie = 'mode = dark"; max-age=0';
-                document.cookie = 'mode=light';
-                modeText.innerText = "Dark mode";
+						<button type="submit" class="w-full py-3 bg-red-800 hover:bg-red-700 text-white font-semibold rounded-xl transition-ease active:scale-[0.99]" onclick="return confirm('本当にすべてのURLを削除しますか？')">すべて削除</button>            modeText = body.querySelector(".mode-text");
 
-            }
-        });
-    </script>
+					</form>
+
+				</div>
+
+				<div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">        toggle.addEventListener("click", () => {
+
+					<h3 class="text-xl font-bold text-white mb-4">プレミアムユーザー追加</h3>            sidebar.classList.toggle("close");
+
+					<form method="POST" action="/admin/premiumadd" class="space-y-4">        })
+
+						<div>
+
+							<label class="block text-slate-400 text-sm font-medium mb-2">ユーザーID</label>        try {
+
+							<input type="text" name="id" placeholder="ユーザーIDを入力" class="w-full p-3 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease">            const cookieValue = document.cookie
+
+						</div>                .split('; ')
+
+						<button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-ease active:scale-[0.99]">追加</button>                .find(row => row.startsWith('mode'))
+
+						<button type="submit" name="demo" value="true" class="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-semibold rounded-xl transition-ease active:scale-[0.99]">デモとして追加</button>                .split('=')[1];
+
+					</form>            if (cookieValue == 'dark') {
+
+				</div>                body.classList.toggle("dark");
+
+			</div > modeText.innerText = "Dark mode";
+
+		</div >            } else {
+
+	</main > modeText.innerText = "Light mode";
+
+                    <footer class="p-4 sm:p-6 text-center text-slate-500 text-sm bg-slate-800 border-t border-slate-700/50">                console.log(cookieValue)
+
+		&copy; 2025 Tiny-URL. All rights reserved.            }
+
+                    </footer>
+                } catch (error) {
+
+                    <script>            document.cookie = 'mode=light; max-age=604800';
+
+		const deleteForm = document.getElementById('deleteForm');        }
+
+		deleteForm.addEventListener('submit', (e) => {
+
+			const checkboxes = document.querySelectorAll('input[name="delnum"]:checked');        modeSwitch.addEventListener("click", () => {
+
+			if (checkboxes.length === 0) {body.classList.toggle("dark");
+
+                        e.preventDefault();
+
+                        alert('削除するURLを選択してください');            if (body.classList.contains("dark")) {
+
+                        }                document.cookie = 'mode=light"; max-age=0';
+
+		});                modeText.innerText = "Light mode";
+
+            </script> document.cookie = 'mode = dark';
+
+</body> } else {
+
+document.cookie = 'mode = dark"; max-age=0';
+
+</html> document.cookie = 'mode=light';
+
+modeText.innerText = "Dark mode";
+
+}
+});
+</script>
 
 </body>
 

@@ -1,250 +1,207 @@
 <!DOCTYPE html>
-<!-- Coding by CodingLab | www.codinglabweb.com -->
 <html lang="ja">
 
 <head>
-    <title>URL短縮サービス</title>
-    <meta name="description" content="URLを短縮するサイトです。">
-    <meta name="keywords" content="短縮,URL,URL短縮,短縮URL,tiny-url.cf">
-    <meta name="theme-color" content="#6E3DD9">
-    <link rel="shortcut icon" href="/images/favicon.ico">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4006009538073290"
-         crossorigin="anonymous"></script>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiny-URL | 最速のURL短縮サービス</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+        }
 
-    <!----======== CSS ======== -->
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/responsive.css">
-    <!----===== Boxicons CSS ===== -->
-    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
 
-    <!--<title>Dashboard Sidebar Menu</title>-->
+        .gradient-text {
+            background-image: linear-gradient(90deg, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .transition-ease {
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
 </head>
 
-<body>
-    <nav class="sidebar close">
-        <header>
-            <div class="image-text">
-                <span class="image">
-                    <a href="/"><img src="/images/favicon.ico" alt=""></a>
-                </span>
-
-                <div class="text logo-text">
-                    <span class="name">短縮URLサービス</span>
-                    <span class="profession">Tiny-URL</span>
-                </div>
-            </div>
-
-            <i class='bx bx-chevron-right toggle'></i>
-        </header>
-
-        <div class="menu-bar">
-            <div class="menu">
-
-                <ul class="menu-links">
-                    <li class="nav-link">
-                        <a href="/">
-                            <i class='bx bx-home-alt icon'></i>
-                            <span class="text nav-text">home</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="/api/reference">
-                            <i class='bx bx-bar-chart-alt-2 icon'></i>
-                            <span class="text nav-text">API</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-bell icon'></i>
-                            <span class="text nav-text">Notifications</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-pie-chart-alt icon'></i>
-                            <span class="text nav-text">Analytics</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-heart icon'></i>
-                            <span class="text nav-text">Likes</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="buy">
-                            <i class='bx bx-wallet icon'></i>
-                            <span class="text nav-text">Premium</span>
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
-
-            <div class="bottom-content">
-                <li class="">
-                    <% if (log !=='in' ) { %>
-                        <a href="/logout">
-                            <% } else { %>
-                                <a href="#" onclick="login()">
-                                    <% } %>
-                                        <i class='bx bx-log-<%= log %> icon'></i>
-                                        <span class="text nav-text">Log<%= log %></span>
-                                </a>
-                </li>
-
-                <li class="mode">
-                    <div class="sun-moon">
-                        <i class='bx bx-moon icon moon'></i>
-                        <i class='bx bx-sun icon sun'></i>
-                    </div>
-                    <span class="mode-text text">Dark mode</span>
-
-                    <div class="toggle-switch">
-                        <span class="switch"></span>
-                    </div>
-                </li>
-
-            </div>
-        </div>
-
-    </nav>
-
-    <section class="home">
-
-        <% if (!premiu){%>
-            <div class="text">あなたはフリープランです</div>
-            <% }else{ %>
-                <div class="text">あなたはプレミアムプランです</div>
-                <% } %>
-                    <% if (name) { %>
-                        <h2 class="text">こんにちは<%=name%>さん:)</h2>
+<body class="min-h-screen flex flex-col antialiased">
+    <header class="p-4 sm:p-6 bg-slate-800/80 backdrop-blur-sm shadow-lg sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="/" class="text-3xl font-extrabold gradient-text tracking-tight">Tiny-URL</a>
+            <nav class="hidden md:flex space-x-6 items-center">
+                <a href="/" class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">ホーム</a>
+                <a href="/api/reference"
+                    class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">APIリファレンス</a>
+                <% if (name) { %>
+                    <a href="/dashboard"
+                        class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">ダッシュボード</a>
+                    <a href="/logout"
+                        class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-lg shadow-md transition-ease">ログアウト</a>
+                    <% } else { %>
+                        <a href="/buy"
+                            class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">プレミアム</a>
+                        <a href="/login"
+                            class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-md transition-ease">ログイン</a>
                         <% } %>
-                            <form method="POST" action="/tiny_url">
-                                <p class="text">短縮したいURL:<input class="form" id="formstyle" type="text" name="original"
-                                        required></p>
-                                <% if ( premiu ){ %>
-                                    <p class="text">使いたいドメイン：
-                                        <select class="form" id="selectstyle" name="domain" id="domain">
-                                            <option class="form" value="<%= domain %>/t" selected>デフォルト</option>
-                                            <option value="hjbi.cf">hjbi.cf</option>
-                                            <option value="hjdi.ga">hjdi.ga</option>
-                                            <option value="hjdi.gq" <%=demo %>>hjdi.gq</option>
-                                            <option value="hjdi.tk" <%=demo %>>hjdi.tk</option>
-                                        </select>
-                                    </p>
-                                    <p class="text">カスタムURL:<input class="form" id="formstyle" type="text" name="custom"
-                                            value="<%= url %>"></p>
+            </nav>
+            <button id="menu-button" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-700 transition-ease">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
+                    </path>
+                </svg>
+            </button>
+        </div>
+    </header>
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-8">
+        <div class="max-w-xl w-full">
+            <section class="text-center mb-12">
+                <h1
+                    class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-none tracking-tight mb-4">
+                    <span class="gradient-text">短く、速く、強力に。</span>
+                </h1>
+                <p class="text-base sm:text-lg md:text-xl text-slate-400 mb-8 px-2 sm:px-4 leading-relaxed">
+                    複雑なURLを瞬時に短縮し、クリックを追跡。<br class="hidden sm:inline">
+                    あなたのリンク管理を次のレベルへ。
+                </p>
+                <% if (url==='error' || tiny==='error' ) { %>
+                    <div class="p-4 mb-6 rounded-xl text-left bg-red-900/50 text-red-300 border border-red-700">
+                        <p class="font-semibold">エラー: URLの短縮に失敗しました</p>
+                    </div>
+                    <% } %>
+                        <% if (tiny && tiny !=='' && tiny !=='error' && tiny !=='Registered' ) { %>
+                            <div
+                                class="p-4 mb-6 rounded-xl text-left bg-green-900/50 text-green-300 border border-green-700">
+                                <p class="font-semibold">お知らせ: URL短縮が完了しました</p>
+                            </div>
+                            <% } %>
+                                <form action="/tiny_url" method="POST" id="url-input-card"
+                                    class="bg-slate-800 p-6 sm:p-8 rounded-2xl shadow-2xl border border-slate-700/50">
+                                    <% if (name) { %>
+                                        <div
+                                            class="text-xs font-semibold uppercase tracking-wider text-green-400 bg-green-900/30 py-1 px-3 rounded-full inline-block mb-6">
+                                            <%= premiu ? 'プレミアムプラン' : 'フリープラン' %>をご利用中
+                                        </div>
+                                        <% } else { %>
+                                            <div
+                                                class="text-xs font-semibold uppercase tracking-wider text-blue-400 bg-blue-900/30 py-1 px-3 rounded-full inline-block mb-6">
+                                                ゲストユーザー
+                                            </div>
+                                            <% } %>
+                                                <div class="space-y-4">
+                                                    <input type="url" name="original" id="long-url"
+                                                        placeholder="短縮したいURLを入力してください (例: https://very-long-link.com/)"
+                                                        class="w-full p-4 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
+                                                        value="<%= url || '' %>" required>
+                                                    <% if (premiu) { %>
+                                                        <div class="relative flex items-center">
+                                                            <span
+                                                                class="absolute left-4 text-slate-400 font-mono text-sm">https://
+                                                                <%= domain %>/
+                                                            </span>
+                                                            <input type="text" name="custom" id="custom-path"
+                                                                placeholder="カスタムパス (オプション)"
+                                                                class="w-full pl-44 pr-4 py-4 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
+                                                                value="">
+                                                        </div>
+                                                        <% } %>
+                                                </div>
+                                                <button type="submit" id="shorten-button"
+                                                    class="w-full mt-6 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-indigo-500/50 transition-ease active:scale-[0.99]">短縮する</button>
+                                                <div class="mt-4 text-left">
+                                                    <label class="flex items-start cursor-pointer">
+                                                        <input type="checkbox" name="agree_terms" id="agree-terms"
+                                                            checked
+                                                            class="mt-1 w-4 h-4 text-indigo-600 bg-slate-700 border-slate-600 rounded focus:ring-indigo-500 transition-ease">
+                                                        <span class="ml-2 text-sm text-slate-400">「<a
+                                                                href="https://policy.t-ur.site/" target="_blank"
+                                                                class="text-indigo-400 hover:text-indigo-300 transition-ease underline">利用規約</a>」を読み、同意しました</span>
+                                                    </label>
+                                                </div>
+                                </form>
+                                <% if (tiny && tiny !=='' && tiny !=='error' && tiny !=='Registered' ) { %>
+                                    <div id="result-card"
+                                        class="bg-slate-800 p-6 sm:p-8 rounded-2xl shadow-2xl border border-slate-700/50 mt-6">
+                                        <h3 class="text-2xl font-semibold text-green-400 mb-4">短縮完了！</h3>
+                                        <div
+                                            class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                                            <input type="text" id="short-url-output" readonly value="<%= tiny %>"
+                                                class="flex-grow p-3 bg-slate-700 border border-slate-600 text-slate-200 rounded-lg text-center sm:text-left font-mono">
+                                            <button id="copy-button"
+                                                class="flex-shrink-0 px-6 py-3 bg-green-600 hover:bg-green-500 text-white font-semibold rounded-lg shadow-md transition-ease active:scale-[0.99] flex items-center space-x-2">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5h6m-6 0v4m6-4v4m-6 0h6m-6 0h.01M18 10h.01M18 14h.01M18 18h.01">
+                                                    </path>
+                                                </svg>
+                                                <span id="copy-text">コピー</span>
+                                            </button>
+                                        </div>
+                                    </div>
                                     <% } %>
-                                        <p class="policyp text"><input type="checkbox">「<a
-                                                href="https://policy.t-ur.site/">利用規約</a>」これを読み同意しました</p>
-                                        <p><input class="form subm" id="buttonstyle" type="submit" value="URL作成"
-                                                disabled></p>
-                            </form>
-                            <% if (tiny){%>
-                                <% if ( tiny==='Registered' ){%>
-                                    <h4 class="text">申し訳ございません。指定されたURLはすでに登録されています。</h4>
-                                    <% }else{ %>
-                                        <input type="text" id="copyTarget_tiny" value=<%=tiny %> readonly>
-                                        <br>
-                                        <button onclick="copy()" id="buttonstyle" class="form">Copy TinyURL</button>
-                                        <% }} %>
-    </section>
-
+            </section>
+        </div>
+    </main>
+    <footer class="p-4 sm:p-6 text-center text-slate-500 text-sm bg-slate-800 border-t border-slate-700/50">
+        &copy; 2025 Tiny-URL. All rights reserved. | <a href="#"
+            class="hover:text-indigo-400 transition-ease">プライバシーポリシー</a> | <a href="#"
+            class="hover:text-indigo-400 transition-ease">お問い合わせ</a>
+    </footer>
     <script>
-        const body = document.querySelector('body'),
-            sidebar = body.querySelector('nav'),
-            toggle = body.querySelector(".toggle"),
-            modeSwitch = body.querySelector(".toggle-switch"),
-            modeText = body.querySelector(".mode-text");
+        document.addEventListener('DOMContentLoaded', () => {
+            const shortUrlOutput = document.getElementById('short-url-output');
+            const copyButton = document.getElementById('copy-button');
+            const copyText = document.getElementById('copy-text');
+            const agreeTermsCheckbox = document.getElementById('agree-terms');
+            const shortenButton = document.getElementById('shorten-button');
 
-        function login() {
+            function copyToClipboard(text) {
+                const tempInput = document.createElement('textarea');
+                tempInput.value = text;
+                document.body.appendChild(tempInput);
+                tempInput.select();
 
-            document.location = "https://discord.com/api/oauth2/authorize?client_id=952497517487071292&redirect_uri=https://<%= domain %>/login&response_type=code&scope=identify";
-        }
+                try {
+                    document.execCommand('copy');
+                    copyText.textContent = 'コピーしました！';
+                    copyButton.classList.add('bg-indigo-600');
+                    copyButton.classList.remove('bg-green-600');
 
-        function policy() {
-            const element = document.querySelector('.subm');
-            element.removeAttribute('disabled');
-        }
+                    setTimeout(() => {
+                        copyText.textContent = 'コピー';
+                        copyButton.classList.remove('bg-indigo-600');
+                        copyButton.classList.add('bg-green-600');
+                    }, 2500);
+                } catch (err) {
+                    console.error('クリップボードへのコピーに失敗しました', err);
+                }
 
-        function copy() {
-            // コピー対象をJavaScript上で変数として定義する
-            var copyTarget = document.getElementById("copyTarget_tiny");
-
-            // コピー対象のテキストを選択する
-            copyTarget.select();
-
-            // 選択しているテキストをクリップボードにコピーする
-            document.execCommand("Copy");
-
-        }
-
-        toggle.addEventListener("click", () => {
-            sidebar.classList.toggle("close");
-        })
-
-
-        try {
-            const cookieValue = document.cookie
-                .split('; ')
-                .find(row => row.startsWith('mode'))
-                .split('=')[1];
-            if (cookieValue == 'dark') {
-                body.classList.toggle("dark");
-                modeText.innerText = "Dark mode";
-            } else {
-                modeText.innerText = "Light mode";
-                console.log(cookieValue)
+                document.body.removeChild(tempInput);
             }
-        } catch (error) {
-            document.cookie = 'mode=light; max-age=604800';
-        }
 
-
-
-
-        modeSwitch.addEventListener("click", () => {
-            body.classList.toggle("dark");
-
-            if (body.classList.contains("dark")) {
-                document.cookie = 'mode=light"; max-age=0';
-                modeText.innerText = "Light mode";
-                document.cookie = 'mode = dark; max-age=604800';
-            } else {
-                document.cookie = 'mode = dark"; max-age=0';
-                modeText.innerText = "Dark mode";
-                document.cookie = 'mode=light; max-age=604800';
-
+            if (shortUrlOutput && copyButton) {
+                copyButton.addEventListener('click', () => {
+                    copyToClipboard(shortUrlOutput.value);
+                });
             }
-        });
-        $(function () {
-            $(".policyp").show();
-            if ($.cookie('policy') == 'on') {
-                $(".policyp").hide()
-                policy()
-            } else {
-                $(".policyp").show();
-            }
-            $(".policyp").click(function () {
 
-                $.cookie('policy', 'on', { expires: 30, path: '/' }); //cookieの保存
-                policy();
-            });
+            if (agreeTermsCheckbox && shortenButton) {
+                agreeTermsCheckbox.addEventListener('change', () => {
+                    shortenButton.disabled = !agreeTermsCheckbox.checked;
+                });
+                shortenButton.disabled = !agreeTermsCheckbox.checked;
+            }
         });
     </script>
-
 </body>
 
 </html>
