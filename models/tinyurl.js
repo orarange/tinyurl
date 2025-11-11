@@ -1,9 +1,9 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var tinyurlSchema = new Schema({
-    original: String,
-    tiny: String,
+const tinyurlSchema = new Schema({
+	original: String,
+	tiny: String,
 });
 
 module.exports = mongoose.model('tinyurl', tinyurlSchema);
