@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
@@ -7,8 +6,6 @@ const preuser = require('../models/preuser');
 const premium = require('../models/premium');
 const admin = require('../models/admin');
 const users = require('../models/users');
-const refresh = require('../functions/refresh');
-const userdat = require('../functions/userdata');
 
 main().catch(err => console.log(err));
 
@@ -21,23 +18,9 @@ async function authenticateAdmin(req) {
 	let currentUser = null;
 	let username = '';
 	let userId = '';
-	let refreshToken = null;
 
-	// Discord認証またはメール認証をチェック
-	if (req.cookies.refresh_token && req.cookies.refresh_token !== 'undefined') {
-		// Discord認証の場合
-		try {
-			const { token_type, access_token, refresh_token } = await refresh(req.cookies.refresh_token);
-			const discordUser = await userdat(token_type, access_token);
-			// Discord IDでDBユーザーを検索
-			currentUser = await users.findOne({ id: discordUser.id });
-			username = discordUser.username;
-			userId = discordUser.id;
-			refreshToken = refresh_token;
-		} catch (error) {
-			console.log('Discord auth failed:', error.message);
-		}
-	} else if (req.cookies.user_session) {
+	// メール認証をチェック
+	if (req.cookies.user_session) {
 		// メール認証の場合
 		try {
 			const sessionData = JSON.parse(req.cookies.user_session);
@@ -70,8 +53,7 @@ async function authenticateAdmin(req) {
 		success: true,
 		user: currentUser,
 		username: username,
-		userId: userId,
-		refreshToken: refreshToken
+		userId: userId
 	};
 }
 
@@ -153,17 +135,10 @@ router.post('/alldelete', async function (req, res) {
 			return res.status(authResult.error === '認証が必要です' ? 401 : 403).send(authResult.error);
 		}
 
-		const { user: currentUser, username, refreshToken } = authResult;
+		const { user: currentUser, username } = authResult;
 		console.log(`Admin mass delete by: ${username} (uniqueID: ${currentUser.uniqueId})`);
 		const result = await tinyurl.deleteMany({});
 		console.log(`Deleted ${result.deletedCount} URLs`);
-
-		// Discord認証の場合のみrefresh_tokenを更新
-		if (refreshToken) {
-			res.cookie('refresh_token', refreshToken, {
-				httpOnly: true
-			});
-		}
 
 		res.status(301).redirect('/admin');
 
@@ -181,7 +156,7 @@ router.post('/delete', async function (req, res) {
 			return res.status(authResult.error === '認証が必要です' ? 401 : 403).send(authResult.error);
 		}
 
-		const { user: currentUser, username, refreshToken } = authResult;
+		const { user: currentUser, username } = authResult;
 
 		let str = req.body.delnum;
 		const str2 = Array.isArray(str);
@@ -202,13 +177,6 @@ router.post('/delete', async function (req, res) {
 			console.log(`Admin ${username} (uniqueID: ${currentUser.uniqueId}) deleted URL: ${str}`);
 		}
 
-		// Discord認証の場合のみrefresh_tokenを更新
-		if (refreshToken) {
-			res.cookie('refresh_token', refreshToken, {
-				httpOnly: true
-			});
-		}
-
 		res.status(301).redirect('/admin');
 
 	} catch (error) {
@@ -225,25 +193,33 @@ router.post('/premiumadd', async (req, res) => {
 			return res.status(authResult.error === '認証が必要です' ? 401 : 403).send(authResult.error);
 		}
 
-		const { user: currentUser, username, refreshToken } = authResult;
+		const { user: currentUser, username } = authResult;
 
 		const { id, demo } = req.body;
 		console.log(`Admin ${username} (uniqueID: ${currentUser.uniqueId}) adding premium for user:`, req.body);
 		
 		if (id) {
+			// 入力されたuniqueIdでユーザーを検索
+			const targetUser = await users.findOne({ uniqueId: id });
+			if (!targetUser) {
+				console.log(`User with uniqueId ${id} not found`);
+				return res.status(400).send('指定されたuniqueIdのユーザーが見つかりません。');
+			}
+
+			// 既存のプレミアムステータスをチェック
+			const existingPremium = await preuser.findOne({ id: id });
+			if (existingPremium) {
+				console.log(`User ${id} is already premium`);
+				return res.status(400).send('このユーザーは既にプレミアムユーザーです。');
+			}
+
+			// プレミアムユーザーとして追加（uniqueIdを使用）
 			const _preuser = new preuser({
-				id: id,
+				id: id, // uniqueIdを使用
 				demo: demo === 'true' || demo === true
 			});
 			await _preuser.save();
-			console.log(`Premium status added for user ${id}, demo: ${demo}`);
-		}
-
-		// Discord認証の場合のみrefresh_tokenを更新
-		if (refreshToken) {
-			res.cookie('refresh_token', refreshToken, {
-				httpOnly: true
-			});
+			console.log(`Premium status added for user uniqueId: ${id}, demo: ${demo}`);
 		}
 
 		res.status(301).redirect('/admin');
@@ -263,7 +239,7 @@ router.post('/delete-user', async (req, res) => {
 			return res.status(authResult.error === '認証が必要です' ? 401 : 403).json({ error: authResult.error });
 		}
 
-		const { user: currentUser, username, refreshToken } = authResult;
+		const { user: currentUser, username } = authResult;
 
 		const { userId } = req.body;
 		
@@ -271,38 +247,27 @@ router.post('/delete-user', async (req, res) => {
 			return res.status(400).json({ error: 'ユーザーIDが必要です' });
 		}
 
-		// ユーザーを取得してDiscord IDを確認
+		// ユーザーを取得
 		const user = await users.findById(userId);
 		if (!user) {
 			return res.status(404).json({ error: 'ユーザーが見つかりません' });
 		}
 
-		// ユーザーのURLを削除（Discord IDまたはuniqueIdで検索）
-		if (user.id) {
-			await tinyurl.deleteMany({ userid: user.id });
-			await premium.deleteMany({ userid: user.id });
-		}
+		// ユーザーのURLを削除（uniqueIdで検索）
 		if (user.uniqueId) {
 			await tinyurl.deleteMany({ userid: user.uniqueId });
 			await premium.deleteMany({ userid: user.uniqueId });
 		}
 
 		// プレミアムユーザー情報を削除
-		if (user.id) {
-			await preuser.deleteMany({ id: user.id });
+		if (user.uniqueId) {
+			await preuser.deleteMany({ id: user.uniqueId });
 		}
 
 		// ユーザーを削除
 		await users.findByIdAndDelete(userId);
 
-		console.log(`Admin ${username} (uniqueID: ${currentUser.uniqueId}) deleted user: ${user.username || user.email || user.id}`);
-		
-		// Discord認証の場合のみrefresh_tokenを更新
-		if (refreshToken) {
-			res.cookie('refresh_token', refreshToken, {
-				httpOnly: true
-			});
-		}
+		console.log(`Admin ${username} (uniqueID: ${currentUser.uniqueId}) deleted user: ${user.username || user.email || user.uniqueId}`);
 
 		res.json({ success: true, message: 'ユーザーが削除されました' });
 

@@ -4,8 +4,7 @@ const mongoose = require('mongoose');
 const tinyurl = require('../models/tinyurl');
 const premium = require('../models/premium');
 const preuser = require('../models/preuser');
-const refresh = require('../functions/refresh');
-const userdat = require('../functions/userdata');
+const users = require('../models/users');
 
 // MongoDB接続の初期化
 main().catch(err => console.log(err));
@@ -18,17 +17,20 @@ async function main() {
 
 // ユーザー認証情報を取得する共通関数
 async function getUserAuth(req, res) {
-	const { domain } = process.env;
-	
 	// メール/パスワードログインのセッションチェック
 	if (req.cookies.user_session) {
 		try {
 			const userSession = JSON.parse(req.cookies.user_session);
-			return {
-				username: userSession.username,
-				id: userSession.id,
-				authType: 'email'
-			};
+			// DBからユーザー情報を取得してuniqueIdを含める
+			const user = await users.findById(userSession.id);
+			if (user) {
+				return {
+					username: userSession.username,
+					id: userSession.id,
+					uniqueId: user.uniqueId,
+					authType: 'email'
+				};
+			}
 		} catch (err) {
 			console.error('Session parse error:', err);
 			// 無効なセッションをクリア
@@ -36,40 +38,15 @@ async function getUserAuth(req, res) {
 		}
 	}
 
-	// Discord OAuthログインのチェック
-	if (req.cookies.refresh_token && req.cookies.refresh_token !== 'undefined') {
-		try {
-			const { token_type, access_token, refresh_token } = await refresh(req.cookies.refresh_token);
-			const { username, id } = await userdat(token_type, access_token);
-
-			// リフレッシュトークンを更新
-			res.cookie('refresh_token', refresh_token, {
-				httpOnly: true,
-				maxAge: 7 * 24 * 60 * 60 * 1000 // 7日間
-			});
-
-			return {
-				username,
-				id,
-				authType: 'discord',
-				refresh_token
-			};
-		} catch (err) {
-			console.error('Discord auth refresh error:', err);
-			// 無効なトークンをクリア
-			res.clearCookie('refresh_token');
-		}
-	}
-
 	return null;
 }
 
 // プレミアムユーザー情報を取得する共通関数
-async function getPremiumStatus(userId) {
-	if (!userId) return { isPremium: false, demo: false };
+async function getPremiumStatus(uniqueId) {
+	if (!uniqueId) return { isPremium: false, demo: false };
 	
 	try {
-		const premiumUser = await preuser.findOne({ id: userId });
+		const premiumUser = await preuser.findOne({ id: uniqueId });
 		return {
 			isPremium: !!premiumUser,
 			demo: premiumUser?.demo || false
@@ -100,8 +77,8 @@ router.get('/', async (req, res) => {
 		// ユーザー認証情報を取得
 		const userAuth = await getUserAuth(req, res);
 		
-		// プレミアムステータスを取得
-		const premiumStatus = await getPremiumStatus(userAuth?.id);
+		// プレミアムステータスを取得（uniqueIdを使用）
+		const premiumStatus = await getPremiumStatus(userAuth?.uniqueId);
 		
 		// レンダリングデータを生成
 		const renderData = getRenderData(userAuth, premiumStatus);
@@ -123,7 +100,7 @@ router.post('/tiny_url', async (req, res) => {
 		// URL形式の検証
 		if (!original || !original.match(/^https?:\/\/.+/)) {
 			const userAuth = await getUserAuth(req, res);
-			const premiumStatus = await getPremiumStatus(userAuth?.id);
+			const premiumStatus = await getPremiumStatus(userAuth?.uniqueId);
 			const renderData = getRenderData(userAuth, premiumStatus, {
 				url: original || '',
 				tiny: 'Invalid URL format'
@@ -134,8 +111,8 @@ router.post('/tiny_url', async (req, res) => {
 		// ユーザー認証情報を取得
 		const userAuth = await getUserAuth(req, res);
 		
-		// プレミアムステータスを取得
-		const premiumStatus = await getPremiumStatus(userAuth?.id);
+		// プレミアムステータスを取得（uniqueIdを使用）
+		const premiumStatus = await getPremiumStatus(userAuth?.uniqueId);
 		
 		// 短縮URLの生成
 		const tinyCode = Math.random().toString(32).substring(2);
@@ -168,7 +145,7 @@ router.post('/tiny_url', async (req, res) => {
 			const premiumUrl = new premium({
 				original: original,
 				tiny: finalTinyCode,
-				userid: userAuth.id,
+				userid: userAuth.uniqueId,
 				username: userAuth.username,
 				createdAt: new Date()
 			});
@@ -176,7 +153,7 @@ router.post('/tiny_url', async (req, res) => {
 			await premiumUrl.save();
 			
 			const renderData = getRenderData(userAuth, premiumStatus, {
-				tiny: `https://${domain || baseUrl}/${finalTinyCode}`
+				tiny: `https://${domain || baseUrl}/t/${finalTinyCode}`
 			});
 			
 			console.log('プレミアム短縮URL作成完了:', finalTinyCode);
@@ -185,7 +162,7 @@ router.post('/tiny_url', async (req, res) => {
 		} else {
 			// フリーユーザーの処理
 			const freeUrl = new tinyurl({
-				userid: userAuth?.id || 'anonymous',
+				userid: userAuth?.uniqueId || 'anonymous',
 				username: userAuth?.username || 'Anonymous',
 				original: original,
 				tiny: tinyCode,
@@ -208,7 +185,7 @@ router.post('/tiny_url', async (req, res) => {
 		// エラー時の処理
 		try {
 			const userAuth = await getUserAuth(req, res);
-			const premiumStatus = await getPremiumStatus(userAuth?.id);
+			const premiumStatus = await getPremiumStatus(userAuth?.uniqueId);
 			const renderData = getRenderData(userAuth, premiumStatus, {
 				url: req.body.original || '',
 				tiny: 'Error occurred'

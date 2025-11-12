@@ -284,7 +284,6 @@
                                 <th class="text-left p-3 text-slate-300 font-semibold">ユニークID</th>
                                 <th class="text-left p-3 text-slate-300 font-semibold">ユーザー名</th>
                                 <th class="text-left p-3 text-slate-300 font-semibold">メールアドレス</th>
-                                <th class="text-left p-3 text-slate-300 font-semibold">Discord ID</th>
                                 <th class="text-left p-3 text-slate-300 font-semibold">作成日時</th>
                                 <th class="text-left p-3 text-slate-300 font-semibold">操作</th>
                             </tr>
@@ -302,9 +301,6 @@
                                         </td>
                                         <td class="p-3 text-slate-300">
                                             <%= user.email || 'N/A' %>
-                                        </td>
-                                        <td class="p-3 text-slate-300 font-mono text-sm">
-                                            <%= user.id || 'N/A' %>
                                         </td>
                                         <td class="p-3 text-slate-400 text-sm">
                                             <%= user.createdAt ? new Date(user.createdAt).toLocaleString('ja-JP')
@@ -328,7 +324,7 @@
                                     <% }); %>
                                         <% } else { %>
                                             <tr>
-                                                <td colspan="6" class="p-8 text-center text-slate-400">
+                                                <td colspan="5" class="p-8 text-center text-slate-400">
                                                     ユーザーが見つかりませんでした。
                                                 </td>
                                             </tr>
@@ -490,7 +486,7 @@
                     <form method="POST" action="/admin/premiumadd" class="space-y-4">
                         <div>
                             <label class="block text-slate-400 text-sm font-medium mb-2">ユーザーID</label>
-                            <input type="text" name="id" placeholder="DiscordユーザーIDを入力"
+                            <input type="text" name="id" placeholder="ユーザーのuniqueIDを入力"
                                 class="w-full p-3 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
                                 required>
                         </div>
@@ -663,12 +659,10 @@
                 const uniqueId = cells[0].textContent.toLowerCase();
                 const username = cells[1].textContent.toLowerCase();
                 const email = cells[2].textContent.toLowerCase();
-                const discordId = cells[3].textContent.toLowerCase();
 
                 if (uniqueId.includes(searchTerm) ||
                     username.includes(searchTerm) ||
-                    email.includes(searchTerm) ||
-                    discordId.includes(searchTerm)) {
+                    email.includes(searchTerm)) {
                     row.style.display = '';
                 } else {
                     row.style.display = 'none';
@@ -678,7 +672,7 @@
 
         // ユーザー情報エクスポート機能
         function exportUsers() {
-            let csv = 'ユニークID,ユーザー名,メールアドレス,Discord ID,作成日時\n';
+            let csv = 'ユニークID,ユーザー名,メールアドレス,作成日時\n';
 
             const rows = document.querySelectorAll('#userTable tbody .user-row');
             rows.forEach(row => {
@@ -688,8 +682,7 @@
                         `"${cells[0].textContent.trim()}"`,
                         `"${cells[1].textContent.trim()}"`,
                         `"${cells[2].textContent.trim()}"`,
-                        `"${cells[3].textContent.trim()}"`,
-                        `"${cells[4].textContent.trim()}"`
+                        `"${cells[3].textContent.trim()}"`
                     ];
                     csv += data.join(',') + '\n';
                 }

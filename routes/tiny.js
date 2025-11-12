@@ -11,21 +11,32 @@ async function main() {
 	await mongoose.connect(process.env.mongo_url);
 }
 
-router.get('/:id', function (req, res) {
-	tinyurl.findOne({ tiny: req.params.id }).then(d => {
-		if (!d) {
-			premium.findOne({ tiny: req.params.id }).then(d => {
-				if (!d) {
-					res.status(404);
-					res.render('404');
-				} else {
-					res.redirect(d.original);
-				}
-			});
-		} else {
-			res.redirect(d.original);
+// プレミアムリンク用（/p/プレフィックス付き）
+router.get('/:id', async function (req, res) {
+	try {
+		const shortId = req.params.id;
+		
+		// まずプレミアムテーブルから検索（カスタムリンク優先）
+		const premiumUrl = await premium.findOne({ tiny: shortId });
+		if (premiumUrl) {
+			return res.redirect(premiumUrl.original);
 		}
-	});
+		
+		// プレミアムで見つからない場合、フリーテーブルから検索
+		const freeUrl = await tinyurl.findOne({ tiny: shortId });
+		if (freeUrl) {
+			return res.redirect(freeUrl.original);
+		}
+		
+		// どちらでも見つからない場合は404
+		res.status(404);
+		res.render('404');
+		
+	} catch (error) {
+		console.error('URL redirect error:', error);
+		res.status(500);
+		res.render('404');
+	}
 });
 
 module.exports = router;
