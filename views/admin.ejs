@@ -60,9 +60,313 @@
             <div class="mb-8">
                 <h1 class="text-4xl sm:text-5xl font-extrabold gradient-text mb-2">管理者パネル</h1>
                 <p class="text-slate-400">システム全体の管理と設定</p>
+                <div class="mt-4 text-slate-300">
+                    ログイン中：<span class="text-yellow-400 font-semibold">管理者</span>
+                </div>
             </div>
-            <div class="bg-slate-800 p-6 sm:p-8 rounded-2xl shadow-xl border border-slate-700/50 mb-6">
-                <h2 class="text-2xl font-bold text-white mb-6">全URL一覧</h2>
+
+            <!-- 統計ダッシュボード -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-slate-400 text-sm font-medium mb-1">総URL数</p>
+                            <p class="text-3xl font-bold text-white">
+                                <%= totalUrls ? totalUrls : 0 %>
+                            </p>
+                        </div>
+                        <div class="p-3 bg-blue-600/20 rounded-xl">
+                            <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-slate-400 text-sm font-medium mb-1">今日作成されたURL</p>
+                            <p class="text-3xl font-bold text-white">
+                                <%= todayUrls ? todayUrls : 0 %>
+                            </p>
+                        </div>
+                        <div class="p-3 bg-green-600/20 rounded-xl">
+                            <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-slate-400 text-sm font-medium mb-1">プレミアムユーザー</p>
+                            <p class="text-3xl font-bold text-white">
+                                <%= premiumUsers ? premiumUsers : 0 %>
+                            </p>
+                        </div>
+                        <div class="p-3 bg-yellow-600/20 rounded-xl">
+                            <svg class="w-8 h-8 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-slate-400 text-sm font-medium mb-1">総ユーザー数</p>
+                            <p class="text-3xl font-bold text-white">
+                                <%= totalUsers ? totalUsers : 0 %>
+                            </p>
+                        </div>
+                        <div class="p-3 bg-purple-600/20 rounded-xl">
+                            <svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 管理メニュー -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">
+                    <div class="flex items-center mb-4">
+                        <div class="p-3 bg-indigo-600/20 rounded-xl mr-4">
+                            <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 016-6l4.007 0M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">ユーザー管理</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm mb-4">登録ユーザーの管理と権限設定</p>
+                    <button
+                        class="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg transition-ease">
+                        ユーザー一覧
+                    </button>
+                </div>
+
+                <div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">
+                    <div class="flex items-center mb-4">
+                        <div class="p-3 bg-purple-600/20 rounded-xl mr-4">
+                            <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">URL管理</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm mb-4">全短縮URLの管理と削除</p>
+                    <button
+                        class="w-full py-2 px-4 bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-ease"
+                        onclick="scrollToSection('url-management')">
+                        URL一覧を表示
+                    </button>
+                </div>
+
+                <div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">
+                    <div class="flex items-center mb-4">
+                        <div class="p-3 bg-yellow-600/20 rounded-xl mr-4">
+                            <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">統計情報</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm mb-4">アクセス統計とレポート</p>
+                    <button
+                        class="w-full py-2 px-4 bg-yellow-600 hover:bg-yellow-500 text-white rounded-lg transition-ease">
+                        統計を表示
+                    </button>
+                </div>
+
+                <div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">
+                    <div class="flex items-center mb-4">
+                        <div class="p-3 bg-red-600/20 rounded-xl mr-4">
+                            <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">データ管理</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm mb-4">データベースの管理とクリーンアップ</p>
+                    <button class="w-full py-2 px-4 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-ease">
+                        データ管理
+                    </button>
+                </div>
+
+                <div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">
+                    <div class="flex items-center mb-4">
+                        <div class="p-3 bg-cyan-600/20 rounded-xl mr-4">
+                            <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">システム設定</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm mb-4">アプリケーション設定の管理</p>
+                    <button
+                        class="w-full py-2 px-4 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg transition-ease">
+                        設定変更
+                    </button>
+                </div>
+
+                <div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">
+                    <div class="flex items-center mb-4">
+                        <div class="p-3 bg-orange-600/20 rounded-xl mr-4">
+                            <svg class="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">ログ管理</h3>
+                    </div>
+                    <p class="text-slate-400 text-sm mb-4">システムログとエラーログの確認</p>
+                    <button
+                        class="w-full py-2 px-4 bg-orange-600 hover:bg-orange-500 text-white rounded-lg transition-ease">
+                        ログを表示
+                    </button>
+                </div>
+            </div>
+
+            <!-- ユーザー管理セクション -->
+            <div id="user-management"
+                class="bg-slate-800 p-6 sm:p-8 rounded-2xl shadow-xl border border-slate-700/50 mb-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-white">ユーザー一覧</h2>
+                    <div class="flex gap-4">
+                        <button
+                            class="px-4 py-2 bg-green-600 hover:bg-green-500 text-white text-sm font-semibold rounded-lg transition-ease"
+                            onclick="exportUsers()">
+                            <svg class="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                </path>
+                            </svg>
+                            ユーザー情報エクスポート
+                        </button>
+                        <input type="text" id="userSearchInput" placeholder="ユーザー名、メール、IDで検索..."
+                            class="px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+                            onkeyup="searchUsers()">
+                    </div>
+                </div>
+
+                <!-- ユーザーテーブル -->
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse" id="userTable">
+                        <thead>
+                            <tr class="border-b border-slate-700">
+                                <th class="text-left p-3 text-slate-300 font-semibold">ユニークID</th>
+                                <th class="text-left p-3 text-slate-300 font-semibold">ユーザー名</th>
+                                <th class="text-left p-3 text-slate-300 font-semibold">メールアドレス</th>
+                                <th class="text-left p-3 text-slate-300 font-semibold">Discord ID</th>
+                                <th class="text-left p-3 text-slate-300 font-semibold">作成日時</th>
+                                <th class="text-left p-3 text-slate-300 font-semibold">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (users && users.length> 0) { %>
+                                <% users.forEach(function(user) { %>
+                                    <tr
+                                        class="border-b border-slate-700/50 hover:bg-slate-700/30 transition-ease user-row">
+                                        <td class="p-3 text-slate-300 font-mono text-sm">
+                                            <%= user.uniqueId || 'N/A' %>
+                                        </td>
+                                        <td class="p-3 text-white">
+                                            <%= user.username || 'N/A' %>
+                                        </td>
+                                        <td class="p-3 text-slate-300">
+                                            <%= user.email || 'N/A' %>
+                                        </td>
+                                        <td class="p-3 text-slate-300 font-mono text-sm">
+                                            <%= user.id || 'N/A' %>
+                                        </td>
+                                        <td class="p-3 text-slate-400 text-sm">
+                                            <%= user.createdAt ? new Date(user.createdAt).toLocaleString('ja-JP')
+                                                : 'N/A' %>
+                                        </td>
+                                        <td class="p-3">
+                                            <div class="flex gap-2">
+                                                <button
+                                                    class="px-3 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded transition-ease"
+                                                    onclick="viewUserDetails('<%= user._id %>')">
+                                                    詳細
+                                                </button>
+                                                <button
+                                                    class="px-3 py-1 bg-red-600 hover:bg-red-500 text-white text-xs rounded transition-ease"
+                                                    onclick="confirmDeleteUser('<%= user._id %>', '<%= user.username || user.email %>')">
+                                                    削除
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="6" class="p-8 text-center text-slate-400">
+                                                    ユーザーが見つかりませんでした。
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- URL管理セクション -->
+            <div id="url-management"
+                class="bg-slate-800 p-6 sm:p-8 rounded-2xl shadow-xl border border-slate-700/50 mb-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-white">全URL一覧</h2>
+                    <div class="flex gap-4">
+                        <button
+                            class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold rounded-lg transition-ease"
+                            onclick="exportData()">
+                            <svg class="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                </path>
+                            </svg>
+                            エクスポート
+                        </button>
+                        <div class="relative">
+                            <input type="text" id="searchInput" placeholder="URL検索..."
+                                class="px-4 py-2 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                onkeyup="searchUrls()">
+                            <svg class="w-4 h-4 absolute right-3 top-3 text-slate-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
                 <form method="POST" action="/admin/delete" id="deleteForm">
                     <div class="overflow-x-auto mb-4">
                         <table class="w-full text-left">
@@ -71,6 +375,9 @@
                                     <th class="pb-3 text-slate-400 font-semibold text-sm">#</th>
                                     <th class="pb-3 text-slate-400 font-semibold text-sm">オリジナルURL</th>
                                     <th class="pb-3 text-slate-400 font-semibold text-sm">短縮URL</th>
+                                    <th class="pb-3 text-slate-400 font-semibold text-sm">作成者</th>
+                                    <th class="pb-3 text-slate-400 font-semibold text-sm">作成日</th>
+                                    <th class="pb-3 text-slate-400 font-semibold text-sm">アクション</th>
                                     <th class="pb-3 text-slate-400 font-semibold text-sm">選択</th>
                                 </tr>
                             </thead>
@@ -81,26 +388,91 @@
                                             <td class="py-4 text-slate-300">
                                                 <%= Number(i)+1 %>
                                             </td>
-                                            <td class="py-4 text-slate-300 max-w-md truncate">
+                                            <td class="py-4 text-slate-300 max-w-md truncate"
+                                                title="<%= obj.original %>">
                                                 <%= obj.original %>
                                             </td>
                                             <td class="py-4">
-                                                <a href="<%= obj.tiny %>" target="_blank"
-                                                    class="text-indigo-400 hover:text-indigo-300 transition-ease">
-                                                    <%= obj.tiny %>
-                                                </a>
+                                                <div class="flex items-center space-x-2">
+                                                    <a href="<%= obj.tiny %>" target="_blank"
+                                                        class="text-indigo-400 hover:text-indigo-300 transition-ease">
+                                                        <%= obj.tiny %>
+                                                    </a>
+                                                    <button onclick="copyToClipboard('<%= obj.tiny %>')"
+                                                        class="p-1 text-slate-400 hover:text-slate-200 transition-ease"
+                                                        title="URLをコピー">
+                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                                            </path>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                            <td class="py-4 text-slate-300">
+                                                <%= obj.username || '匿名' %>
+                                            </td>
+                                            <td class="py-4 text-slate-300 text-sm">
+                                                <%= obj.createdAt ? new Date(obj.createdAt).toLocaleDateString('ja-JP')
+                                                    : '不明' %>
+                                            </td>
+                                            <td class="py-4">
+                                                <div class="flex space-x-2">
+                                                    <button onclick="editUrl('<%= obj._id %>')"
+                                                        class="p-2 text-blue-400 hover:text-blue-300 hover:bg-blue-900/20 rounded transition-ease"
+                                                        title="編集">
+                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                                            </path>
+                                                        </svg>
+                                                    </button>
+                                                    <button onclick="deleteUrl('<%= obj._id %>')"
+                                                        class="p-2 text-red-400 hover:text-red-300 hover:bg-red-900/20 rounded transition-ease"
+                                                        title="削除">
+                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                                            </path>
+                                                        </svg>
+                                                    </button>
+                                                </div>
                                             </td>
                                             <td class="py-4">
                                                 <input type="checkbox" name="delnum" value="<%= content[i].tiny %>"
-                                                    class="w-4 h-4 text-indigo-600 bg-slate-700 border-slate-600 rounded focus:ring-indigo-500">
+                                                    class="w-5 h-5 text-indigo-600 bg-slate-700 border-slate-600 rounded focus:ring-indigo-500">
                                             </td>
                                         </tr>
                                         <% } %>
                             </tbody>
                         </table>
                     </div>
-                    <button type="submit"
-                        class="px-6 py-3 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition-ease active:scale-[0.99]">選択したURLを削除</button>
+                    <div class="flex justify-between items-center mt-6">
+                        <div class="flex items-center space-x-4">
+                            <label class="flex items-center">
+                                <input type="checkbox" id="selectAll"
+                                    class="w-5 h-5 text-indigo-600 bg-slate-700 border-slate-600 rounded focus:ring-indigo-500">
+                                <span class="ml-2 text-slate-300">全選択</span>
+                            </label>
+                            <span id="selectedCount" class="text-slate-400 text-sm">0個選択中</span>
+                        </div>
+                        <button type="submit"
+                            class="px-6 py-3 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition-ease active:scale-[0.99]">
+                            <svg class="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                </path>
+                            </svg>
+                            選択したURLを削除
+                        </button>
+                    </div>
                 </form>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -135,14 +507,244 @@
         &copy; 2025 Tiny-URL. All rights reserved.
     </footer>
     <script>
+        // 削除フォームのバリデーション
         const deleteForm = document.getElementById('deleteForm');
-        deleteForm.addEventListener('submit', (e) => {
-            const checkboxes = document.querySelectorAll('input[name="delnum"]:checked');
-            if (checkboxes.length === 0) {
-                e.preventDefault();
-                alert('削除するURLを選択してください');
-            }
+        if (deleteForm) {
+            deleteForm.addEventListener('submit', (e) => {
+                const checkboxes = document.querySelectorAll('input[name="delnum"]:checked');
+                if (checkboxes.length === 0) {
+                    e.preventDefault();
+                    alert('削除するURLを選択してください');
+                } else {
+                    if (!confirm(`選択した${checkboxes.length}個のURLを削除しますか？`)) {
+                        e.preventDefault();
+                    }
+                }
+            });
+        }
+
+        // 全選択機能
+        const selectAllCheckbox = document.getElementById('selectAll');
+        const urlCheckboxes = document.querySelectorAll('input[name="delnum"]');
+        const selectedCountElement = document.getElementById('selectedCount');
+
+        if (selectAllCheckbox) {
+            selectAllCheckbox.addEventListener('change', function () {
+                urlCheckboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
+                updateSelectedCount();
+            });
+        }
+
+        // 選択数の更新
+        urlCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateSelectedCount);
         });
+
+        function updateSelectedCount() {
+            const checkedCount = document.querySelectorAll('input[name="delnum"]:checked').length;
+            if (selectedCountElement) {
+                selectedCountElement.textContent = `${checkedCount}個選択中`;
+            }
+
+            // 全選択チェックボックスの状態を更新
+            if (selectAllCheckbox) {
+                selectAllCheckbox.checked = checkedCount === urlCheckboxes.length && checkedCount > 0;
+                selectAllCheckbox.indeterminate = checkedCount > 0 && checkedCount < urlCheckboxes.length;
+            }
+        }
+
+        // 検索機能
+        function searchUrls() {
+            const searchInput = document.getElementById('searchInput');
+            const searchTerm = searchInput.value.toLowerCase();
+            const tableRows = document.querySelectorAll('tbody tr');
+
+            tableRows.forEach(row => {
+                const originalUrl = row.cells[1].textContent.toLowerCase();
+                const shortUrl = row.cells[2].textContent.toLowerCase();
+                const username = row.cells[3].textContent.toLowerCase();
+
+                if (originalUrl.includes(searchTerm) || shortUrl.includes(searchTerm) || username.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // スムーススクロール
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // コピー機能
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('URLをコピーしました！', 'success');
+            }).catch(err => {
+                console.error('コピーに失敗しました:', err);
+                showNotification('コピーに失敗しました', 'error');
+            });
+        }
+
+        // 通知表示
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg z-50 transition-ease text-white ${type === 'success' ? 'bg-green-600' :
+                type === 'error' ? 'bg-red-600' : 'bg-blue-600'
+                }`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // URL編集機能
+        function editUrl(urlId) {
+            showNotification('URL編集機能は準備中です', 'info');
+        }
+
+        // 個別削除機能
+        function deleteUrl(urlId) {
+            if (confirm('このURLを削除しますか？')) {
+                showNotification('個別削除機能は準備中です', 'info');
+            }
+        }
+
+        // データエクスポート
+        function exportData() {
+            const table = document.querySelector('table');
+            if (!table) return;
+
+            let csv = 'No,Original URL,Short URL,Creator,Created Date\n';
+            const rows = table.querySelectorAll('tbody tr');
+
+            rows.forEach((row, index) => {
+                if (row.style.display !== 'none') {
+                    const cells = row.querySelectorAll('td');
+                    const data = [
+                        cells[0].textContent.trim(),
+                        `"${cells[1].textContent.trim()}"`,
+                        `"${cells[2].textContent.trim()}"`,
+                        `"${cells[3].textContent.trim()}"`,
+                        `"${cells[4].textContent.trim()}"`
+                    ];
+                    csv += data.join(',') + '\n';
+                }
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `tinyurl_export_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            showNotification('データをエクスポートしました', 'success');
+        }
+
+        // ユーザー検索機能
+        function searchUsers() {
+            const searchTerm = document.getElementById('userSearchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#userTable tbody .user-row');
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const uniqueId = cells[0].textContent.toLowerCase();
+                const username = cells[1].textContent.toLowerCase();
+                const email = cells[2].textContent.toLowerCase();
+                const discordId = cells[3].textContent.toLowerCase();
+
+                if (uniqueId.includes(searchTerm) ||
+                    username.includes(searchTerm) ||
+                    email.includes(searchTerm) ||
+                    discordId.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // ユーザー情報エクスポート機能
+        function exportUsers() {
+            let csv = 'ユニークID,ユーザー名,メールアドレス,Discord ID,作成日時\n';
+
+            const rows = document.querySelectorAll('#userTable tbody .user-row');
+            rows.forEach(row => {
+                if (row.style.display !== 'none') {
+                    const cells = row.querySelectorAll('td');
+                    const data = [
+                        `"${cells[0].textContent.trim()}"`,
+                        `"${cells[1].textContent.trim()}"`,
+                        `"${cells[2].textContent.trim()}"`,
+                        `"${cells[3].textContent.trim()}"`,
+                        `"${cells[4].textContent.trim()}"`
+                    ];
+                    csv += data.join(',') + '\n';
+                }
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `users_export_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            showNotification('ユーザー情報をエクスポートしました', 'success');
+        }
+
+        // ユーザー詳細表示
+        function viewUserDetails(userId) {
+            // ここで詳細表示のモーダルを実装可能
+            showNotification(`ユーザー詳細: ${userId}`, 'info');
+        }
+
+        // ユーザー削除確認
+        function confirmDeleteUser(userId, userIdentifier) {
+            if (confirm(`本当にユーザー "${userIdentifier}" を削除しますか？\n\nこの操作は取り消すことができません。`)) {
+                if (confirm('削除すると、このユーザーの全てのURLも削除されます。\n\n本当に削除しますか？')) {
+                    deleteUser(userId);
+                }
+            }
+        }
+
+        // ユーザー削除実行
+        function deleteUser(userId) {
+            fetch('/admin/delete-user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId: userId })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        showNotification('ユーザーが削除されました', 'success');
+                        location.reload();
+                    } else {
+                        throw new Error('削除に失敗しました');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('ユーザー削除中にエラーが発生しました', 'error');
+                });
+        }
 
         // モバイルメニューのトグル
         const menuButton = document.getElementById('menu-button');
@@ -153,6 +755,9 @@
                 mobileMenu.classList.toggle('hidden');
             });
         }
+
+        // 初期化時に選択数を更新
+        updateSelectedCount();
     </script>
 </body>
 

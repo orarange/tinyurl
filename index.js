@@ -19,6 +19,7 @@ const remover = require('./functions/dataremove');
 const home = require('./routes/index');
 const tiny = require('./routes/tiny');
 const admin = require('./routes/admin');
+const dashboard = require('./routes/dash');
 const login = require('./routes/login');
 const logout = require('./routes/logout');
 const policy = require('./routes/policy');
@@ -66,6 +67,7 @@ app.use('/api/reference', refe);
 app.use('/bata/home', bata);
 app.use('/buy', buy);
 app.use('/register', regiater);
+app.use('/dashboard', dashboard);
 app.use('/sitemap.xml', function (req, res) {
 	res.sendFile(__dirname + '/sitemap.xml');
 });
