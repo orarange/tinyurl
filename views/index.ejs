@@ -102,9 +102,16 @@
                                 <form action="/tiny_url" method="POST" id="url-input-card"
                                     class="bg-slate-800 p-6 sm:p-8 rounded-2xl shadow-2xl border border-slate-700/50">
                                     <% if (name) { %>
-                                        <div
-                                            class="text-xs font-semibold uppercase tracking-wider text-green-400 bg-green-900/30 py-1 px-3 rounded-full inline-block mb-6">
-                                            <%= premiu ? 'プレミアムプラン' : 'フリープラン' %>をご利用中
+                                        <div class="mb-6">
+                                            <div class="text-sm font-semibold text-slate-300 mb-2">
+                                                こんにちは、<span class="text-indigo-400">
+                                                    <%= name %>
+                                                </span>さん
+                                            </div>
+                                            <div
+                                                class="text-xs font-semibold uppercase tracking-wider text-green-400 bg-green-900/30 py-1 px-3 rounded-full inline-block">
+                                                <%= premiu ? 'プレミアムプラン' : 'フリープラン' %>をご利用中
+                                            </div>
                                         </div>
                                         <% } else { %>
                                             <div
