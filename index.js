@@ -68,6 +68,7 @@ app.use('/bata/home', bata);
 app.use('/buy', buy);
 app.use('/register', regiater);
 app.use('/dashboard', dashboard);
+app.use('/policy', policy);
 app.use('/sitemap.xml', function (req, res) {
 	res.sendFile(__dirname + '/sitemap.xml');
 });
