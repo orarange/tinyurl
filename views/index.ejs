@@ -9,8 +9,17 @@
     <meta name="description"
         content="無料で使える高速URL短縮サービスTiny-URL。長いリンクを短くして簡単に共有。プレミアムプランではカスタムURL、アクセス解析、QRコード生成などの機能をご利用いただけます。">
     <title>Tiny-URL | 最速のURL短縮サービス</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- 重要なリソースへの事前接続 -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+    <link rel="preconnect" href="https://fundingchoicesmessages.google.com">
+    <!-- Tailwind CSS を非同期読み込みでレンダリングブロックを防止 -->
+    <script src="https://cdn.tailwindcss.com" defer></script>
+    <!-- フォントを最適化して読み込み -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"
+        media="print" onload="this.media='all'">
     <style>
         :root {
             --primary-color: #4f46e5;
