@@ -4,24 +4,61 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
-
 
 <url>
-  <loc>http://t-ur.net/</loc>
-  <lastmod>2022-08-08T07:18:44+00:00</lastmod>
+  <loc>https://oraran.jp/</loc>
+  <lastmod>2025-11-14</lastmod>
+  <changefreq>daily</changefreq>
   <priority>1.00</priority>
 </url>
+
 <url>
-  <loc>http://t-ur.net/api/reference</loc>
-  <lastmod>2022-08-08T07:18:44+00:00</lastmod>
-  <priority>0.80</priority>
+  <loc>https://oraran.jp/login</loc>
+  <lastmod>2025-11-14</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.90</priority>
 </url>
+
 <url>
-  <loc>http://t-ur.net/buy</loc>
-  <lastmod>2022-08-08T07:18:44+00:00</lastmod>
+  <loc>https://oraran.jp/register</loc>
+  <lastmod>2025-11-14</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.90</priority>
+</url>
+
+<url>
+  <loc>https://oraran.jp/dashboard</loc>
+  <lastmod>2025-11-14</lastmod>
+  <changefreq>daily</changefreq>
+  <priority>0.85</priority>
+</url>
+
+<url>
+  <loc>https://oraran.jp/buy</loc>
+  <lastmod>2025-11-14</lastmod>
+  <changefreq>monthly</changefreq>
   <priority>0.80</priority>
 </url>
 
+<url>
+  <loc>https://oraran.jp/api/reference</loc>
+  <lastmod>2025-11-14</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+
+<url>
+  <loc>https://oraran.jp/policy</loc>
+  <lastmod>2025-11-14</lastmod>
+  <changefreq>yearly</changefreq>
+  <priority>0.60</priority>
+</url>
+
+<url>
+  <loc>https://oraran.jp/admin</loc>
+  <lastmod>2025-11-14</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.50</priority>
+</url>
 
 </urlset>
