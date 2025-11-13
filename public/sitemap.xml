@@ -54,11 +54,4 @@
   <priority>0.60</priority>
 </url>
 
-<url>
-  <loc>https://oraran.jp/admin</loc>
-  <lastmod>2025-11-14</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.50</priority>
-</url>
-
 </urlset>
