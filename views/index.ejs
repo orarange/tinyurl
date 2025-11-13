@@ -41,6 +41,11 @@
         .transition-ease {
             transition: all 0.3s ease-in-out;
         }
+
+        /* section内のh1に明示的なフォントサイズを指定して非推奨API警告を解決 */
+        section h1 {
+            font-size: inherit;
+        }
     </style>
 </head>
 <!-- Google tag (gtag.js) -->
