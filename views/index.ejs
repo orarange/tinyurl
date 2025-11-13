@@ -2,8 +2,6 @@
 <html lang="ja">
 
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4006009538073290"
-        crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
@@ -263,6 +261,28 @@
                 });
                 shortenButton.disabled = !agreeTermsCheckbox.checked;
             }
+
+            // Google Ads を遅延読み込み（ユーザー操作後またはページ読み込み完了後）
+            let adsLoaded = false;
+            function loadGoogleAds() {
+                if (adsLoaded) return;
+                adsLoaded = true;
+
+                const script = document.createElement('script');
+                script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4006009538073290';
+                script.async = true;
+                script.crossOrigin = 'anonymous';
+                document.head.appendChild(script);
+            }
+
+            // ユーザーがスクロールしたら広告を読み込み
+            window.addEventListener('scroll', loadGoogleAds, { once: true, passive: true });
+            // ユーザーがクリックしたら広告を読み込み
+            document.addEventListener('click', loadGoogleAds, { once: true });
+            // ユーザーがタッチしたら広告を読み込み
+            document.addEventListener('touchstart', loadGoogleAds, { once: true, passive: true });
+            // 3秒後に自動的に読み込み（ユーザー操作がない場合）
+            setTimeout(loadGoogleAds, 3000);
         });
     </script>
 </body>
