@@ -8,3 +8,6 @@ log/*
 .env
 *.env.local
 *bak
+prompts/tinyurl-assistant.prompt.md
+prompts/tinyurl-copilot-chat-guide.md
+prompts/tinyurl-copilot-chat.prompt.md
