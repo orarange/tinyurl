@@ -3,9 +3,6 @@ const router = express.Router();
 const tinyurl = require('../models/tinyurl');
 const premium = require('../models/premium');
 const preuser = require('../models/preuser');
-const oauth = require('../functions/oauth');
-const refresh = require('../functions/refresh');
-const userdat = require('../functions/userdata');
 const mongoose = require('mongoose');
 
 main().catch(err => console.log(err));
