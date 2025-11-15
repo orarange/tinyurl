@@ -24,7 +24,6 @@ const login = require('./routes/login');
 const logout = require('./routes/logout');
 const policy = require('./routes/policy');
 const refe = require('./routes/refe');
-const bata = require('./routes/bata');
 const buy = require('./routes/buypremium');
 const regiater = require('./routes/register');
 
@@ -64,7 +63,6 @@ app.use('/login', login);
 app.use('/logout', logout);
 app.use('/admin', admin);
 app.use('/api/reference', refe);
-app.use('/bata/home', bata);
 app.use('/buy', buy);
 app.use('/register', regiater);
 app.use('/dashboard', dashboard);

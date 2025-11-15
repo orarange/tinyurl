@@ -4,8 +4,6 @@ const mongoose = require('mongoose');
 const tinyurl = require('../models/tinyurl');
 const premium = require('../models/premium');
 const preuser = require('../models/preuser');
-const refresh = require('../functions/refresh');
-const userdat = require('../functions/userdata');
 const login = require('../functions/login');
 
 main().catch(err => console.log(err));
@@ -22,7 +20,7 @@ router.get('/', async (req, res) => {
 		let isPremium = false;
 		let content = [];
 
-		// 認証チェック（Discordログインまたはメールログイン）
+		// 認証チェック(メールログインのみ)
 		if (req.cookies.user_session) {
 			// メール・パスワードログインの場合
 			try {
@@ -49,40 +47,6 @@ router.get('/', async (req, res) => {
 				}
 			} catch (error) {
 				console.error('メールログインセッション解析エラー:', error);
-			}
-		} else if (req.cookies.refresh_token) {
-			// Discordログインの場合
-			try {
-				const { token_type, access_token, refresh_token } = await refresh(req.cookies.refresh_token);
-				const userData = await userdat(token_type, access_token);
-				username = userData.username;
-				userId = userData.id;
-
-				// リフレッシュトークンを更新
-				res.cookie('refresh_token', refresh_token, {
-					httpOnly: true
-				});
-
-				// プレミアムユーザーかチェック
-				const premiumUser = await preuser.findOne({ id: userId });
-				isPremium = !!premiumUser;
-
-				// ユーザーのURL一覧を取得
-				if (isPremium) {
-					content = await premium.find({ userid: userId }).sort({ createdAt: -1 });
-				} else {
-					// 無料ユーザーの場合（ユーザー固有のURLのみ取得）
-					content = await tinyurl.find({ 
-						$or: [
-							{ userid: userId },
-							{ username: username }
-						]
-					}).sort({ createdAt: -1 });
-				}
-			} catch (error) {
-				console.error('Discordログイン更新エラー:', error);
-				// リフレッシュトークンが無効な場合はクリア
-				res.clearCookie('refresh_token');
 			}
 		}
 
@@ -126,15 +90,6 @@ router.post('/delete', async (req, res) => {
 			const userSession = JSON.parse(req.cookies.user_session);
 			username = userSession.username;
 			userId = userSession.id;
-		} else if (req.cookies.refresh_token) {
-			const { token_type, access_token, refresh_token } = await refresh(req.cookies.refresh_token);
-			const userData = await userdat(token_type, access_token);
-			username = userData.username;
-			userId = userData.id;
-
-			res.cookie('refresh_token', refresh_token, {
-				httpOnly: true
-			});
 		}
 
 		if (!username) {
@@ -179,15 +134,6 @@ router.post('/delete-all', async (req, res) => {
 			const userSession = JSON.parse(req.cookies.user_session);
 			username = userSession.username;
 			userId = userSession.id;
-		} else if (req.cookies.refresh_token) {
-			const { token_type, access_token, refresh_token } = await refresh(req.cookies.refresh_token);
-			const userData = await userdat(token_type, access_token);
-			username = userData.username;
-			userId = userData.id;
-
-			res.cookie('refresh_token', refresh_token, {
-				httpOnly: true
-			});
 		}
 
 		if (!username) {
