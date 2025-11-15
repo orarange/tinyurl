@@ -2,10 +2,6 @@ const express = require('express');
 const router = express.Router();
 const tinyurl = require('../models/tinyurl');
 
-async function main() {
-	await mongoose.connect(process.env.mongo_url);
-}
-
 router.get('/', function (req, res) {
 	const { t } = req.query;
 

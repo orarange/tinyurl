@@ -3,13 +3,6 @@ const router = express.Router();
 const tinyurl = require('../models/tinyurl');
 const premium = require('../models/premium');
 const preuser = require('../models/preuser');
-const mongoose = require('mongoose');
-
-main().catch(err => console.log(err));
-
-async function main() {
-	await mongoose.connect(process.env.mongo_url);
-}
 
 router.get('/', function (req, res) {
 	res.json({ hello: 'world' });

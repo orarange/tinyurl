@@ -1,9 +1,4 @@
-const mongoose = require('mongoose');
 const User = require('../models/users');
-
-async function main() {
-	await mongoose.connect(process.env.mongo_url);
-}
 
 async function getUsers(email) {
 	if (!email) {

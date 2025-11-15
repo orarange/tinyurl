@@ -3,16 +3,20 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const bodyParser = require('body-parser');
 const app = express();
-const axios = require('axios');
 const rateLimit = require('express-rate-limit');
 const cron = require('node-cron');
 const cloudflare = require('cloudflare-express');
 const fs = require('fs');
+const mongoose = require('mongoose');
 
 require('dotenv').config();
 require('date-utils');
+
+// MongoDB接続を一元化
+mongoose.connect(process.env.mongo_url)
+	.then(() => console.log('MongoDB connected'))
+	.catch(err => console.error('MongoDB connection error:', err));
 
 const remover = require('./functions/dataremove');
 

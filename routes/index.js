@@ -1,19 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
 const tinyurl = require('../models/tinyurl');
 const premium = require('../models/premium');
 const preuser = require('../models/preuser');
 const users = require('../models/users');
-
-// MongoDB接続の初期化
-main().catch(err => console.log(err));
-
-async function main() {
-	console.log('mongodb connecting');
-	await mongoose.connect(process.env.mongo_url);
-	console.log('mongodb connected');
-}
 
 // ユーザー認証情報を取得する共通関数
 async function getUserAuth(req, res) {

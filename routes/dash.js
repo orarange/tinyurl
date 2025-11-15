@@ -1,16 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
 const tinyurl = require('../models/tinyurl');
 const premium = require('../models/premium');
 const preuser = require('../models/preuser');
 const login = require('../functions/login');
-
-main().catch(err => console.log(err));
-
-async function main() {
-	await mongoose.connect(process.env.mongo_url);
-}
 
 // ダッシュボード表示
 router.get('/', async (req, res) => {

@@ -1,16 +1,8 @@
-const fetch = require('node-fetch');
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
 const tinyurl = require('../models/tinyurl');
 const premium = require('../models/premium');
 const preuser = require('../models/preuser');
-
-main().catch(err => console.log(err));
-
-async function main() {
-	await mongoose.connect(process.env.mongo_url);
-}
 
 router.get('/', async (req, res) => {
 	let username = null;
