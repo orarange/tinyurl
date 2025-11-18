@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>運営者情報 | Tiny-URL</title>
+    <meta name="description" content="Tiny-URLの運営者情報、特定商取引法に基づく表記">
+    <meta name="theme-color" content="#6E3DD9">
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.tailwindcss.com" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"
+        media="print" onload="this.media='all'">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .gradient-text {
+            background-image: linear-gradient(90deg, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .transition-ease {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .about-content h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .about-content h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #a5b4fc;
+        }
+
+        .about-content p {
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+            line-height: 1.625;
+        }
+
+        .about-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content th,
+        .about-content td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #475569;
+        }
+
+        .about-content th {
+            background-color: #334155;
+            color: #e2e8f0;
+            font-weight: 600;
+            width: 30%;
+        }
+
+        .about-content td {
+            color: #cbd5e1;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col antialiased">
+    <header class="p-4 sm:p-6 bg-slate-800/80 backdrop-blur-sm shadow-lg sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="/" class="text-3xl font-extrabold gradient-text tracking-tight">Tiny-URL</a>
+            <nav class="hidden md:flex space-x-6 items-center">
+                <a href="/" class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">ホーム</a>
+                <a href="/api/reference"
+                    class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">APIリファレンス</a>
+                <% if (typeof name !=='undefined' && name) { %>
+                    <a href="/dashboard"
+                        class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">ダッシュボード</a>
+                    <a href="/logout"
+                        class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-lg shadow-md transition-ease">ログアウト</a>
+                    <% } else { %>
+                        <a href="/buy"
+                            class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">プレミアム</a>
+                        <a href="/login"
+                            class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-md transition-ease">ログイン</a>
+                        <% } %>
+            </nav>
+            <button id="menu-button" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-700 transition-ease"
+                aria-label="メニューを開く" title="メニュー">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
+                    </path>
+                </svg>
+            </button>
+        </div>
+        <!-- モバイルメニュー -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-2">
+            <a href="/" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">ホーム</a>
+            <a href="/api/reference"
+                class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">APIリファレンス</a>
+            <% if (typeof name !=='undefined' && name) { %>
+                <a href="/dashboard"
+                    class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">ダッシュボード</a>
+                <a href="/logout"
+                    class="block px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-ease">ログアウト</a>
+                <% } else { %>
+                    <a href="/buy"
+                        class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">プレミアム</a>
+                    <a href="/login"
+                        class="block px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-ease">ログイン</a>
+                    <% } %>
+        </div>
+    </header>
+
+    <main class="flex-grow p-4 sm:p-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-slate-800 p-8 rounded-2xl shadow-2xl border border-slate-700/50">
+                <div class="about-content">
+                    <h1>運営者情報</h1>
+
+                    <h2>サービス概要</h2>
+                    <table>
+                        <tr>
+                            <th>サービス名</th>
+                            <td>Tiny-URL</td>
+                        </tr>
+                        <tr>
+                            <th>サービス内容</th>
+                            <td>URL短縮サービスの提供</td>
+                        </tr>
+                        <tr>
+                            <th>サービスURL</th>
+                            <td><a href="https://orrn.net"
+                                    class="text-indigo-400 hover:text-indigo-300 underline">https://orrn.net</a></td>
+                        </tr>
+                    </table>
+
+                    <h2>運営者情報</h2>
+                    <table>
+                        <tr>
+                            <th>運営者</th>
+                            <td>Tiny-URL 運営事務局</td>
+                        </tr>
+                        <tr>
+                            <th>所在地</th>
+                            <td>東京都（詳細はお問い合わせください）</td>
+                        </tr>
+                        <tr>
+                            <th>お問い合わせ</th>
+                            <td>
+                                <a href="/contact"
+                                    class="text-indigo-400 hover:text-indigo-300 underline">お問い合わせフォーム</a><br>
+                                Email: <a href="mailto:support@orrn.net"
+                                    class="text-indigo-400 hover:text-indigo-300 underline">support@orrn.net</a>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <h2>特定商取引法に基づく表記</h2>
+                    <p class="text-sm text-slate-400 mb-4">※有料プランをご利用のお客様向けの情報です</p>
+
+                    <table>
+                        <tr>
+                            <th>販売事業者</th>
+                            <td>Tiny-URL 運営事務局</td>
+                        </tr>
+                        <tr>
+                            <th>販売責任者</th>
+                            <td>運営責任者</td>
+                        </tr>
+                        <tr>
+                            <th>所在地</th>
+                            <td>東京都（詳細はお問い合わせください）</td>
+                        </tr>
+                        <tr>
+                            <th>お問い合わせ</th>
+                            <td>
+                                Email: <a href="mailto:support@orrn.net"
+                                    class="text-indigo-400 hover:text-indigo-300 underline">support@orrn.net</a><br>
+                                <a href="/contact"
+                                    class="text-indigo-400 hover:text-indigo-300 underline">お問い合わせフォーム</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>販売価格</th>
+                            <td>プレミアムプランページに記載の通り</td>
+                        </tr>
+                        <tr>
+                            <th>商品代金以外の必要料金</th>
+                            <td>インターネット接続料金、通信料金等はお客様負担となります</td>
+                        </tr>
+                        <tr>
+                            <th>支払方法</th>
+                            <td>クレジットカード決済（Stripe）</td>
+                        </tr>
+                        <tr>
+                            <th>支払時期</th>
+                            <td>各決済方法に準ずる</td>
+                        </tr>
+                        <tr>
+                            <th>サービス提供時期</th>
+                            <td>決済完了後、即時</td>
+                        </tr>
+                        <tr>
+                            <th>返品・キャンセル</th>
+                            <td>デジタルコンテンツの性質上、サービス提供後の返金・返品は原則として承っておりません。ただし、サービスに重大な不具合がある場合は個別に対応いたします。</td>
+                        </tr>
+                        <tr>
+                            <th>解約について</th>
+                            <td>ダッシュボードからいつでも解約可能です。解約後は次回更新日以降プレミアム機能が利用できなくなります。</td>
+                        </tr>
+                    </table>
+
+                    <h2>免責事項</h2>
+                    <p>当サイトは、サービスの安定性・可用性について保証するものではありません。また、当サイトを通じて提供される情報の正確性、完全性、有用性について保証するものではありません。</p>
+                    <p>詳細は<a href="/policy" class="text-indigo-400 hover:text-indigo-300 underline">利用規約</a>をご確認ください。
+                    </p>
+
+                    <h2>著作権・商標について</h2>
+                    <p>当サイトに掲載されているすべてのコンテンツ（テキスト、画像、デザイン等）の著作権は、当サイト運営者または正当な権利者に帰属します。無断での転載、複製を禁じます。</p>
+
+                    <div class="text-center mt-8 pt-8 border-t border-slate-600">
+                        <p class="text-slate-400 text-sm">最終更新日: 2025年11月19日</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="p-4 sm:p-6 text-center text-slate-400 text-sm bg-slate-800 border-t border-slate-700/50">
+        &copy; 2025 Tiny-URL. All rights reserved. |
+        <a href="/policy" class="hover:text-indigo-400 transition-ease">利用規約</a> |
+        <a href="/privacy" class="hover:text-indigo-400 transition-ease">プライバシーポリシー</a> |
+        <a href="/contact" class="hover:text-indigo-400 transition-ease">お問い合わせ</a> |
+        <a href="/about" class="hover:text-indigo-400 transition-ease">運営者情報</a>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuButton = document.getElementById('menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (menuButton && mobileMenu) {
+                menuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

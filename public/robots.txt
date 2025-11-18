@@ -1,1 +1,8 @@
 User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /api/
+Disallow: /log/
+
+Sitemap: https://orrn.net/sitemap.xml

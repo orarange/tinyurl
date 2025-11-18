@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お問い合わせ | Tiny-URL</title>
+    <meta name="description" content="Tiny-URLへのお問い合わせページ。サービスに関するご質問やご意見をお気軽にお寄せください。">
+    <meta name="theme-color" content="#6E3DD9">
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .gradient-text {
+            background-image: linear-gradient(90deg, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .transition-ease {
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col antialiased">
+    <header class="p-4 sm:p-6 bg-slate-800/80 backdrop-blur-sm shadow-lg sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="/" class="text-3xl font-extrabold gradient-text tracking-tight">Tiny-URL</a>
+            <nav class="hidden md:flex space-x-6 items-center">
+                <a href="/" class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">ホーム</a>
+                <a href="/api/reference"
+                    class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">APIリファレンス</a>
+                <% if (typeof name !=='undefined' && name) { %>
+                    <a href="/dashboard"
+                        class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">ダッシュボード</a>
+                    <a href="/logout"
+                        class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-lg shadow-md transition-ease">ログアウト</a>
+                    <% } else { %>
+                        <a href="/buy"
+                            class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">プレミアム</a>
+                        <a href="/login"
+                            class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-md transition-ease">ログイン</a>
+                        <% } %>
+            </nav>
+            <button id="menu-button" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-700 transition-ease"
+                aria-label="メニューを開く" title="メニュー">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
+                    </path>
+                </svg>
+            </button>
+        </div>
+        <!-- モバイルメニュー -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-2">
+            <a href="/" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">ホーム</a>
+            <a href="/api/reference"
+                class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">APIリファレンス</a>
+            <% if (typeof name !=='undefined' && name) { %>
+                <a href="/dashboard"
+                    class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">ダッシュボード</a>
+                <a href="/logout"
+                    class="block px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-ease">ログアウト</a>
+                <% } else { %>
+                    <a href="/buy"
+                        class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">プレミアム</a>
+                    <a href="/login"
+                        class="block px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-ease">ログイン</a>
+                    <% } %>
+        </div>
+    </header>
+
+    <main class="flex-grow p-4 sm:p-8">
+        <div class="max-w-2xl mx-auto">
+            <div class="bg-slate-800 p-8 rounded-2xl shadow-2xl border border-slate-700/50">
+                <h1 class="text-3xl font-bold gradient-text mb-6">お問い合わせ</h1>
+
+                <% if (typeof success !=='undefined' && success) { %>
+                    <div class="p-4 mb-6 rounded-xl bg-green-900/50 text-green-300 border border-green-700">
+                        <p class="font-semibold">✓ お問い合わせを受け付けました</p>
+                        <p class="text-sm mt-2">ご連絡ありがとうございます。内容を確認の上、折り返しご連絡いたします。</p>
+                    </div>
+                    <% } %>
+
+                        <% if (typeof error !=='undefined' && error) { %>
+                            <div class="p-4 mb-6 rounded-xl bg-red-900/50 text-red-300 border border-red-700">
+                                <p class="font-semibold">✗ エラーが発生しました</p>
+                                <p class="text-sm mt-2">
+                                    <%= error %>
+                                </p>
+                            </div>
+                            <% } %>
+
+                                <p class="text-slate-300 mb-6">サービスに関するご質問、ご意見、不具合報告などがございましたら、以下のフォームよりお気軽にお問い合わせください。
+                                </p>
+
+                                <form action="/contact" method="POST" class="space-y-6">
+                                    <div>
+                                        <label for="name" class="block text-sm font-semibold text-slate-300 mb-2">お名前
+                                            <span class="text-red-400">*</span></label>
+                                        <input type="text" id="name" name="name" required
+                                            class="w-full p-4 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
+                                            placeholder="山田 太郎">
+                                    </div>
+
+                                    <div>
+                                        <label for="email"
+                                            class="block text-sm font-semibold text-slate-300 mb-2">メールアドレス <span
+                                                class="text-red-400">*</span></label>
+                                        <input type="email" id="email" name="email" required
+                                            class="w-full p-4 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
+                                            placeholder="example@email.com">
+                                    </div>
+
+                                    <div>
+                                        <label for="subject" class="block text-sm font-semibold text-slate-300 mb-2">件名
+                                            <span class="text-red-400">*</span></label>
+                                        <input type="text" id="subject" name="subject" required
+                                            class="w-full p-4 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
+                                            placeholder="お問い合わせの件名">
+                                    </div>
+
+                                    <div>
+                                        <label for="category"
+                                            class="block text-sm font-semibold text-slate-300 mb-2">お問い合わせ種別</label>
+                                        <select id="category" name="category"
+                                            class="w-full p-4 bg-slate-700 border border-slate-600 text-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease">
+                                            <option value="general">一般的なお問い合わせ</option>
+                                            <option value="bug">不具合報告</option>
+                                            <option value="feature">機能要望</option>
+                                            <option value="account">アカウントについて</option>
+                                            <option value="premium">プレミアムプランについて</option>
+                                            <option value="other">その他</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label for="message"
+                                            class="block text-sm font-semibold text-slate-300 mb-2">お問い合わせ内容 <span
+                                                class="text-red-400">*</span></label>
+                                        <textarea id="message" name="message" rows="8" required
+                                            class="w-full p-4 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease resize-vertical"
+                                            placeholder="お問い合わせ内容を詳しくご記入ください"></textarea>
+                                    </div>
+
+                                    <div class="text-sm text-slate-400">
+                                        <p class="mb-2">送信いただいた情報は、<a href="/privacy"
+                                                class="text-indigo-400 hover:text-indigo-300 underline">プライバシーポリシー</a>に基づき適切に管理いたします。
+                                        </p>
+                                    </div>
+
+                                    <button type="submit"
+                                        class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-indigo-500/50 transition-ease active:scale-[0.99]">
+                                        送信する
+                                    </button>
+                                </form>
+
+                                <div class="mt-8 pt-6 border-t border-slate-700">
+                                    <h3 class="text-lg font-semibold text-slate-200 mb-3">その他のお問い合わせ方法</h3>
+                                    <p class="text-slate-400 text-sm">
+                                        緊急のお問い合わせの場合は、メールでも受け付けております：<br>
+                                        <a href="mailto:support@orrn.net"
+                                            class="text-indigo-400 hover:text-indigo-300 underline">support@orrn.net</a>
+                                    </p>
+                                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="p-4 sm:p-6 text-center text-slate-400 text-sm bg-slate-800 border-t border-slate-700/50">
+        &copy; 2025 Tiny-URL. All rights reserved. |
+        <a href="/policy" class="hover:text-indigo-400 transition-ease">利用規約</a> |
+        <a href="/privacy" class="hover:text-indigo-400 transition-ease">プライバシーポリシー</a> |
+        <a href="/contact" class="hover:text-indigo-400 transition-ease">お問い合わせ</a>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuButton = document.getElementById('menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (menuButton && mobileMenu) {
+                menuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プライバシーポリシー | Tiny-URL</title>
+    <meta name="description" content="Tiny-URLのプライバシーポリシー。個人情報の収集・利用、Cookie、Google AdSense、アクセス解析について説明しています。">
+    <meta name="keywords" content="プライバシーポリシー,個人情報,Cookie,短縮URL">
+    <meta name="theme-color" content="#6E3DD9">
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.tailwindcss.com" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"
+        media="print" onload="this.media='all'">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .gradient-text {
+            background-image: linear-gradient(90deg, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .transition-ease {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .privacy-content h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .privacy-content h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #a5b4fc;
+        }
+
+        .privacy-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #c7d2fe;
+        }
+
+        .privacy-content p {
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+            line-height: 1.625;
+        }
+
+        .privacy-content ul,
+        .privacy-content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .privacy-content li {
+            color: #cbd5e1;
+            line-height: 1.625;
+            margin-bottom: 0.5rem;
+        }
+
+        .privacy-content a {
+            color: #818cf8;
+            text-decoration: underline;
+        }
+
+        .privacy-content a:hover {
+            color: #a5b4fc;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col antialiased">
+    <header class="p-4 sm:p-6 bg-slate-800/80 backdrop-blur-sm shadow-lg sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="/" class="text-3xl font-extrabold gradient-text tracking-tight">Tiny-URL</a>
+            <nav class="hidden md:flex space-x-6 items-center">
+                <a href="/" class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">ホーム</a>
+                <a href="/api/reference"
+                    class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">APIリファレンス</a>
+                <% if (typeof name !=='undefined' && name) { %>
+                    <a href="/dashboard"
+                        class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">ダッシュボード</a>
+                    <a href="/logout"
+                        class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-lg shadow-md transition-ease">ログアウト</a>
+                    <% } else { %>
+                        <a href="/buy"
+                            class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">プレミアム</a>
+                        <a href="/login"
+                            class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-md transition-ease">ログイン</a>
+                        <% } %>
+            </nav>
+            <button id="menu-button" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-700 transition-ease"
+                aria-label="メニューを開く" title="メニュー">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
+                    </path>
+                </svg>
+            </button>
+        </div>
+        <!-- モバイルメニュー -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-2">
+            <a href="/" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">ホーム</a>
+            <a href="/api/reference"
+                class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">APIリファレンス</a>
+            <% if (typeof name !=='undefined' && name) { %>
+                <a href="/dashboard"
+                    class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">ダッシュボード</a>
+                <a href="/logout"
+                    class="block px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-ease">ログアウト</a>
+                <% } else { %>
+                    <a href="/buy"
+                        class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">プレミアム</a>
+                    <a href="/login"
+                        class="block px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-ease">ログイン</a>
+                    <% } %>
+        </div>
+    </header>
+
+    <main class="flex-grow p-4 sm:p-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-slate-800 p-8 rounded-2xl shadow-2xl border border-slate-700/50">
+                <div class="privacy-content">
+                    <h1>プライバシーポリシー</h1>
+                    <p class="text-sm text-slate-400">最終更新日: 2025年11月19日</p>
+
+                    <p>Tiny-URL（以下、「当サイト」）は、ユーザーのプライバシーを尊重し、個人情報の保護に努めます。本プライバシーポリシーは、当サイトがどのような情報を収集し、どのように使用・保護するかを説明するものです。
+                    </p>
+
+                    <h2>第1条（収集する情報）</h2>
+                    <p>当サイトは、サービス提供のため以下の情報を収集することがあります：</p>
+
+                    <h3>1.1 ユーザーが提供する情報</h3>
+                    <ul>
+                        <li>メールアドレス（アカウント登録時）</li>
+                        <li>パスワード（暗号化して保管）</li>
+                        <li>短縮URLに関する情報（元のURL、短縮URL、作成日時）</li>
+                    </ul>
+
+                    <h3>1.2 自動的に収集される情報</h3>
+                    <ul>
+                        <li>IPアドレス</li>
+                        <li>ブラウザの種類とバージョン</li>
+                        <li>アクセス日時</li>
+                        <li>リファラー情報</li>
+                        <li>Cookie情報</li>
+                    </ul>
+
+                    <h2>第2条（情報の利用目的）</h2>
+                    <p>収集した情報は、以下の目的で利用します：</p>
+                    <ul>
+                        <li>サービスの提供・運営</li>
+                        <li>ユーザー認証とアカウント管理</li>
+                        <li>サービスの改善・最適化</li>
+                        <li>不正利用の防止とセキュリティ維持</li>
+                        <li>お問い合わせへの対応</li>
+                        <li>利用規約違反への対応</li>
+                    </ul>
+
+                    <h2>第3条（Cookie（クッキー）について）</h2>
+
+                    <h3>3.1 Cookieとは</h3>
+                    <p>Cookieとは、ウェブサイトがユーザーのコンピュータに送信する小さなテキストファイルです。Cookieを使用することで、ウェブサイトはユーザーの設定を記憶し、より良いユーザー体験を提供できます。
+                    </p>
+
+                    <h3>3.2 当サイトが使用するCookie</h3>
+                    <ul>
+                        <li><strong>必須Cookie:</strong> ログイン状態の維持など、サービス提供に不可欠なCookie</li>
+                        <li><strong>分析Cookie:</strong> Google Analyticsなどを通じて、サイトの利用状況を把握するためのCookie</li>
+                        <li><strong>広告Cookie:</strong> Google AdSenseによる広告配信のためのCookie</li>
+                    </ul>
+
+                    <h3>3.3 Cookieの無効化</h3>
+                    <p>ブラウザの設定でCookieを無効化することができますが、一部の機能が利用できなくなる場合があります。</p>
+
+                    <h2>第4条（Google AdSenseについて）</h2>
+
+                    <h3>4.1 第三者配信事業者による広告配信</h3>
+                    <p>当サイトは、Google AdSenseを使用して広告を配信しています。Google AdSenseは、Cookieを使用してユーザーの興味に基づいた広告を表示します。</p>
+
+                    <h3>4.2 DoubleClick Cookie</h3>
+                    <p>Googleは、DoubleClick Cookieを使用して、ユーザーが当サイトや他のウェブサイトにアクセスした際の情報に基づいて広告を配信します。</p>
+
+                    <h3>4.3 パーソナライズ広告のオプトアウト</h3>
+                    <p>ユーザーは、<a href="https://www.google.com/settings/ads" target="_blank"
+                            rel="noopener">Googleの広告設定ページ</a>でパーソナライズ広告を無効にすることができます。また、<a
+                            href="http://www.aboutads.info/choices/" target="_blank"
+                            rel="noopener">aboutads.info</a>でも第三者配信事業者のCookieを無効にできます。</p>
+
+                    <h3>4.4 詳細情報</h3>
+                    <p>第三者配信による広告配信の詳細については、以下をご覧ください：</p>
+                    <ul>
+                        <li><a href="https://policies.google.com/technologies/ads" target="_blank"
+                                rel="noopener">Google広告に関するポリシー</a></li>
+                        <li><a href="https://policies.google.com/technologies/partner-sites" target="_blank"
+                                rel="noopener">Googleのサービスを使用するサイトやアプリから収集した情報のGoogleによる使用</a></li>
+                    </ul>
+
+                    <h2>第5条（Google Analyticsの使用について）</h2>
+                    <p>当サイトは、Google Analyticsを使用してアクセス解析を行っています。Google
+                        Analyticsは、Cookieを使用して匿名でトラフィックデータを収集します。このデータには個人を特定する情報は含まれません。</p>
+                    <p>Google Analyticsの詳細については、<a href="https://policies.google.com/privacy" target="_blank"
+                            rel="noopener">Googleのプライバシーポリシー</a>をご覧ください。</p>
+
+                    <h2>第6条（個人情報の第三者提供）</h2>
+                    <p>当サイトは、以下の場合を除き、ユーザーの個人情報を第三者に提供しません：</p>
+                    <ul>
+                        <li>ユーザーの同意がある場合</li>
+                        <li>法令に基づく場合</li>
+                        <li>人の生命、身体または財産の保護のために必要な場合</li>
+                        <li>公衆衛生の向上または児童の健全な育成の推進のために特に必要な場合</li>
+                        <li>国の機関等の法令の定める事務に協力する必要がある場合</li>
+                    </ul>
+
+                    <h2>第7条（個人情報の管理）</h2>
+                    <p>当サイトは、ユーザーの個人情報を適切に管理し、以下の対策を講じます：</p>
+                    <ul>
+                        <li>不正アクセス、紛失、破壊、改ざん、漏洩などを防止するためのセキュリティ対策</li>
+                        <li>パスワードの暗号化保存</li>
+                        <li>アクセス権限の適切な管理</li>
+                        <li>定期的なセキュリティ監査</li>
+                    </ul>
+
+                    <h2>第8条（個人情報の開示・訂正・削除）</h2>
+                    <p>ユーザーは、自身の個人情報について、開示、訂正、削除を請求することができます。ご希望の場合は、<a href="/contact">お問い合わせページ</a>よりご連絡ください。</p>
+
+                    <h2>第9条（プライバシーポリシーの変更）</h2>
+                    <p>当サイトは、法令の変更や必要に応じて、本プライバシーポリシーを変更することがあります。変更後のプライバシーポリシーは、当サイト上に掲載した時点で効力を生じるものとします。</p>
+
+                    <h2>第10条（お問い合わせ）</h2>
+                    <p>本プライバシーポリシーに関するお問い合わせは、<a href="/contact">お問い合わせページ</a>よりご連絡ください。</p>
+
+                    <div class="text-center mt-8 pt-8 border-t border-slate-600">
+                        <p class="text-slate-400">以上</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="p-4 sm:p-6 text-center text-slate-400 text-sm bg-slate-800 border-t border-slate-700/50">
+        &copy; 2025 Tiny-URL. All rights reserved. |
+        <a href="/policy" class="hover:text-indigo-400 transition-ease">利用規約</a> |
+        <a href="/privacy" class="hover:text-indigo-400 transition-ease">プライバシーポリシー</a> |
+        <a href="/contact" class="hover:text-indigo-400 transition-ease">お問い合わせ</a>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // モバイルメニューのトグル
+            const menuButton = document.getElementById('menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (menuButton && mobileMenu) {
+                menuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
