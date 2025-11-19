@@ -18,6 +18,7 @@ router.post('/', async function (req, res) {
 			// ログイン成功 - セッションまたはトークンを設定
 			res.cookie('user_session', JSON.stringify({
 				id: result.user.id,
+				uniqueId: result.user.uniqueId,
 				username: result.user.username,
 				email: result.user.email
 			}), {

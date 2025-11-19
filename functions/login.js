@@ -20,6 +20,7 @@ async function verifyLogin(email, password) {
 				success: true, 
 				user: {
 					id: user._id,
+					uniqueId: user.uniqueId,
 					username: user.username,
 					email: user.email
 				}

@@ -142,7 +142,7 @@
                             </p>
                             <p class="text-slate-400 text-sm font-medium mb-1">プラン</p>
                             <p class="text-2xl font-bold text-white">
-                                <%= isPremium ? 'プレミアム' : 'フリー' %>
+                                <%= premiu ? 'プレミアム' : 'フリー' %>
                             </p>
                         </div>
                         <div class="p-3 bg-yellow-600/20 rounded-xl">
@@ -290,7 +290,7 @@
 
                 <!-- サイドバー -->
                 <div class="space-y-6">
-                    <% if (!isPremium) { %>
+                    <% if (!premiu) { %>
                         <!-- プレミアムアップグレード -->
                         <div
                             class="bg-gradient-to-br from-indigo-600/20 to-purple-600/20 p-6 rounded-2xl border border-indigo-500/30">

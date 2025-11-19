@@ -10,7 +10,8 @@ router.get('/', async (req, res) => {
 	try {
 		let username = null;
 		let userId = null;
-		let isPremium = false;
+		let uniqueId = null;
+		let premiu = '';
 		let content = [];
 
 		// 認証チェック(メールログインのみ)
@@ -20,20 +21,19 @@ router.get('/', async (req, res) => {
 				const userSession = JSON.parse(req.cookies.user_session);
 				username = userSession.username;
 				userId = userSession.id;
+				uniqueId = userSession.uniqueId;
 
-				// プレミアムユーザーかチェック
-				const premiumUser = await preuser.findOne({ id: userId });
-				isPremium = !!premiumUser;
-
-				// ユーザーのURL一覧を取得
-				if (isPremium) {
+				// プレミアムユーザーかチェック（uniqueIdを使用）
+				const premiumUser = await preuser.findOne({ id: uniqueId });
+				premiu = premiumUser ? 'yes' : '';				// ユーザーのURL一覧を取得
+				if (premiu) {
 					// プレミアムユーザーの場合
-					content = await premium.find({ userid: userId }).sort({ createdAt: -1 });
+					content = await premium.find({ userid: uniqueId }).sort({ createdAt: -1 });
 				} else {
 					// 無料ユーザーの場合（ユーザー固有のURLのみ取得）
 					content = await tinyurl.find({ 
 						$or: [
-							{ userid: userId },
+							{ userid: uniqueId },
 							{ username: username }
 						]
 					}).sort({ createdAt: -1 });
@@ -52,12 +52,12 @@ router.get('/', async (req, res) => {
 		res.render('dash', {
 			name: username,
 			userId: userId,
-			isPremium: isPremium,
+			premiu: premiu,
 			content: content,
 			stats: {
 				totalUrls: content.length,
 				monthlyClicks: 1234, // 実際のアプリでは統計データを計算
-				plan: isPremium ? 'プレミアム' : 'フリー',
+				plan: premiu ? 'プレミアム' : 'フリー',
 				status: 'アクティブ'
 			}
 		});
