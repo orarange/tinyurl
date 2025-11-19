@@ -3,7 +3,6 @@ const router = express.Router();
 const tinyurl = require('../models/tinyurl');
 const preuser = require('../models/preuser');
 const premium = require('../models/premium');
-const admin = require('../models/admin');
 const users = require('../models/users');
 
 // 管理者認証ヘルパー関数

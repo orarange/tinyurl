@@ -1087,6 +1087,75 @@
           <h1 id="top">Tiny URL API</h1>
         </header>
         <p>URL短縮サービスのAPI</p>
+
+        <!-- 認証セクション -->
+        <section id="authentication" class="resource-group">
+          <h2 class="group-heading">認証 (Authentication) <a href="#authentication" class="permalink">&para;</a></h2>
+          <p>Tiny-URL APIを使用するには、APIトークンによる認証が必要です。</p>
+
+          <h3>トークンの取得</h3>
+          <ol>
+            <li><a href="/login">ログイン</a>してダッシュボードにアクセス</li>
+            <li>「APIトークン」セクションで「新しいトークンを生成」ボタンをクリック</li>
+            <li>生成されたトークンをコピーして安全に保管</li>
+          </ol>
+
+          <h3>認証方法</h3>
+          <p>すべてのAPIリクエストには、以下のようにAuthorizationヘッダーにBearerトークンを含める必要があります：</p>
+          <pre><code>Authorization: Bearer turl_your_api_token_here</code></pre>
+
+          <h4>curlでの例</h4>
+          <pre><code class="language-bash">curl -X POST https://orrn.net/api/make \
+  -H "Authorization: Bearer turl_your_api_token_here" \
+  -H "Content-Type: application/json" \
+  -d '{"original": "https://example.com/very-long-url"}'</code></pre>
+
+          <h4>JavaScriptでの例</h4>
+          <pre><code class="language-javascript">fetch('https://orrn.net/api/make', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer turl_your_api_token_here',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    original: 'https://example.com/very-long-url'
+  })
+})
+.then(response => response.json())
+.then(data => console.log(data));</code></pre>
+
+          <h4>Pythonでの例</h4>
+          <pre><code class="language-python">import requests
+
+url = 'https://orrn.net/api/make'
+headers = {
+    'Authorization': 'Bearer turl_your_api_token_here',
+    'Content-Type': 'application/json'
+}
+data = {
+    'original': 'https://example.com/very-long-url'
+}
+
+response = requests.post(url, headers=headers, json=data)
+print(response.json())</code></pre>
+
+          <h3>エラーレスポンス</h3>
+          <h4>401 Unauthorized - トークンが提供されていない</h4>
+          <pre><code>{
+  "error": "Unauthorized",
+  "message": "APIトークンが必要です。Authorization: Bearer &lt;token&gt; ヘッダーを含めてください。"
+}</code></pre>
+
+          <h4>403 Forbidden - 無効なトークン</h4>
+          <pre><code>{
+  "error": "Forbidden",
+  "message": "無効または期限切れのトークンです。"
+}</code></pre>
+
+          <h3>使用制限</h3>
+          <p>API使用回数は自動的に追跡されます。ダッシュボードで今月の使用回数を確認できます。</p>
+        </section>
+
         <section id="" class="resource-group">
           <h2 class="group-heading">Resource Group <a href="#" class="permalink">&para;</a></h2>
           <div id="url短縮" class="resource">

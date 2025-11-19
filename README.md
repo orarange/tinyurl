@@ -9,9 +9,11 @@ Tiny-URLは、Node.js + Express + MongoDBで構築されたURL短縮サービス
 ## 特徴
 
 - 🔗 **URL短縮**: 長いURLを短く変換
-- 👤 **ユーザー認証**: メール/パスワードでの安全なログイン
+- 👤 **ユーザー認証**: メール/パスワードでの安全なログイン（2FA対応）
+- 🔑 **APIトークン**: プログラムからのAPI利用に対応
+- 📈 **使用状況追跡**: API利用回数を自動記録
 - ⭐ **プレミアムプラン**: カスタムURL設定機能
-- 📊 **ダッシュボード**: 自分が作成したURLの管理
+- 📊 **ダッシュボード**: 自分が作成したURLとAPIトークンの管理
 - 🚀 **高パフォーマンス**: レート制限・MongoDB接続最適化
 - 📱 **レスポンシブデザイン**: Tailwind CSSによるモダンUI
 
@@ -136,16 +138,32 @@ tinyurl/
 
 ## API エンドポイント
 
+すべてのAPIエンドポイントは**APIトークンによる認証が必要**です。
+
+### 認証
+
+1. ダッシュボードでAPIトークンを生成
+2. リクエストヘッダーに `Authorization: Bearer <token>` を含める
+
 ### URL短縮API
 
 ```bash
 POST /api/make
+Authorization: Bearer turl_your_api_token_here
 Content-Type: application/json
 
 {
   "original": "https://example.com/very-long-url",
-  "custom": "myurl",  // オプション (プレミアムのみ)
-  "id": "user_id"
+  "custom": "myurl"  // オプション (プレミアムのみ)
+}
+```
+
+**レスポンス:**
+```json
+{
+  "status": "200",
+  "message": "request was successful!",
+  "tiny": "https://yourdomain.com/t/abc123"
 }
 ```
 
@@ -153,13 +171,37 @@ Content-Type: application/json
 
 ```bash
 GET /api/get?t=shortcode
+Authorization: Bearer turl_your_api_token_here
+```
+
+**レスポンス:**
+```json
+{
+  "status": 200,
+  "original": "https://example.com/very-long-url"
+}
 ```
 
 ### 短縮URL検索API
 
 ```bash
 GET /api/gettiny?o=https://example.com
+Authorization: Bearer turl_your_api_token_here
 ```
+
+**レスポンス:**
+```json
+{
+  "status": 200,
+  "tiny": "abc123"
+}
+```
+
+### API使用状況
+
+- すべてのAPIリクエストは自動的に記録されます
+- ダッシュボードで今月の使用回数を確認できます
+- トークンごとの最終使用日時も表示されます
 
 ## デプロイ
 

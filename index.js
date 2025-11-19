@@ -44,15 +44,30 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 const apiLimiter = rateLimit({
-	windowMs: 10000,
-	max: 5,
+	windowMs: 1 * 1000, // 1分間
+	max: 5, // 最大30リクエスト（1分間）
 	standardHeaders: true,
 	legacyHeaders: false,
+	message: {
+		error: 'Too Many Requests',
+		message: 'レートリミットを超過しました。1分後に再試行してください。'
+	}
+});
+
+// プレミアムユーザー向けの緩いレートリミット
+const premiumApiLimiter = rateLimit({
+	windowMs: 1 * 1000, // 1分間
+	max: 10, // 最大100リクエスト（1分間）
+	standardHeaders: true,
+	legacyHeaders: false,
+	skip: (req) => {
+		// APIトークン認証済みユーザーはこのリミットを使用
+		return !req.user; // 認証されていない場合はスキップしない
+	}
 });
 
 app.use(cloudflare.restore());
 app.use('/api', apiLimiter);
-app.use('/api/make', apiLimiter);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

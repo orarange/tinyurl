@@ -3,7 +3,8 @@ const router = express.Router();
 const tinyurl = require('../models/tinyurl');
 const premium = require('../models/premium');
 const preuser = require('../models/preuser');
-const users = require('../models/users');
+const User = require('../models/users');
+const { checkUrlLimit } = require('../functions/usageLimits');
 
 // ユーザー認証情報を取得する共通関数
 async function getUserAuth(req, res) {
@@ -12,7 +13,7 @@ async function getUserAuth(req, res) {
 		try {
 			const userSession = JSON.parse(req.cookies.user_session);
 			// DBからユーザー情報を取得してuniqueIdを含める
-			const user = await users.findById(userSession.id);
+			const user = await User.findById(userSession.id);
 			if (user) {
 				return {
 					username: userSession.username,
@@ -104,9 +105,26 @@ router.post('/tiny_url', async (req, res) => {
 		// プレミアムステータスを取得（uniqueIdを使用）
 		const premiumStatus = await getPremiumStatus(userAuth?.uniqueId);
 		
+		// 使用量制限をチェック（ログインユーザーのみ）
+		if (userAuth && userAuth.uniqueId) {
+			const limitCheck = await checkUrlLimit(userAuth.uniqueId);
+			
+			if (!limitCheck.allowed) {
+				const renderData = getRenderData(userAuth, premiumStatus, {
+					url: 'error',
+					tiny: 'error'
+				});
+				return res.status(429).render('index', {
+					...renderData,
+					errorMessage: `今月のURL作成制限（${limitCheck.limit}個）に達しました。来月またはプレミアムプランへのアップグレードをご検討ください。`
+				});
+			}
+		}
+		
 		// 短縮URLの生成
 		const tinyCode = Math.random().toString(32).substring(2);
 		const baseUrl = process.env.domain || 'orrn.net';
+		const finalTinyCode = (premiumStatus.isPremium && custom) ? custom : tinyCode;
 		
 		console.log('URL短縮処理開始:', { 
 			original, 
@@ -115,59 +133,38 @@ router.post('/tiny_url', async (req, res) => {
 			username: userAuth?.username 
 		});
 
-		if (premiumStatus.isPremium) {
-			// プレミアムユーザーの処理
-			const finalTinyCode = custom || tinyCode;
-			
-			// カスタムURLの重複チェック（カスタム指定時のみ）
-			if (custom) {
-				const existingUrl = await premium.findOne({ tiny: custom });
-				if (existingUrl) {
-					const renderData = getRenderData(userAuth, premiumStatus, {
-						url: custom,
-						tiny: 'Already registered'
-					});
-					return res.status(400).render('index', renderData);
-				}
+		// カスタムURLの重複チェック（カスタム指定時のみ）
+		if (custom && premiumStatus.isPremium) {
+			const existingUrl = await tinyurl.findOne({ tiny: custom });
+			if (existingUrl) {
+				const renderData = getRenderData(userAuth, premiumStatus, {
+					url: custom,
+					tiny: 'Already registered'
+				});
+				return res.status(400).render('index', renderData);
 			}
-
-			// プレミアムテーブルに保存
-			const premiumUrl = new premium({
-				original: original,
-				tiny: finalTinyCode,
-				userid: userAuth.uniqueId,
-				username: userAuth.username,
-				createdAt: new Date()
-			});
-
-			await premiumUrl.save();
-			
-			const renderData = getRenderData(userAuth, premiumStatus, {
-				tiny: `https://${domain || baseUrl}/t/${finalTinyCode}`
-			});
-			
-			console.log('プレミアム短縮URL作成完了:', finalTinyCode);
-			res.status(200).render('index', renderData);
-
-		} else {
-			// フリーユーザーの処理
-			const freeUrl = new tinyurl({
-				userid: userAuth?.uniqueId || 'anonymous',
-				username: userAuth?.username || 'Anonymous',
-				original: original,
-				tiny: tinyCode,
-				createdAt: new Date()
-			});
-
-			await freeUrl.save();
-			
-			const renderData = getRenderData(userAuth, premiumStatus, {
-				tiny: `https://orrn.net/t/${tinyCode}`
-			});
-			
-			console.log('フリー短縮URL作成完了:', tinyCode);
-			res.status(200).render('index', renderData);
 		}
+
+		// 統合モデルに保存（フリー・プレミアム共通）
+		const newUrl = new tinyurl({
+			userid: userAuth?.id || null,
+			uniqueId: userAuth?.uniqueId || null,
+			username: userAuth?.username || 'Anonymous',
+			original: original,
+			tiny: finalTinyCode,
+			isPremium: premiumStatus.isPremium,
+			isCustom: !!(custom && premiumStatus.isPremium),
+			createdVia: 'web'
+		});
+
+		await newUrl.save();
+		
+		const renderData = getRenderData(userAuth, premiumStatus, {
+			tiny: `https://${domain || baseUrl}/t/${finalTinyCode}`
+		});
+		
+		console.log('短縮URL作成完了:', finalTinyCode);
+		res.status(200).render('index', renderData);
 
 	} catch (error) {
 		console.error('URL短縮エラー:', error);

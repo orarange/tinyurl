@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const tinyurl = require('../models/tinyurl');
+const { authenticateToken, logApiUsage } = require('../functions/apiAuth');
+
+// トークン認証と使用履歴記録を適用
+router.use(authenticateToken);
+router.use(logApiUsage);
 
 router.get('/', function (req, res) {
 	const { t } = req.query;
