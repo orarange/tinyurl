@@ -35,6 +35,7 @@ const buy = require('./routes/buypremium');
 const regiater = require('./routes/register');
 
 const API1 = require('./APIs/index');
+const APIAuth = require('./APIs/auth');
 const pull = require('./APIs/pull');
 const get = require('./APIs/geturl');
 const gettiny = require('./APIs/gettiny');
@@ -99,6 +100,8 @@ app.use('/robots.txt', function (req, res) {
 	res.sendFile(__dirname + '/robots.txt');
 });
 
+// auth endpoints must be mounted before the main API router which applies token auth
+app.use('/api/auth', APIAuth);
 app.use('/api', API1);
 app.use('/api/pull', pull);
 app.use('/api/get', get);
