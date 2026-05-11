@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 const User = require('../models/users');
 
 async function verifyLogin(email, password) {
@@ -8,16 +8,28 @@ async function verifyLogin(email, password) {
 
 	try {
 		const user = await User.findOne({ email: email });
-		
+
 		if (!user) {
 			return { success: false, message: 'メールアドレスまたはパスワードが正しくありません' };
 		}
 
-		// パスワードの照合（プレーンテキスト比較）
-		// 注: 本番環境ではbcryptなどでハッシュ化すべき
-		if (user.password === password) {
-			return { 
-				success: true, 
+		let passwordMatch = false;
+		const isHashed = user.password && user.password.startsWith('$2');
+
+		if (isHashed) {
+			passwordMatch = await bcrypt.compare(password, user.password);
+		} else {
+			// 既存平文パスワードの移行: 一致したらその場でハッシュ化して保存
+			passwordMatch = user.password === password;
+			if (passwordMatch) {
+				user.password = await bcrypt.hash(password, 12);
+				await user.save();
+			}
+		}
+
+		if (passwordMatch) {
+			return {
+				success: true,
 				user: {
 					id: user._id,
 					uniqueId: user.uniqueId,

@@ -1,49 +1,12 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="無料で使える高速URL短縮サービスTiny-URL。長いリンクを短くして簡単に共有。プレミアムプランではカスタムURL、アクセス解析、QRコード生成などの機能をご利用いただけます。">
+    <meta name="description" content="無料で使える高速URL短縮サービスTiny-URL。長いリンクを短くして簡単に共有。プレミアムプランではカスタムURL、アクセス解析、QRコード生成などの機能をご利用いただけます。">
     <title>Tiny-URL | 最速のURL短縮サービス</title>
-    <!-- 重要なリソースへの事前接続 -->
-    <link rel="preconnect" href="https://cdn.tailwindcss.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
-    <link rel="preconnect" href="https://fundingchoicesmessages.google.com">
-    <!-- Tailwind CSS を即時読み込み -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- フォントを即時読み込み -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #4f46e5;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f172a;
-            color: #e2e8f0;
-        }
-
-        .gradient-text {
-            background-image: linear-gradient(90deg, #6366f1, #a855f7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .transition-ease {
-            transition: all 0.3s ease-in-out;
-        }
-
-        /* section内のh1に明示的なフォントサイズを指定して非推奨API警告を解決 */
-        section h1 {
-            font-size: inherit;
-        }
-    </style>
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GREHT23WLE"></script>
@@ -51,207 +14,167 @@
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-GREHT23WLE');
 </script>
-
-<body class="min-h-screen flex flex-col antialiased">
-    <header class="p-4 sm:p-6 bg-slate-800/80 backdrop-blur-sm shadow-lg sticky top-0 z-10">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="/" class="text-3xl font-extrabold gradient-text tracking-tight">Tiny-URL</a>
-            <nav class="hidden md:flex space-x-6 items-center">
-                <a href="/" class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">ホーム</a>
-                <a href="/api/reference"
-                    class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">APIリファレンス</a>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="/" class="navbar-brand">Tiny-URL</a>
+            <ul class="navbar-nav">
+                <li><a href="/">ホーム</a></li>
+                <li><a href="/api/reference">APIリファレンス</a></li>
                 <% if (name) { %>
-                    <a href="/dashboard"
-                        class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">ダッシュボード</a>
-                    <a href="/logout"
-                        class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-lg shadow-md transition-ease">ログアウト</a>
-                    <% } else { %>
-                        <a href="/buy"
-                            class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">プレミアム</a>
-                        <a href="/login"
-                            class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-md transition-ease">ログイン</a>
-                        <% } %>
-            </nav>
-            <button id="menu-button" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-700 transition-ease"
-                aria-label="メニューを開く" title="メニュー">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
-                    </path>
-                </svg>
-            </button>
-        </div>
-        <!-- モバイルメニュー -->
-        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-2">
-            <a href="/" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">ホーム</a>
-            <a href="/api/reference"
-                class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">APIリファレンス</a>
-            <% if (name) { %>
-                <a href="/dashboard"
-                    class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">ダッシュボード</a>
-                <a href="/logout"
-                    class="block px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-ease">ログアウト</a>
+                    <li><a href="/dashboard">ダッシュボード</a></li>
+                    <li><a href="/logout" class="btn-nav-danger">ログアウト</a></li>
                 <% } else { %>
-                    <a href="/buy"
-                        class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">プレミアム</a>
-                    <a href="/login"
-                        class="block px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-ease">ログイン</a>
-                    <% } %>
+                    <li><a href="/buy">プレミアム</a></li>
+                    <li><a href="/login" class="btn-nav-primary">ログイン</a></li>
+                <% } %>
+            </ul>
+            <button class="navbar-toggle" id="menu-button" aria-label="メニューを開く" title="メニュー">&#9776;</button>
         </div>
-    </header>
-    <main class="flex-grow flex items-center justify-center p-4 sm:p-8">
-        <div class="max-w-xl w-full">
-            <section class="text-center mb-12">
-                <h1
-                    class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-none tracking-tight mb-4">
-                    <span class="gradient-text">短く、速く、強力に。</span>
-                </h1>
-                <p class="text-base sm:text-lg md:text-xl text-slate-400 mb-8 px-2 sm:px-4 leading-relaxed">
-                    複雑なURLを瞬時に短縮し、クリックを追跡。<br class="hidden sm:inline">
-                    あなたのリンク管理を次のレベルへ。
-                </p>
-                <% if (url==='error' || tiny==='error' ) { %>
-                    <div class="p-4 mb-6 rounded-xl text-left bg-red-900/50 text-red-300 border border-red-700">
-                        <p class="font-semibold">エラー: URLの短縮に失敗しました</p>
-                    </div>
+    </nav>
+    <div class="mobile-menu hidden" id="mobile-menu">
+        <a href="/">ホーム</a>
+        <a href="/api/reference">APIリファレンス</a>
+        <% if (name) { %>
+            <a href="/dashboard">ダッシュボード</a>
+            <a href="/logout" class="btn-nav-danger">ログアウト</a>
+        <% } else { %>
+            <a href="/buy">プレミアム</a>
+            <a href="/login" class="btn-nav-primary">ログイン</a>
+        <% } %>
+    </div>
+
+    <div class="page-wrap">
+        <div class="main-content">
+            <div class="container-sm">
+                <section class="hero">
+                    <h1>短く、速く、強力に。</h1>
+                    <p class="lead">
+                        複雑なURLを瞬時に短縮し、クリックを追跡。<br>
+                        あなたのリンク管理を次のレベルへ。
+                    </p>
+
+                    <% if (url === 'error' || tiny === 'error') { %>
+                        <div class="alert alert-danger">
+                            <strong>エラー:</strong> URLの短縮に失敗しました
+                        </div>
+                    <% } else if (tiny && tiny.startsWith('http')) { %>
+                        <div class="alert alert-success">
+                            <strong>✓ URL短縮が完了しました</strong>
+                        </div>
+                    <% } else if (tiny === 'Already registered') { %>
+                        <div class="alert alert-warning">
+                            <strong>そのカスタムURLはすでに使用されています。</strong>別のパスを指定してください。
+                        </div>
+                    <% } else if (tiny && tiny !== '') { %>
+                        <div class="alert alert-danger">
+                            <strong><%= tiny %></strong>
+                        </div>
                     <% } %>
-                        <% if (tiny && tiny !=='' && tiny !=='error' && tiny !=='Registered' ) { %>
-                            <div
-                                class="p-4 mb-6 rounded-xl text-left bg-green-900/50 text-green-300 border border-green-700">
-                                <p class="font-semibold">お知らせ: URL短縮が完了しました</p>
-                            </div>
+
+                    <div class="panel">
+                        <div class="panel-body">
+                            <% if (name) { %>
+                                <p class="text-muted text-sm" style="margin-bottom:8px;">
+                                    こんにちは、<strong><%= name %></strong>さん
+                                </p>
+                                <span class="user-badge <%= premiu ? 'user-badge-premium' : 'user-badge-free' %>">
+                                    <%= premiu ? 'プレミアムプラン' : 'フリープラン' %>をご利用中
+                                </span>
+                            <% } else { %>
+                                <span class="user-badge user-badge-guest">ゲストユーザー</span>
                             <% } %>
-                                <form action="/tiny_url" method="POST" id="url-input-card"
-                                    class="bg-slate-800 p-6 sm:p-8 rounded-2xl shadow-2xl border border-slate-700/50">
-                                    <% if (name) { %>
-                                        <div class="mb-6">
-                                            <div class="text-sm font-semibold text-slate-300 mb-2">
-                                                こんにちは、<span class="text-indigo-400">
-                                                    <%= name %>
-                                                </span>さん
-                                            </div>
-                                            <div
-                                                class="text-xs font-semibold uppercase tracking-wider text-green-400 bg-green-900/30 py-1 px-3 rounded-full inline-block">
-                                                <%= premiu ? 'プレミアムプラン' : 'フリープラン' %>をご利用中
-                                            </div>
-                                        </div>
-                                        <% } else { %>
-                                            <div
-                                                class="text-xs font-semibold uppercase tracking-wider text-blue-400 bg-blue-900/30 py-1 px-3 rounded-full inline-block mb-6">
-                                                ゲストユーザー
-                                            </div>
-                                            <% } %>
-                                                <div class="space-y-4">
-                                                    <input type="url" name="original" id="long-url"
-                                                        placeholder="短縮したいURLを入力してください (例: https://very-long-link.com/)"
-                                                        class="w-full p-4 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
-                                                        value="<%= url || '' %>" required>
-                                                    <% if (premiu) { %>
-                                                        <div class="relative flex items-center">
-                                                            <span
-                                                                class="absolute left-4 text-slate-400 font-mono text-sm">https://
-                                                                <%= domain %>/t/</span>
-                                                            <input type="text" name="custom" id="custom-path"
-                                                                placeholder="カスタムパス (オプション)"
-                                                                class="w-full pl-44 pr-4 py-4 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
-                                                                value="">
-                                                        </div>
-                                                        <% } %>
-                                                </div>
-                                                <button type="submit" id="shorten-button"
-                                                    class="w-full mt-6 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-indigo-500/50 transition-ease active:scale-[0.99]">短縮する</button>
-                                                <div class="mt-4 text-left">
-                                                    <label class="flex items-start cursor-pointer">
-                                                        <input type="checkbox" name="agree_terms" id="agree-terms"
-                                                            checked
-                                                            class="mt-1 w-4 h-4 text-indigo-600 bg-slate-700 border-slate-600 rounded focus:ring-indigo-500 transition-ease">
-                                                        <span class="ml-2 text-sm text-slate-400">「<a
-                                                                href="https://orrn.net/policy" target="_blank"
-                                                                class="text-indigo-400 hover:text-indigo-300 transition-ease underline">利用規約</a>」を読み、同意しました</span>
-                                                    </label>
-                                                </div>
-                                </form>
-                                <% if (tiny && tiny !=='' && tiny !=='error' && tiny !=='Registered' ) { %>
-                                    <div id="result-card"
-                                        class="bg-slate-800 p-6 sm:p-8 rounded-2xl shadow-2xl border border-slate-700/50 mt-6">
-                                        <h3 class="text-2xl font-semibold text-green-400 mb-4">短縮完了！</h3>
-                                        <div
-                                            class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                                            <input type="text" id="short-url-output" readonly value="<%= tiny %>"
-                                                class="flex-grow p-3 bg-slate-700 border border-slate-600 text-slate-200 rounded-lg text-center sm:text-left font-mono">
-                                            <button id="copy-button"
-                                                class="flex-shrink-0 px-6 py-3 bg-green-600 hover:bg-green-500 text-white font-semibold rounded-lg shadow-md transition-ease active:scale-[0.99] flex items-center space-x-2">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5h6m-6 0v4m6-4v4m-6 0h6m-6 0h.01M18 10h.01M18 14h.01M18 18h.01">
-                                                    </path>
-                                                </svg>
-                                                <span id="copy-text">コピー</span>
-                                            </button>
+
+                            <form action="/tiny_url" method="POST" id="url-input-card" style="margin-top:14px;">
+                                <div class="form-group">
+                                    <input type="url" name="original" id="long-url" class="form-control form-lg"
+                                        placeholder="短縮したいURLを入力してください (例: https://very-long-link.com/)"
+                                        value="<%= url || '' %>" required>
+                                </div>
+
+                                <% if (premiu) { %>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" style="font-family:monospace; font-size:12px;">https://<%= domain %>/t/</span>
+                                            <input type="text" name="custom" id="custom-path" class="form-control"
+                                                placeholder="カスタムパス (オプション)" value="">
                                         </div>
                                     </div>
-                                    <% } %>
-            </section>
+                                <% } %>
+
+                                <div class="form-group">
+                                    <label style="font-weight:normal; cursor:pointer; font-size:13px;">
+                                        <input type="checkbox" name="agree_terms" id="agree-terms" checked>
+                                        「<a href="https://orrn.net/policy" target="_blank">利用規約</a>」を読み、同意しました
+                                    </label>
+                                </div>
+
+                                <button type="submit" id="shorten-button" class="btn btn-primary btn-block btn-lg">
+                                    短縮する
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <% if (tiny && tiny.startsWith('http')) { %>
+                        <div class="panel" style="border-color:#5cb85c;">
+                            <div class="panel-heading" style="background:#dff0d8; border-color:#5cb85c; color:#3c763d;">
+                                <h3 style="margin:0; font-size:14px;">短縮完了！</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="copy-group">
+                                    <input type="text" id="short-url-output" readonly value="<%= tiny %>"
+                                        class="form-control" style="font-family:monospace;">
+                                    <button id="copy-button" class="btn btn-success" style="white-space:nowrap;">
+                                        <span id="copy-text">コピー</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                </section>
+            </div>
         </div>
-    </main>
-    <footer class="p-4 sm:p-6 text-center text-slate-400 text-sm bg-slate-800 border-t border-slate-700/50">
-        &copy; 2025 Tiny-URL. All rights reserved. |
-        <a href="/policy" class="hover:text-indigo-300 transition-ease">利用規約</a> |
-        <a href="/privacy" class="hover:text-indigo-300 transition-ease">プライバシーポリシー</a> |
-        <a href="/contact" class="hover:text-indigo-300 transition-ease">お問い合わせ</a> |
-        <a href="/about" class="hover:text-indigo-300 transition-ease">運営者情報</a>
+    </div>
+
+    <footer class="site-footer">
+        &copy; <script>document.write(new Date().getFullYear())</script> Tiny-URL. All rights reserved. |
+        <a href="/policy">利用規約</a> |
+        <a href="/privacy">プライバシーポリシー</a> |
+        <a href="/contact">お問い合わせ</a> |
+        <a href="/about">運営者情報</a>
     </footer>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // モバイルメニューのトグル
             const menuButton = document.getElementById('menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
-
             if (menuButton && mobileMenu) {
-                menuButton.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                });
+                menuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
             }
 
-            // URL短縮機能
             const shortUrlOutput = document.getElementById('short-url-output');
             const copyButton = document.getElementById('copy-button');
             const copyText = document.getElementById('copy-text');
             const agreeTermsCheckbox = document.getElementById('agree-terms');
             const shortenButton = document.getElementById('shorten-button');
 
-            function copyToClipboard(text) {
-                const tempInput = document.createElement('textarea');
-                tempInput.value = text;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-
-                try {
-                    document.execCommand('copy');
-                    copyText.textContent = 'コピーしました！';
-                    copyButton.classList.add('bg-indigo-600');
-                    copyButton.classList.remove('bg-green-600');
-
-                    setTimeout(() => {
-                        copyText.textContent = 'コピー';
-                        copyButton.classList.remove('bg-indigo-600');
-                        copyButton.classList.add('bg-green-600');
-                    }, 2500);
-                } catch (err) {
-                    console.error('クリップボードへのコピーに失敗しました', err);
-                }
-
-                document.body.removeChild(tempInput);
-            }
-
             if (shortUrlOutput && copyButton) {
                 copyButton.addEventListener('click', () => {
-                    copyToClipboard(shortUrlOutput.value);
+                    navigator.clipboard.writeText(shortUrlOutput.value).then(() => {
+                        copyText.textContent = 'コピーしました！';
+                        copyButton.classList.remove('btn-success');
+                        copyButton.classList.add('btn-primary');
+                        setTimeout(() => {
+                            copyText.textContent = 'コピー';
+                            copyButton.classList.remove('btn-primary');
+                            copyButton.classList.add('btn-success');
+                        }, 2500);
+                    }).catch(() => {
+                        copyText.textContent = 'コピー失敗';
+                    });
                 });
             }
 
@@ -262,29 +185,22 @@
                 shortenButton.disabled = !agreeTermsCheckbox.checked;
             }
 
-            // Google Ads を遅延読み込み（ユーザー操作後またはページ読み込み完了後）
+            // Google Ads の遅延読み込み
             let adsLoaded = false;
             function loadGoogleAds() {
                 if (adsLoaded) return;
                 adsLoaded = true;
-
                 const script = document.createElement('script');
                 script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4006009538073290';
                 script.async = true;
                 script.crossOrigin = 'anonymous';
                 document.head.appendChild(script);
             }
-
-            // ユーザーがスクロールしたら広告を読み込み
             window.addEventListener('scroll', loadGoogleAds, { once: true, passive: true });
-            // ユーザーがクリックしたら広告を読み込み
             document.addEventListener('click', loadGoogleAds, { once: true });
-            // ユーザーがタッチしたら広告を読み込み
             document.addEventListener('touchstart', loadGoogleAds, { once: true, passive: true });
-            // 3秒後に自動的に読み込み（ユーザー操作がない場合）
             setTimeout(loadGoogleAds, 3000);
         });
     </script>
 </body>
-
 </html>

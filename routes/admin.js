@@ -5,17 +5,15 @@ const preuser = require('../models/preuser');
 const premium = require('../models/premium');
 const users = require('../models/users');
 
-// 管理者認証ヘルパー関数
 async function authenticateAdmin(req) {
 	let currentUser = null;
 	let username = '';
 	let userId = '';
 
-	// メール認証をチェック
-	if (req.cookies.user_session) {
-		// メール認証の場合
+	const raw = req.signedCookies.user_session;
+	if (raw) {
 		try {
-			const sessionData = JSON.parse(req.cookies.user_session);
+			const sessionData = JSON.parse(raw);
 			currentUser = await users.findById(sessionData.id);
 			username = sessionData.username;
 			userId = sessionData.id;
@@ -28,13 +26,11 @@ async function authenticateAdmin(req) {
 		return { success: false, error: '認証が必要です' };
 	}
 
-	// 環境変数から管理者uniqueIDリストを取得
 	const adminUniqueIds = process.env.admin_unique_ids || process.env.ADMIN_UNIQUE_IDS;
 	if (!adminUniqueIds) {
 		return { success: false, error: '管理者設定が不正です' };
 	}
 
-	// 管理者uniqueIDをチェック（複数IDに対応）
 	const adminUniqueIdList = adminUniqueIds.split(',').map(id => id.trim());
 	if (!currentUser.uniqueId || !adminUniqueIdList.includes(currentUser.uniqueId)) {
 		console.log(`Access denied for user uniqueID: ${currentUser.uniqueId}, Admin uniqueIDs: ${adminUniqueIdList}`);
@@ -44,14 +40,13 @@ async function authenticateAdmin(req) {
 	return {
 		success: true,
 		user: currentUser,
-		username: username,
-		userId: userId
+		username,
+		userId
 	};
 }
 
 router.get('/', async (req, res) => {
 	try {
-		// 管理者認証機能（DB uniqueIDベース）
 		const authResult = await authenticateAdmin(req);
 		if (!authResult.success) {
 			if (authResult.error === '認証が必要です') {
@@ -67,34 +62,28 @@ router.get('/', async (req, res) => {
 		const { user: currentUser, username } = authResult;
 		console.log(`Admin access granted for: ${username} (uniqueID: ${currentUser.uniqueId})`);
 
-		// 全URLデータを取得（フリー + プレミアム）
 		const freeUrls = await tinyurl.find().sort({ createdAt: -1 });
 		const premiumUrls = await premium.find().sort({ createdAt: -1 });
-		
-		// 統合してソート
+
 		const allUrls = [...freeUrls, ...premiumUrls].sort((a, b) => {
 			const dateA = new Date(a.createdAt || 0);
 			const dateB = new Date(b.createdAt || 0);
 			return dateB - dateA;
 		});
 
-		// 統計データの計算
-		const totalUsers = await tinyurl.distinct('userid').length + await premium.distinct('userid').length;
 		const premiumUserCount = await preuser.countDocuments();
 
-		// 今日作成されたURLの数を計算
 		const today = new Date();
 		today.setHours(0, 0, 0, 0);
 		const tomorrow = new Date(today);
 		tomorrow.setDate(today.getDate() + 1);
-		
+
 		const todayUrlsCount = await tinyurl.countDocuments({
 			createdAt: { $gte: today, $lt: tomorrow }
 		}) + await premium.countDocuments({
 			createdAt: { $gte: today, $lt: tomorrow }
 		});
 
-		// 全ユーザー情報を取得
 		const allUsers = await users.find().sort({ createdAt: -1 });
 
 		console.log(`Admin access - Total URLs: ${allUrls.length}, Today: ${todayUrlsCount}, Users: ${allUsers.length}`);
@@ -103,7 +92,7 @@ router.get('/', async (req, res) => {
 			content: allUrls,
 			users: allUsers,
 			totalUrls: allUrls.length,
-			totalUsers: totalUsers,
+			totalUsers: allUsers.length,
 			premiumUsers: premiumUserCount,
 			todayUrls: todayUrlsCount,
 			url: '',
@@ -121,7 +110,6 @@ router.get('/', async (req, res) => {
 
 router.post('/alldelete', async function (req, res) {
 	try {
-		// 管理者認証
 		const authResult = await authenticateAdmin(req);
 		if (!authResult.success) {
 			return res.status(authResult.error === '認証が必要です' ? 401 : 403).send(authResult.error);
@@ -142,7 +130,6 @@ router.post('/alldelete', async function (req, res) {
 
 router.post('/delete', async function (req, res) {
 	try {
-		// 管理者認証
 		const authResult = await authenticateAdmin(req);
 		if (!authResult.success) {
 			return res.status(authResult.error === '認証が必要です' ? 401 : 403).send(authResult.error);
@@ -152,19 +139,15 @@ router.post('/delete', async function (req, res) {
 
 		let str = req.body.delnum;
 		const str2 = Array.isArray(str);
-		
+
 		if (str2) {
 			for (let i in str) {
-				// tinyurlコレクションから削除
 				await tinyurl.deleteOne({ tiny: str[i] });
-				// premiumコレクションからも削除
 				await premium.deleteOne({ tiny: str[i] });
 			}
 			console.log(`Admin ${username} (uniqueID: ${currentUser.uniqueId}) deleted ${str.length} URLs`);
 		} else {
-			// tinyurlコレクションから削除
 			await tinyurl.deleteOne({ tiny: str });
-			// premiumコレクションからも削除
 			await premium.deleteOne({ tiny: str });
 			console.log(`Admin ${username} (uniqueID: ${currentUser.uniqueId}) deleted URL: ${str}`);
 		}
@@ -179,7 +162,6 @@ router.post('/delete', async function (req, res) {
 
 router.post('/premiumadd', async (req, res) => {
 	try {
-		// 管理者認証
 		const authResult = await authenticateAdmin(req);
 		if (!authResult.success) {
 			return res.status(authResult.error === '認証が必要です' ? 401 : 403).send(authResult.error);
@@ -189,25 +171,22 @@ router.post('/premiumadd', async (req, res) => {
 
 		const { id, demo } = req.body;
 		console.log(`Admin ${username} (uniqueID: ${currentUser.uniqueId}) adding premium for user:`, req.body);
-		
+
 		if (id) {
-			// 入力されたuniqueIdでユーザーを検索
 			const targetUser = await users.findOne({ uniqueId: id });
 			if (!targetUser) {
 				console.log(`User with uniqueId ${id} not found`);
 				return res.status(400).send('指定されたuniqueIdのユーザーが見つかりません。');
 			}
 
-			// 既存のプレミアムステータスをチェック
-			const existingPremium = await preuser.findOne({ id: id });
+			const existingPremium = await preuser.findOne({ id });
 			if (existingPremium) {
 				console.log(`User ${id} is already premium`);
 				return res.status(400).send('このユーザーは既にプレミアムユーザーです。');
 			}
 
-			// プレミアムユーザーとして追加（uniqueIdを使用）
 			const _preuser = new preuser({
-				id: id, // uniqueIdを使用
+				id,
 				demo: demo === 'true' || demo === true
 			});
 			await _preuser.save();
@@ -222,10 +201,8 @@ router.post('/premiumadd', async (req, res) => {
 	}
 });
 
-// ユーザー削除機能
 router.post('/delete-user', async (req, res) => {
 	try {
-		// 管理者認証
 		const authResult = await authenticateAdmin(req);
 		if (!authResult.success) {
 			return res.status(authResult.error === '認証が必要です' ? 401 : 403).json({ error: authResult.error });
@@ -234,29 +211,22 @@ router.post('/delete-user', async (req, res) => {
 		const { user: currentUser, username } = authResult;
 
 		const { userId } = req.body;
-		
+
 		if (!userId) {
 			return res.status(400).json({ error: 'ユーザーIDが必要です' });
 		}
 
-		// ユーザーを取得
 		const user = await users.findById(userId);
 		if (!user) {
 			return res.status(404).json({ error: 'ユーザーが見つかりません' });
 		}
 
-		// ユーザーのURLを削除（uniqueIdで検索）
 		if (user.uniqueId) {
 			await tinyurl.deleteMany({ userid: user.uniqueId });
 			await premium.deleteMany({ userid: user.uniqueId });
-		}
-
-		// プレミアムユーザー情報を削除
-		if (user.uniqueId) {
 			await preuser.deleteMany({ id: user.uniqueId });
 		}
 
-		// ユーザーを削除
 		await users.findByIdAndDelete(userId);
 
 		console.log(`Admin ${username} (uniqueID: ${currentUser.uniqueId}) deleted user: ${user.username || user.email || user.uniqueId}`);

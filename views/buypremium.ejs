@@ -1,423 +1,237 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>プレミアムプラン | Tiny-URL</title>
-  <meta name="description"
-    content="Tiny-URLプレミアムプランの購入ページ。カスタムURL、詳細なアクセス解析、QRコード生成、優先サポートなど、充実した機能を月額500円からご利用いただけます。">
-  <meta name="keywords" content="短縮,URL,URL短縮,短縮URL">
-  <meta name="theme-color" content="#6E3DD9">
-  <link rel="preconnect" href="https://cdn.tailwindcss.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://www.paypal.com">
-  <script src="https://cdn.tailwindcss.com" defer></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"
-    media="print" onload="this.media='all'">
-  <script src="https://www.paypal.com/sdk/js?client-id=sb&enable-funding=venmo&currency=JPY"></script>
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #0f172a;
-      color: #e2e8f0;
-    }
-
-    .gradient-text {
-      background-image: linear-gradient(90deg, #6366f1, #a855f7);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .transition-ease {
-      transition: all 0.3s ease-in-out;
-    }
-
-    .plan-card {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .plan-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #6366f1, #a855f7);
-    }
-
-    .popular-badge {
-      background: linear-gradient(135deg, #6366f1, #a855f7);
-    }
-
-    /* PayPalボタンのスタイル統一 */
-    #paypal-button-monthly,
-    #paypal-button-yearly {
-      min-height: 60px;
-    }
-
-    /* プランカードの高さ統一 */
-    .plan-card {
-      min-height: 500px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プレミアムプラン | Tiny-URL</title>
+    <meta name="description" content="Tiny-URLプレミアムプランの購入ページ。カスタムURL、詳細なアクセス解析、QRコード生成、優先サポートなど、充実した機能を月額500円からご利用いただけます。">
+    <meta name="keywords" content="短縮,URL,URL短縮,短縮URL">
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="preconnect" href="https://www.paypal.com">
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://www.paypal.com/sdk/js?client-id=sb&enable-funding=venmo&currency=JPY"></script>
+    <style>
+        #paypal-button-monthly, #paypal-button-yearly { min-height: 55px; margin-top: 12px; }
+    </style>
 </head>
-
-<body class="min-h-screen flex flex-col antialiased">
-  <header class="p-4 sm:p-6 bg-slate-800/80 backdrop-blur-sm shadow-lg sticky top-0 z-10">
-    <div class="max-w-7xl mx-auto flex justify-between items-center">
-      <a href="/" class="text-3xl font-extrabold gradient-text tracking-tight">Tiny-URL</a>
-      <nav class="hidden md:flex space-x-6 items-center">
-        <a href="/" class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">ホーム</a>
-        <a href="/api/reference"
-          class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">APIリファレンス</a>
-        <% if (name) { %>
-          <a href="/dashboard"
-            class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">ダッシュボード</a>
-          <a href="/logout"
-            class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-lg shadow-md transition-ease">ログアウト</a>
-          <% } else { %>
-            <a href="/login"
-              class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-md transition-ease">ログイン</a>
-            <% } %>
-      </nav>
-      <button id="menu-button" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-700 transition-ease"
-        aria-label="メニューを開く" title="メニュー">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
-          </path>
-        </svg>
-      </button>
-    </div>
-    <!-- モバイルメニュー -->
-    <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-2">
-      <a href="/" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">ホーム</a>
-      <a href="/api/reference"
-        class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">APIリファレンス</a>
-      <% if (name) { %>
-        <a href="/dashboard"
-          class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">ダッシュボード</a>
-        <a href="/logout"
-          class="block px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-ease">ログアウト</a>
-        <% } else { %>
-          <a href="/login"
-            class="block px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-ease">ログイン</a>
-          <% } %>
-    </div>
-  </header>
-
-  <main class="flex-grow p-4 sm:p-8">
-    <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-12">
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold gradient-text mb-4">プレミアムプラン</h1>
-        <p class="text-lg sm:text-xl text-slate-400">より多くの機能と柔軟性をお求めの方へ</p>
-        <% if (name) { %>
-          <div class="mt-6 text-slate-300">
-            <span class="text-indigo-400 font-semibold">
-              <%= name %>
-            </span>さん、こんにちは！
-            <br>
-            <span class="text-sm text-slate-400">現在：<%= premiu ? 'プレミアムプラン' : 'フリープラン' %>をご利用中</span>
-          </div>
-          <% } %>
-      </div>
-
-      <% if (name) { %>
-        <!-- プラン選択カード -->
-        <div class="grid md:grid-cols-2 gap-6 mb-12 items-stretch">
-          <!-- 月額プラン -->
-          <div class="plan-card bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-700/50 flex flex-col h-full">
-            <div class="text-center mb-6">
-              <h2 class="text-2xl font-bold text-white mb-2">月額プラン</h2>
-              <div class="flex items-baseline justify-center mb-4">
-                <span class="text-5xl font-extrabold gradient-text">¥20</span>
-                <span class="text-slate-400 ml-2">/月</span>
-              </div>
-              <p class="text-slate-400 text-sm">月ごとの柔軟な契約</p>
-            </div>
-            <ul class="space-y-3 mb-8 flex-grow">
-              <li class="flex items-center text-slate-300">
-                <svg class="w-5 h-5 mr-3 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                無制限のURL短縮
-              </li>
-              <li class="flex items-center text-slate-300">
-                <svg class="w-5 h-5 mr-3 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                カスタムURL設定
-              </li>
-              <li class="flex items-center text-slate-300">
-                <svg class="w-5 h-5 mr-3 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                詳細なアクセス統計
-              </li>
-              <li class="flex items-center text-slate-300">
-                <svg class="w-5 h-5 mr-3 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                優先サポート
-              </li>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="/" class="navbar-brand">Tiny-URL</a>
+            <ul class="navbar-nav">
+                <li><a href="/">ホーム</a></li>
+                <li><a href="/api/reference">APIリファレンス</a></li>
+                <% if (name) { %>
+                    <li><a href="/dashboard">ダッシュボード</a></li>
+                    <li><a href="/logout" class="btn-nav-danger">ログアウト</a></li>
+                <% } else { %>
+                    <li><a href="/login" class="btn-nav-primary">ログイン</a></li>
+                <% } %>
             </ul>
-            <div class="mt-auto">
-              <div id="paypal-button-monthly"></div>
-            </div>
-          </div>
-
-          <!-- 年額プラン（人気） -->
-          <div
-            class="plan-card bg-slate-800 p-8 rounded-2xl shadow-xl border border-indigo-500/50 relative flex flex-col h-full">
-            <div class="absolute top-4 right-4">
-              <span class="popular-badge px-3 py-1 rounded-full text-white text-xs font-bold shadow-lg">人気</span>
-            </div>
-            <div class="text-center mb-6">
-              <h2 class="text-2xl font-bold text-white mb-2">年額プラン</h2>
-              <div class="flex items-baseline justify-center mb-2">
-                <span class="text-5xl font-extrabold gradient-text">¥200</span>
-                <span class="text-slate-400 ml-2">/年</span>
-              </div>
-              <div class="mb-4">
-                <span class="text-green-400 text-sm font-semibold">月額換算 ¥16.7/月</span>
-                <span class="block text-slate-500 text-xs">2ヶ月分お得！</span>
-              </div>
-              <p class="text-slate-400 text-sm">長期利用でさらにお得</p>
-            </div>
-            <ul class="space-y-3 mb-8 flex-grow">
-              <li class="flex items-center text-slate-300">
-                <svg class="w-5 h-5 mr-3 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                無制限のURL短縮
-              </li>
-              <li class="flex items-center text-slate-300">
-                <svg class="w-5 h-5 mr-3 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                カスタムURL設定
-              </li>
-              <li class="flex items-center text-slate-300">
-                <svg class="w-5 h-5 mr-3 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                詳細なアクセス統計
-              </li>
-              <li class="flex items-center text-slate-300">
-                <svg class="w-5 h-5 mr-3 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                優先サポート
-              </li>
-              <li class="flex items-center text-indigo-300 font-semibold">
-                <svg class="w-5 h-5 mr-3 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                17%割引（年間¥40お得）
-              </li>
-            </ul>
-            <div class="mt-auto">
-              <div id="paypal-button-yearly"></div>
-            </div>
-          </div>
+            <button class="navbar-toggle" id="menu-button" aria-label="メニューを開く" title="メニュー">&#9776;</button>
         </div>
-
-        <!-- 機能比較表 -->
-        <div class="bg-slate-800 p-6 sm:p-8 rounded-2xl shadow-xl border border-slate-700/50 mb-8">
-          <h2 class="text-2xl font-bold text-white mb-6 text-center">プラン比較</h2>
-          <div class="overflow-x-auto">
-            <table class="w-full">
-              <thead>
-                <tr class="border-b border-slate-700">
-                  <th class="text-left py-4 px-4 text-slate-400 font-semibold">機能</th>
-                  <th class="text-center py-4 px-4 text-slate-400 font-semibold">無料プラン</th>
-                  <th class="text-center py-4 px-4 text-indigo-400 font-semibold">プレミアムプラン</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="border-b border-slate-700/50">
-                  <td class="py-4 px-4 text-slate-300">URL短縮数</td>
-                  <td class="text-center py-4 px-4 text-slate-400">制限あり</td>
-                  <td class="text-center py-4 px-4 text-green-400 font-semibold">無制限</td>
-                </tr>
-                <tr class="border-b border-slate-700/50">
-                  <td class="py-4 px-4 text-slate-300">カスタムURL</td>
-                  <td class="text-center py-4 px-4 text-red-400">✗</td>
-                  <td class="text-center py-4 px-4 text-green-400">✓</td>
-                </tr>
-                <tr class="border-b border-slate-700/50">
-                  <td class="py-4 px-4 text-slate-300">アクセス統計</td>
-                  <td class="text-center py-4 px-4 text-slate-400">基本のみ</td>
-                  <td class="text-center py-4 px-4 text-green-400">詳細</td>
-                </tr>
-                <tr class="border-b border-slate-700/50">
-                  <td class="py-4 px-4 text-slate-300">URL有効期限</td>
-                  <td class="text-center py-4 px-4 text-slate-400">30日</td>
-                  <td class="text-center py-4 px-4 text-green-400">無期限</td>
-                </tr>
-                <tr>
-                  <td class="py-4 px-4 text-slate-300">サポート</td>
-                  <td class="text-center py-4 px-4 text-slate-400">標準</td>
-                  <td class="text-center py-4 px-4 text-green-400">優先</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- 注意事項 -->
-        <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700/50">
-          <h3 class="text-lg font-bold text-white mb-3">ご利用にあたって</h3>
-          <ul class="space-y-2 text-sm text-slate-400">
-            <li class="flex items-start">
-              <svg class="w-4 h-4 mr-2 mt-0.5 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              お支払いはPayPalを通じて安全に処理されます
-            </li>
-            <li class="flex items-start">
-              <svg class="w-4 h-4 mr-2 mt-0.5 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              プレミアム機能は決済完了後すぐにご利用いただけます
-            </li>
-            <li class="flex items-start">
-              <svg class="w-4 h-4 mr-2 mt-0.5 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              解約はいつでも可能です（次回更新日まで利用可能）
-            </li>
-          </ul>
-        </div>
+    </nav>
+    <div class="mobile-menu hidden" id="mobile-menu">
+        <a href="/">ホーム</a>
+        <a href="/api/reference">APIリファレンス</a>
+        <% if (name) { %>
+            <a href="/dashboard">ダッシュボード</a>
+            <a href="/logout" class="btn-nav-danger">ログアウト</a>
         <% } else { %>
-          <!-- 未ログイン時の表示 -->
-          <div class="max-w-2xl mx-auto text-center">
-            <div class="bg-slate-800 p-8 sm:p-12 rounded-2xl shadow-xl border border-slate-700/50">
-              <div class="mb-6">
-                <svg class="w-20 h-20 mx-auto text-indigo-500 mb-4" fill="none" stroke="currentColor"
-                  viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
-                  </path>
-                </svg>
-                <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">ログインが必要です</h2>
-                <p class="text-slate-400 mb-8">プレミアムプランをご購入いただくには、まずログインしてください。</p>
-              </div>
-              <div class="space-y-4">
-                <a href="/login"
-                  class="block w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-indigo-500/50 transition-ease active:scale-[0.99]">
-                  ログイン
-                </a>
-                <p class="text-sm text-slate-400 text-center">
-                  アカウントをお持ちでない方は
-                  <a href="/register" class="text-indigo-400 hover:text-indigo-300 underline">こちら</a>
-                  から登録
-                </p>
-              </div>
-            </div>
-          </div>
-          <% } %>
+            <a href="/login" class="btn-nav-primary">ログイン</a>
+        <% } %>
     </div>
-  </main>
 
-  <footer class="p-4 sm:p-6 text-center text-slate-400 text-sm bg-slate-800 border-t border-slate-700/50">
-    &copy; 2025 Tiny-URL. All rights reserved. |
-    <a href="/policy" class="hover:text-indigo-400 transition-ease">利用規約</a> |
-    <a href="/privacy" class="hover:text-indigo-400 transition-ease">プライバシーポリシー</a> |
-    <a href="/contact" class="hover:text-indigo-400 transition-ease">お問い合わせ</a> |
-    <a href="/about" class="hover:text-indigo-400 transition-ease">運営者情報</a>
-  </footer>
+    <div class="page-wrap">
+        <div class="main-content">
+            <div class="container">
+                <div class="text-center mb-16">
+                    <h1 style="font-size:28px;">プレミアムプラン</h1>
+                    <p class="text-muted">より多くの機能と柔軟性をお求めの方へ</p>
+                    <% if (name) { %>
+                        <p class="text-muted text-sm">
+                            <strong><%= name %></strong>さん、こんにちは！
+                            現在：<strong><%= premiu ? 'プレミアムプラン' : 'フリープラン' %></strong>をご利用中
+                        </p>
+                    <% } %>
+                </div>
 
-  <script>
-    // モバイルメニューのトグル
-    const menuButton = document.getElementById('menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
+                <% if (name) { %>
+                    <!-- プラン選択カード -->
+                    <div class="plan-row">
+                        <!-- 月額プラン -->
+                        <div class="plan-card">
+                            <div class="text-center" style="margin-bottom:16px;">
+                                <h2 style="font-size:20px;">月額プラン</h2>
+                                <div>
+                                    <span class="plan-price">¥20</span>
+                                    <span class="plan-period">/月</span>
+                                </div>
+                                <p class="text-muted text-sm mb-0">月ごとの柔軟な契約</p>
+                            </div>
+                            <ul class="feature-list">
+                                <li>無制限のURL短縮</li>
+                                <li>カスタムURL設定</li>
+                                <li>詳細なアクセス統計</li>
+                                <li>優先サポート</li>
+                            </ul>
+                            <div id="paypal-button-monthly"></div>
+                        </div>
 
-    if (menuButton && mobileMenu) {
-      menuButton.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-      });
-    }
-  </script>
+                        <!-- 年額プラン（人気） -->
+                        <div class="plan-card plan-featured">
+                            <span class="plan-popular-badge">人気</span>
+                            <div class="text-center" style="margin-bottom:16px;">
+                                <h2 style="font-size:20px;">年額プラン</h2>
+                                <div>
+                                    <span class="plan-price">¥200</span>
+                                    <span class="plan-period">/年</span>
+                                </div>
+                                <p class="text-success text-sm mb-4">月額換算 ¥16.7/月 &mdash; 2ヶ月分お得！</p>
+                                <p class="text-muted text-sm mb-0">長期利用でさらにお得</p>
+                            </div>
+                            <ul class="feature-list">
+                                <li>無制限のURL短縮</li>
+                                <li>カスタムURL設定</li>
+                                <li>詳細なアクセス統計</li>
+                                <li>優先サポート</li>
+                                <li style="color:#337ab7; font-weight:bold;">17%割引（年間¥40お得）</li>
+                            </ul>
+                            <div id="paypal-button-yearly"></div>
+                        </div>
+                    </div>
 
-  <% if (name) { %>
+                    <!-- 機能比較表 -->
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h2>プラン比較</h2>
+                        </div>
+                        <div class="panel-body" style="padding:0; overflow-x:auto;">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>機能</th>
+                                        <th class="text-center">無料プラン</th>
+                                        <th class="text-center text-primary">プレミアムプラン</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>URL短縮数</td>
+                                        <td class="text-center text-muted">制限あり</td>
+                                        <td class="text-center text-success">無制限</td>
+                                    </tr>
+                                    <tr>
+                                        <td>カスタムURL</td>
+                                        <td class="text-center text-danger">✗</td>
+                                        <td class="text-center text-success">✓</td>
+                                    </tr>
+                                    <tr>
+                                        <td>アクセス統計</td>
+                                        <td class="text-center text-muted">基本のみ</td>
+                                        <td class="text-center text-success">詳細</td>
+                                    </tr>
+                                    <tr>
+                                        <td>URL有効期限</td>
+                                        <td class="text-center text-muted">30日</td>
+                                        <td class="text-center text-success">無期限</td>
+                                    </tr>
+                                    <tr>
+                                        <td>サポート</td>
+                                        <td class="text-center text-muted">標準</td>
+                                        <td class="text-center text-success">優先</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 注意事項 -->
+                    <div class="alert alert-info">
+                        <strong>ご利用にあたって</strong>
+                        <ul style="margin:8px 0 0; padding-left:20px; font-size:13px;">
+                            <li>お支払いはPayPalを通じて安全に処理されます</li>
+                            <li>プレミアム機能は決済完了後すぐにご利用いただけます</li>
+                            <li>解約はいつでも可能です（次回更新日まで利用可能）</li>
+                        </ul>
+                    </div>
+
+                <% } else { %>
+                    <!-- 未ログイン時の表示 -->
+                    <div class="container-sm">
+                        <div class="panel text-center">
+                            <div class="panel-body" style="padding:40px 24px;">
+                                <h2>ログインが必要です</h2>
+                                <p class="text-muted">プレミアムプランをご購入いただくには、まずログインしてください。</p>
+                                <a href="/login" class="btn btn-primary btn-lg">ログイン</a>
+                                <p class="text-muted text-sm mt-12">
+                                    アカウントをお持ちでない方は
+                                    <a href="/register">こちら</a>から登録
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        &copy; <script>document.write(new Date().getFullYear())</script> Tiny-URL. All rights reserved. |
+        <a href="/policy">利用規約</a> |
+        <a href="/privacy">プライバシーポリシー</a> |
+        <a href="/contact">お問い合わせ</a> |
+        <a href="/about">運営者情報</a>
+    </footer>
+
     <script>
-      // PayPalボタンの初期化
-      // 月額プラン
-      paypal.Buttons({
-        style: {
-          layout: 'vertical',
-          color: 'blue',
-          shape: 'rect',
-          label: 'paypal',
-          height: 50
-        },
-        createOrder: function (data, actions) {
-          return actions.order.create({
-            purchase_units: [{
-              amount: {
-                value: '20',
-                currency_code: 'JPY'
-              },
-              description: 'Tiny-URL プレミアムプラン（月額）'
-            }]
-          });
-        },
-        onApprove: function (data, actions) {
-          return actions.order.capture().then(function (details) {
-            alert('お支払いが完了しました！プレミアム機能をお楽しみください。');
-            window.location.href = '/dashboard';
-          });
-        },
-        onError: function (err) {
-          console.error('PayPalエラー:', err);
-          alert('お支払い処理中にエラーが発生しました。もう一度お試しください。');
+        const menuButton = document.getElementById('menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (menuButton && mobileMenu) {
+            menuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
         }
-      }).render('#paypal-button-monthly');
-
-      // 年額プラン
-      paypal.Buttons({
-        style: {
-          layout: 'vertical',
-          color: 'blue',
-          shape: 'rect',
-          label: 'paypal',
-          height: 50
-        },
-        createOrder: function (data, actions) {
-          return actions.order.create({
-            purchase_units: [{
-              amount: {
-                value: '200',
-                currency_code: 'JPY'
-              },
-              description: 'Tiny-URL プレミアムプラン（年額）'
-            }]
-          });
-        },
-        onApprove: function (data, actions) {
-          return actions.order.capture().then(function (details) {
-            alert('お支払いが完了しました！プレミアム機能をお楽しみください。');
-            window.location.href = '/dashboard';
-          });
-        },
-        onError: function (err) {
-          console.error('PayPalエラー:', err);
-          alert('お支払い処理中にエラーが発生しました。もう一度お試しください。');
-        }
-      }).render('#paypal-button-yearly');
     </script>
+
+    <% if (name) { %>
+        <script>
+            paypal.Buttons({
+                style: { layout: 'vertical', color: 'blue', shape: 'rect', label: 'paypal', height: 45 },
+                createOrder: function (data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{ amount: { value: '20', currency_code: 'JPY' }, description: 'Tiny-URL プレミアムプラン（月額）' }]
+                    });
+                },
+                onApprove: function (data, actions) {
+                    return actions.order.capture().then(function (details) {
+                        alert('お支払いが完了しました！プレミアム機能をお楽しみください。');
+                        window.location.href = '/dashboard';
+                    });
+                },
+                onError: function (err) {
+                    console.error('PayPalエラー:', err);
+                    alert('お支払い処理中にエラーが発生しました。もう一度お試しください。');
+                }
+            }).render('#paypal-button-monthly');
+
+            paypal.Buttons({
+                style: { layout: 'vertical', color: 'blue', shape: 'rect', label: 'paypal', height: 45 },
+                createOrder: function (data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{ amount: { value: '200', currency_code: 'JPY' }, description: 'Tiny-URL プレミアムプラン（年額）' }]
+                    });
+                },
+                onApprove: function (data, actions) {
+                    return actions.order.capture().then(function (details) {
+                        alert('お支払いが完了しました！プレミアム機能をお楽しみください。');
+                        window.location.href = '/dashboard';
+                    });
+                },
+                onError: function (err) {
+                    console.error('PayPalエラー:', err);
+                    alert('お支払い処理中にエラーが発生しました。もう一度お試しください。');
+                }
+            }).render('#paypal-button-yearly');
+        </script>
     <% } %>
 </body>
-
 </html>

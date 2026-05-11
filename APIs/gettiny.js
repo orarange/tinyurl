@@ -3,23 +3,26 @@ const router = express.Router();
 const tinyurl = require('../models/tinyurl');
 const { authenticateToken, logApiUsage } = require('../functions/apiAuth');
 
-// トークン認証と使用履歴記録を適用
 router.use(authenticateToken);
 router.use(logApiUsage);
 
-router.get('/', function (req, res) {
+router.get('/', async (req, res) => {
 	const { o } = req.query;
 
-	if (o) {
-		tinyurl.findOne({ original: o }).then(d => {
-			if (d) {
-				res.status(200).json({ status: 200, tiny: d.tiny });
-			} else {
-				res.status(404).json({ status: '404', message: 'not found' });
-			}
-		});
-	} else {
-		res.status(400).json({ status: '400', message: 'bad request' });
+	if (!o) {
+		return res.status(400).json({ status: '400', message: 'bad request' });
+	}
+
+	try {
+		const d = await tinyurl.findOne({ original: o, uniqueId: req.user.uniqueId });
+		if (d) {
+			res.status(200).json({ status: 200, tiny: d.tiny });
+		} else {
+			res.status(404).json({ status: '404', message: 'not found' });
+		}
+	} catch (err) {
+		console.error('gettiny error:', err);
+		res.status(500).json({ status: '500', message: 'internal server error' });
 	}
 });
 

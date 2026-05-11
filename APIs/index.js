@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const crypto = require('crypto');
 const tinyurl = require('../models/tinyurl');
 const preuser = require('../models/preuser');
 const { authenticateToken, logApiUsage } = require('../functions/apiAuth');
 
-// 全てのAPIエンドポイントにトークン認証と使用履歴記録を適用
 router.use(authenticateToken);
 router.use(logApiUsage);
 
 router.get('/', function (req, res) {
-	res.json({ 
+	res.json({
 		hello: 'world',
 		message: 'Tiny-URL API is running',
 		user: req.user.uniqueId,
@@ -20,69 +20,70 @@ router.get('/', function (req, res) {
 	});
 });
 
+function isValidHttpUrl(str) {
+	try {
+		const url = new URL(str);
+		return url.protocol === 'http:' || url.protocol === 'https:';
+	} catch {
+		return false;
+	}
+}
+
 router.post('/make', async (req, res) => {
 	try {
-		const tinyuRl = Math.random().toString(32).substring(2);
-		const { original, custom, domain } = req.body;
+		const { original, custom } = req.body;
 		const uniqueId = req.user.uniqueId;
-		
-		console.log('API /make called by user:', uniqueId);
-		console.log(req.body);
 
 		if (!original) {
-			console.log('no URL');
 			return res.status(400).json({ status: '400', message: 'Bad Request: original URL is required' });
 		}
 
-		if (!original.match(/^https?/)) {
-			console.log('not URL');
-			return res.status(400).json({ status: '400', message: 'Bad Request: invalid URL format' });
+		if (!isValidHttpUrl(original)) {
+			return res.status(400).json({ status: '400', message: 'Bad Request: URL must start with http:// or https://' });
 		}
 
-		// プレミアムユーザーかチェック
 		const premiumUser = await preuser.findOne({ id: uniqueId });
 		const isPremium = !!premiumUser;
-		console.log(isPremium ? 'premium plan' : 'free plan');
 
-		// カスタムURL重複チェック
 		if (custom) {
-			console.log('custom URL requested:', custom);
+			if (!/^[a-zA-Z0-9_-]+$/.test(custom)) {
+				return res.status(400).json({ status: '400', message: 'Bad Request: custom code must contain only alphanumeric characters, hyphens, or underscores' });
+			}
+
 			const existingUrl = await tinyurl.findOne({ tiny: custom });
 			if (existingUrl) {
-				return res.status(400).json({ status: '400', message: 'Bad Request', tiny: 'Registered' });
+				return res.status(409).json({ status: '409', message: 'Conflict: custom URL code already exists' });
 			}
 		}
 
-		// 統合モデルで保存
-		const tinyCode = custom || tinyuRl;
+		const tinyCode = custom || crypto.randomBytes(4).toString('hex');
+
 		const newUrl = new tinyurl({
-			uniqueId: uniqueId,
+			uniqueId,
 			userid: uniqueId,
-			original: original,
+			original,
 			tiny: tinyCode,
-			isPremium: isPremium,
+			isPremium,
 			isCustom: !!custom,
 			createdVia: 'api'
 		});
 
 		await newUrl.save();
 
-		// レスポンス生成
-		const responseUrl = domain 
-			? `https://${domain}/${tinyCode}` 
-			: `https://orrn.net/t/${tinyCode}`;
+		const baseUrl = process.env.domain || 'orrn.net';
+		const responseUrl = `https://${baseUrl}/t/${tinyCode}`;
 
-		res.json({ 
-			status: '200', 
-			message: 'request was successful!', 
-			tiny: responseUrl 
+		res.json({
+			status: '200',
+			message: 'request was successful!',
+			tiny: responseUrl
 		});
 
 	} catch (error) {
 		console.error('API /make error:', error);
-		res.status(500).json({ 
-			status: '500', 
-			message: 'Internal Server Error' 
+		res.status(500).json({
+			status: '500',
+			message: 'Internal Server Error'
 		});
 	}
 });

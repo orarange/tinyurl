@@ -1,13 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', async function (req, res) {
-	// メール/パスワードログインのセッションを削除
-	res.cookie('user_session', '', {
-		httpOnly: true,
-		maxAge: 0
-	});
-	
+router.get('/', function (req, res) {
+	res.clearCookie('user_session');
 	console.log('User logged out');
 	res.redirect('/');
 });

@@ -13,7 +13,6 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 require('date-utils');
 
-// MongoDB接続を一元化
 mongoose.connect(process.env.mongo_url)
 	.then(() => console.log('MongoDB connected'))
 	.catch(err => console.error('MongoDB connection error:', err));
@@ -40,13 +39,12 @@ const pull = require('./APIs/pull');
 const get = require('./APIs/geturl');
 const gettiny = require('./APIs/gettiny');
 
-
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 const apiLimiter = rateLimit({
-	windowMs: 1 * 1000, // 1分間
-	max: 5, // 最大30リクエスト（1分間）
+	windowMs: 60 * 1000, // 1分間
+	max: 30,
 	standardHeaders: true,
 	legacyHeaders: false,
 	message: {
@@ -55,30 +53,13 @@ const apiLimiter = rateLimit({
 	}
 });
 
-// プレミアムユーザー向けの緩いレートリミット
-const premiumApiLimiter = rateLimit({
-	windowMs: 1 * 1000, // 1分間
-	max: 10, // 最大100リクエスト（1分間）
-	standardHeaders: true,
-	legacyHeaders: false,
-	skip: (req) => {
-		// APIトークン認証済みユーザーはこのリミットを使用
-		return !req.user; // 認証されていない場合はスキップしない
-	}
-});
-
 app.use(cloudflare.restore());
 app.use('/api', apiLimiter);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser(process.env.SESSION_SECRET || 'dev-secret-change-me-in-production'));
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(function (req, res, next) {
-	console.log(req.cf_ip);
-	next();
-});
 
 app.use('/', home);
 app.use('/t', tiny);
@@ -100,7 +81,6 @@ app.use('/robots.txt', function (req, res) {
 	res.sendFile(__dirname + '/robots.txt');
 });
 
-// auth endpoints must be mounted before the main API router which applies token auth
 app.use('/api/auth', APIAuth);
 app.use('/api', API1);
 app.use('/api/pull', pull);
@@ -108,13 +88,11 @@ app.use('/api/get', get);
 app.use('/api/gettiny', gettiny);
 
 app.use(function (req, res, next) {
-	console.log(req.cf_ip);
 	var date = new Date();
 	var date_str = date.toFormat("YYYY/MM/DD") + " " + (Number(date.toFormat("HH")) + 9) + date.toFormat(":MI:SS");
-	var log = date_str + " " + req.url + " 404 Not Found " + req.cf_ip + "\n";
+	var log = date_str + " " + req.url + " 404 Not Found " + (req.cf_ip || req.ip) + "\n";
 	fs.appendFile('./log/' + new Date().toFormat("YYYY.MM.DD") + '.log', log, function (err) { });
 	res.status(404).render('404');
-	next();
 });
 
 cron.schedule('0 16 1 * *', () => {
