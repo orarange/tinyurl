@@ -45,9 +45,14 @@ router.post('/make', async (req, res) => {
 		const premiumUser = await preuser.findOne({ id: uniqueId });
 		const isPremium = !!premiumUser;
 
+		const CUSTOM_CODE_MAX_LENGTH = 50;
+
 		if (custom) {
 			if (!/^[a-zA-Z0-9_-]+$/.test(custom)) {
 				return res.status(400).json({ status: '400', message: 'Bad Request: custom code must contain only alphanumeric characters, hyphens, or underscores' });
+			}
+			if (custom.length > CUSTOM_CODE_MAX_LENGTH) {
+				return res.status(400).json({ status: '400', message: `Bad Request: custom code must be ${CUSTOM_CODE_MAX_LENGTH} characters or fewer` });
 			}
 
 			const existingUrl = await tinyurl.findOne({ tiny: custom });
@@ -56,7 +61,17 @@ router.post('/make', async (req, res) => {
 			}
 		}
 
-		const tinyCode = custom || crypto.randomBytes(4).toString('hex');
+		let tinyCode = custom;
+		if (!tinyCode) {
+			for (let attempt = 0; attempt < 5; attempt++) {
+				const candidate = crypto.randomBytes(4).toString('hex');
+				const existing = await tinyurl.findOne({ tiny: candidate });
+				if (!existing) { tinyCode = candidate; break; }
+			}
+			if (!tinyCode) {
+				return res.status(503).json({ status: '503', message: 'Service Unavailable: failed to generate unique short code' });
+			}
+		}
 
 		const newUrl = new tinyurl({
 			uniqueId,
@@ -80,6 +95,10 @@ router.post('/make', async (req, res) => {
 		});
 
 	} catch (error) {
+		if (error.code === 11000) {
+			console.error('API /make duplicate key error:', error.message);
+			return res.status(409).json({ status: '409', message: 'Conflict: short code collision, please retry' });
+		}
 		console.error('API /make error:', error);
 		res.status(500).json({
 			status: '500',

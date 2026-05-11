@@ -13,6 +13,14 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 require('date-utils');
 
+if (!process.env.SESSION_SECRET) {
+	console.warn('WARNING: SESSION_SECRET env var is not set. Using default secret is insecure in production.');
+}
+
+if (!fs.existsSync('./log')) {
+	fs.mkdirSync('./log');
+}
+
 mongoose.connect(process.env.mongo_url)
 	.then(() => console.log('MongoDB connected'))
 	.catch(err => console.error('MongoDB connection error:', err));
@@ -31,7 +39,7 @@ const contact = require('./routes/contact');
 const about = require('./routes/about');
 const refe = require('./routes/refe');
 const buy = require('./routes/buypremium');
-const regiater = require('./routes/register');
+const register = require('./routes/register');
 
 const API1 = require('./APIs/index');
 const APIAuth = require('./APIs/auth');
@@ -68,7 +76,7 @@ app.use('/logout', logout);
 app.use('/admin', admin);
 app.use('/api/reference', refe);
 app.use('/buy', buy);
-app.use('/register', regiater);
+app.use('/register', register);
 app.use('/dashboard', dashboard);
 app.use('/policy', policy);
 app.use('/privacy', privacy);
