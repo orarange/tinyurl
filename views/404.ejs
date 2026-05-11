@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,91 +7,66 @@
     <meta name="description" content="お探しのページが見つかりませんでした。URLが間違っているか、または削除された可能性があります。Tiny-URLのホームページに戻る。">
     <title>404 Not Found | Tiny-URL</title>
     <link rel="icon" href="/images/favicon.ico">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"
-        media="print" onload="this.media='all'">
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #e2e8f0; }
-        .gradient-text {
-            background-image: linear-gradient(90deg, #6366f1, #a855f7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .transition-ease { transition: all 0.3s ease-in-out; }
-    </style>
+    <link rel="stylesheet" href="/css/main.css">
 </head>
-
-<body class="min-h-screen flex flex-col antialiased">
-    <header class="p-4 sm:p-6 bg-slate-800/80 backdrop-blur-sm shadow-lg sticky top-0 z-10">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="/" class="text-3xl font-extrabold gradient-text tracking-tight">Tiny-URL</a>
-            <nav class="hidden md:flex space-x-6 items-center">
-                <a href="/" class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">ホーム</a>
-            </nav>
-            <button id="menu-button" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-700 transition-ease"
-                aria-label="メニューを開く" title="メニュー">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                </svg>
-            </button>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="/" class="navbar-brand">Tiny-URL</a>
+            <ul class="navbar-nav">
+                <li><a href="/">ホーム</a></li>
+            </ul>
+            <button class="navbar-toggle" id="menu-button" aria-label="メニューを開く" title="メニュー">&#9776;</button>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-2">
-            <a href="/" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">ホーム</a>
-        </div>
-    </header>
+    </nav>
+    <div class="mobile-menu hidden" id="mobile-menu">
+        <a href="/">ホーム</a>
+    </div>
 
-    <main class="flex-grow flex items-center justify-center p-4 sm:p-8">
-        <div class="max-w-2xl w-full text-center">
-            <div class="mb-10">
-                <h1 class="text-9xl font-extrabold gradient-text mb-4">404</h1>
-                <h2 class="text-3xl sm:text-4xl font-bold text-slate-200 mb-4">ページが見つかりません</h2>
-                <p class="text-lg text-slate-400 mb-8">
-                    お探しのページは存在しないか、移動・削除された可能性があります。<br>
-                    URLが正しいかご確認いただくか、以下のリンクをご利用ください。
-                </p>
-                <a href="/"
-                    class="inline-block px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-indigo-500/50 transition-ease active:scale-[0.99]">
-                    ホームに戻る
-                </a>
-            </div>
+    <div class="page-wrap">
+        <div class="main-content">
+            <div class="container-sm">
+                <div class="page-404">
+                    <p class="error-code">404</p>
+                    <h2>ページが見つかりません</h2>
+                    <p class="text-muted">お探しのページは存在しないか、移動・削除された可能性があります。<br>
+                        URLが正しいかご確認いただくか、以下のリンクをご利用ください。</p>
+                    <div style="margin: 20px 0;">
+                        <a href="/" class="btn btn-primary btn-lg">ホームに戻る</a>
+                    </div>
 
-            <!-- 役立つリンク -->
-            <div class="bg-slate-800 p-6 rounded-2xl shadow-2xl border border-slate-700/50">
-                <h3 class="text-lg font-semibold text-slate-300 mb-4">よく使われるページ</h3>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <a href="/" class="p-3 bg-slate-700 hover:bg-slate-600 rounded-xl transition-ease text-center">
-                        <svg class="w-6 h-6 text-indigo-400 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                        </svg>
-                        <span class="text-sm text-slate-300">ホーム</span>
-                    </a>
-                    <a href="/dashboard" class="p-3 bg-slate-700 hover:bg-slate-600 rounded-xl transition-ease text-center">
-                        <svg class="w-6 h-6 text-green-400 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                        </svg>
-                        <span class="text-sm text-slate-300">ダッシュボード</span>
-                    </a>
-                    <a href="/api/reference" class="p-3 bg-slate-700 hover:bg-slate-600 rounded-xl transition-ease text-center">
-                        <svg class="w-6 h-6 text-purple-400 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                        </svg>
-                        <span class="text-sm text-slate-300">APIリファレンス</span>
-                    </a>
-                    <a href="/contact" class="p-3 bg-slate-700 hover:bg-slate-600 rounded-xl transition-ease text-center">
-                        <svg class="w-6 h-6 text-yellow-400 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                        </svg>
-                        <span class="text-sm text-slate-300">お問い合わせ</span>
-                    </a>
+                    <div class="quick-links">
+                        <a href="/" class="quick-link-item">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                            <span>ホーム</span>
+                        </a>
+                        <a href="/dashboard" class="quick-link-item">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                            <span>ダッシュボード</span>
+                        </a>
+                        <a href="/api/reference" class="quick-link-item">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <span>APIリファレンス</span>
+                        </a>
+                        <a href="/contact" class="quick-link-item">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                            <span>お問い合わせ</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 
-    <footer class="p-4 sm:p-6 text-center text-slate-400 text-sm bg-slate-800 border-t border-slate-700/50">
+    <footer class="site-footer">
         &copy; <script>document.write(new Date().getFullYear())</script> Tiny-URL. All rights reserved.
     </footer>
 
