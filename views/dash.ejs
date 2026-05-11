@@ -5,53 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ダッシュボード | Tiny-URL</title>
-    <meta name="description" content="Tiny-URLのダッシュボード。短縮したURLの一覧、編集、削除、アクセス統計の確認、QRコード生成など、すべての機能を一括管理できます。">
+    <meta name="description" content="Tiny-URLのダッシュボード。短縮したURLの一覧、編集、削除、アクセス統計の確認など、すべての機能を一括管理できます。">
+    <meta name="robots" content="noindex">
     <meta name="theme-color" content="#6E3DD9">
-    <meta name="robots" content="noindex" />
-    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="icon" href="/images/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <script src="https://cdn.tailwindcss.com" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"
         media="print" onload="this.media='all'">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f172a;
-            color: #e2e8f0;
-        }
-
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #e2e8f0; }
         .gradient-text {
             background-image: linear-gradient(90deg, #6366f1, #a855f7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
-        .transition-ease {
-            transition: all 0.3s ease-in-out;
-        }
-
+        .transition-ease { transition: all 0.3s ease-in-out; }
         .stats-card {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
-            border: 1px solid rgba(99, 102, 241, 0.2);
+            background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(168,85,247,0.1));
+            border: 1px solid rgba(99,102,241,0.2);
         }
-
-        .stats-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.15);
-        }
+        .stats-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(99,102,241,0.15); }
     </style>
 </head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GREHT23WLE"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-GREHT23WLE');
-</script>
 
 <body class="min-h-screen flex flex-col antialiased">
     <header class="p-4 sm:p-6 bg-slate-800/80 backdrop-blur-sm shadow-lg sticky top-0 z-10">
@@ -59,57 +37,43 @@
             <a href="/" class="text-3xl font-extrabold gradient-text tracking-tight">Tiny-URL</a>
             <nav class="hidden md:flex space-x-6 items-center">
                 <a href="/" class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">ホーム</a>
-                <a href="/api/reference"
-                    class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">APIリファレンス</a>
-                <a href="/buy"
-                    class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">プレミアム</a>
-                <a href="/logout"
-                    class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-lg shadow-md transition-ease">ログアウト</a>
+                <a href="/api/reference" class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">APIリファレンス</a>
+                <a href="/buy" class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">プレミアム</a>
+                <a href="/logout" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-lg shadow-md transition-ease">ログアウト</a>
             </nav>
             <button id="menu-button" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-700 transition-ease"
                 aria-label="メニューを開く" title="メニュー">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
-                    </path>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
                 </svg>
             </button>
         </div>
-        <!-- モバイルメニュー -->
         <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-2">
             <a href="/" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">ホーム</a>
-            <a href="/api/reference"
-                class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">APIリファレンス</a>
-            <a href="/buy"
-                class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">プレミアム</a>
-            <a href="/logout"
-                class="block px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-ease">ログアウト</a>
+            <a href="/api/reference" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">APIリファレンス</a>
+            <a href="/buy" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">プレミアム</a>
+            <a href="/logout" class="block px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-ease">ログアウト</a>
         </div>
     </header>
 
     <main class="flex-grow p-4 sm:p-8">
         <div class="max-w-7xl mx-auto">
-            <!-- ウェルカムセクション -->
             <div class="mb-8">
                 <h1 class="text-4xl sm:text-5xl font-extrabold gradient-text mb-2">ダッシュボード</h1>
-                <p class="text-slate-400">短縮URLの管理と統計を確認できます</p>
+                <p class="text-slate-400">ようこそ、<span class="text-indigo-400 font-medium"><%= name %></span> さん</p>
             </div>
 
             <!-- 統計カード -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <div class="stats-card bg-slate-800 p-6 rounded-2xl shadow-xl transition-ease">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-slate-400 text-sm font-medium mb-1">総URL数</p>
-                            <p class="text-3xl font-bold text-white">
-                                <%= stats.totalUrls || 0 %>
-                            </p>
+                            <p class="text-3xl font-bold text-white"><%= stats.totalUrls || 0 %></p>
                         </div>
                         <div class="p-3 bg-indigo-600/20 rounded-xl">
                             <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1">
-                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
                             </svg>
                         </div>
                     </div>
@@ -118,17 +82,12 @@
                 <div class="stats-card bg-slate-800 p-6 rounded-2xl shadow-xl transition-ease">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-slate-400 text-sm font-medium mb-1">今月の使用量</p>
-                            <p class="text-slate-400 text-xs mb-2">API呼び出し回数</p>
-                            <p class="text-3xl font-bold text-white">
-                                <%= apiUsageCount !==undefined ? apiUsageCount : 0 %>
-                            </p>
+                            <p class="text-slate-400 text-sm font-medium mb-1">今月のAPI使用</p>
+                            <p class="text-3xl font-bold text-white"><%= apiUsageCount !== undefined ? apiUsageCount : 0 %></p>
                         </div>
                         <div class="p-3 bg-green-600/20 rounded-xl">
                             <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
-                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                             </svg>
                         </div>
                     </div>
@@ -137,20 +96,17 @@
                 <div class="stats-card bg-slate-800 p-6 rounded-2xl shadow-xl transition-ease">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-slate-400 text-sm font-medium mb-1">ユーザー</p>
-                            <p class="text-xl font-semibold text-indigo-400 mb-2">
-                                <%= name || 'ゲスト' %>
-                            </p>
                             <p class="text-slate-400 text-sm font-medium mb-1">プラン</p>
-                            <p class="text-2xl font-bold text-white">
+                            <p class="text-2xl font-bold <%= premiu ? 'text-yellow-400' : 'text-white' %>">
                                 <%= premiu ? 'プレミアム' : 'フリー' %>
                             </p>
+                            <% if (!premiu) { %>
+                                <a href="/buy" class="text-xs text-indigo-400 hover:text-indigo-300 mt-1 inline-block">アップグレード →</a>
+                            <% } %>
                         </div>
                         <div class="p-3 bg-yellow-600/20 rounded-xl">
                             <svg class="w-8 h-8 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1">
-                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
                             </svg>
                         </div>
                     </div>
@@ -159,13 +115,12 @@
                 <div class="stats-card bg-slate-800 p-6 rounded-2xl shadow-xl transition-ease">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-slate-400 text-sm font-medium mb-1">ステータス</p>
-                            <p class="text-3xl font-bold text-white">アクティブ</p>
+                            <p class="text-slate-400 text-sm font-medium mb-1">APIトークン</p>
+                            <p class="text-3xl font-bold text-white"><%= apiTokens ? apiTokens.length : 0 %></p>
                         </div>
                         <div class="p-3 bg-purple-600/20 rounded-xl">
                             <svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
                             </svg>
                         </div>
                     </div>
@@ -179,365 +134,309 @@
                     <div class="bg-slate-800 p-6 sm:p-8 rounded-2xl shadow-xl border border-slate-700/50">
                         <div class="flex justify-between items-center mb-6">
                             <h2 class="text-2xl font-bold text-white">短縮URL一覧</h2>
-                            <a href="/"
-                                class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-lg transition-ease">
-                                新規作成
+                            <a href="/" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-lg transition-ease">
+                                + 新規作成
                             </a>
                         </div>
 
-                        <% if (content && content.length> 0) { %>
+                        <% if (content && content.length > 0) { %>
                             <form method="POST" action="/dashboard/delete" id="deleteForm">
                                 <div class="overflow-x-auto mb-4">
                                     <table class="w-full text-left">
                                         <thead>
                                             <tr class="border-b border-slate-700">
-                                                <th class="pb-3 text-slate-400 font-semibold text-sm">#</th>
+                                                <th class="pb-3 text-slate-400 font-semibold text-sm w-8">
+                                                    <input type="checkbox" id="select-all"
+                                                        class="w-4 h-4 text-indigo-600 bg-slate-700 border-slate-600 rounded focus:ring-indigo-500 cursor-pointer"
+                                                        title="全て選択">
+                                                </th>
                                                 <th class="pb-3 text-slate-400 font-semibold text-sm">オリジナルURL</th>
                                                 <th class="pb-3 text-slate-400 font-semibold text-sm">短縮URL</th>
-                                                <th class="pb-3 text-slate-400 font-semibold text-sm">作成日</th>
-                                                <th class="pb-3 text-slate-400 font-semibold text-sm">選択</th>
+                                                <th class="pb-3 text-slate-400 font-semibold text-sm hidden sm:table-cell">作成日</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <% for(var i in content) { %>
-                                                <% var obj=content[i]; %>
-                                                    <tr
-                                                        class="border-b border-slate-700/50 hover:bg-slate-700/30 transition-ease">
-                                                        <td class="py-4 text-slate-300">
-                                                            <%= Number(i)+1 %>
-                                                        </td>
-                                                        <td class="py-4 text-slate-300 max-w-xs truncate"
-                                                            title="<%= obj.original %>">
+                                            <% for (var i in content) { %>
+                                                <% var obj = content[i]; %>
+                                                <tr class="border-b border-slate-700/50 hover:bg-slate-700/30 transition-ease">
+                                                    <td class="py-4">
+                                                        <input type="checkbox" name="delnum" value="<%= obj.tiny %>"
+                                                            class="row-checkbox w-4 h-4 text-indigo-600 bg-slate-700 border-slate-600 rounded focus:ring-indigo-500 cursor-pointer">
+                                                    </td>
+                                                    <td class="py-4 text-slate-300 max-w-[200px] truncate pr-4" title="<%= obj.original %>">
+                                                        <a href="<%= obj.original %>" target="_blank" rel="noopener noreferrer"
+                                                            class="hover:text-indigo-400 transition-ease">
                                                             <%= obj.original %>
-                                                        </td>
-                                                        <td class="py-4">
-                                                            <div class="flex items-center space-x-2">
-                                                                <a href="<%= obj.tiny %>" target="_blank"
-                                                                    class="text-indigo-400 hover:text-indigo-300 transition-ease">
-                                                                    <%= obj.tiny %>
-                                                                </a>
-                                                                <button type="button"
-                                                                    onclick="copyToClipboard('<%= obj.tiny %>')"
-                                                                    class="p-1 text-slate-400 hover:text-indigo-400 transition-ease">
-                                                                    <svg class="w-4 h-4" fill="none"
-                                                                        stroke="currentColor" viewBox="0 0 24 24">
-                                                                        <path stroke-linecap="round"
-                                                                            stroke-linejoin="round" stroke-width="2"
-                                                                            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
-                                                                        </path>
-                                                                    </svg>
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                        <td class="py-4 text-slate-400 text-sm">
-                                                            <%= obj.createdAt ? new
-                                                                Date(obj.createdAt).toLocaleDateString('ja-JP') : '不明'
-                                                                %>
-                                                        </td>
-                                                        <td class="py-4">
-                                                            <input type="checkbox" name="delnum"
-                                                                value="<%= content[i].tiny %>"
-                                                                class="w-5 h-5 text-indigo-600 bg-slate-700 border-slate-600 rounded focus:ring-indigo-500">
-                                                        </td>
-                                                    </tr>
-                                                    <% } %>
+                                                        </a>
+                                                    </td>
+                                                    <td class="py-4">
+                                                        <div class="flex items-center gap-2">
+                                                            <a href="/t/<%= obj.tiny %>" target="_blank"
+                                                                class="text-indigo-400 hover:text-indigo-300 transition-ease font-mono text-sm">
+                                                                /t/<%= obj.tiny %>
+                                                            </a>
+                                                            <button type="button"
+                                                                onclick="copyToClipboard(window.location.origin + '/t/<%= obj.tiny %>')"
+                                                                class="p-1 text-slate-400 hover:text-indigo-400 transition-ease flex-shrink-0"
+                                                                title="コピー">
+                                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                    <td class="py-4 text-slate-400 text-sm hidden sm:table-cell">
+                                                        <%= obj.createdAt ? new Date(obj.createdAt).toLocaleDateString('ja-JP') : '不明' %>
+                                                    </td>
+                                                </tr>
+                                            <% } %>
                                         </tbody>
                                     </table>
                                 </div>
 
-                                <!-- ページネーションコントロール -->
-                                <% if (pagination && pagination.totalPages> 1) { %>
-                                    <div class="flex flex-wrap gap-4 justify-between items-center mt-6 mb-4 px-4">
+                                <!-- ページネーション -->
+                                <% if (pagination && pagination.totalPages > 1) { %>
+                                    <div class="flex flex-wrap gap-4 justify-between items-center mt-6 mb-4">
                                         <div class="text-sm text-slate-400">
-                                            <%= pagination.totalUrls %>件中 <%= ((pagination.currentPage - 1) *
-                                                    pagination.limit + 1) %>～<%= Math.min(pagination.currentPage *
-                                                        pagination.limit, pagination.totalUrls) %>件を表示
+                                            <%= pagination.totalUrls %>件中
+                                            <%= ((pagination.currentPage - 1) * pagination.limit + 1) %>〜<%= Math.min(pagination.currentPage * pagination.limit, pagination.totalUrls) %>件を表示
                                         </div>
                                         <div class="flex items-center gap-3">
-                                            <!-- 前へボタン -->
                                             <a href="?page=<%= pagination.currentPage - 1 %>&limit=<%= pagination.limit %>"
-                                                class="px-4 py-2 <%= pagination.currentPage === 1 ? 'bg-slate-700 text-slate-500 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-500 text-white' %> font-semibold rounded-lg transition-ease"
-                                                <%=pagination.currentPage===1 ? 'onclick="return false;"' : '' %>>
+                                                class="px-4 py-2 <%= pagination.currentPage === 1 ? 'bg-slate-700 text-slate-500 pointer-events-none' : 'bg-indigo-600 hover:bg-indigo-500 text-white' %> font-semibold rounded-lg transition-ease">
                                                 ← 前へ
                                             </a>
-
-                                            <!-- ページ番号 -->
                                             <span class="text-slate-300 font-medium">
                                                 <%= pagination.currentPage %> / <%= pagination.totalPages %>
                                             </span>
-
-                                            <!-- 次へボタン -->
                                             <a href="?page=<%= pagination.currentPage + 1 %>&limit=<%= pagination.limit %>"
-                                                class="px-4 py-2 <%= pagination.currentPage >= pagination.totalPages ? 'bg-slate-700 text-slate-500 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-500 text-white' %> font-semibold rounded-lg transition-ease"
-                                                <%=pagination.currentPage>= pagination.totalPages ? 'onclick="return false;"' : '' %>>
+                                                class="px-4 py-2 <%= pagination.currentPage >= pagination.totalPages ? 'bg-slate-700 text-slate-500 pointer-events-none' : 'bg-indigo-600 hover:bg-indigo-500 text-white' %> font-semibold rounded-lg transition-ease">
                                                 次へ →
                                             </a>
                                         </div>
-
-                                        <!-- 表示件数切り替え -->
                                         <div class="flex items-center gap-2">
                                             <label class="text-sm text-slate-400">表示件数:</label>
-                                            <select onchange="window.location.href='?page=1&limit=' + this.value"
-                                                class="px-3 py-2 bg-slate-800 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                                                <option value="10" <%=pagination.limit===10 ? 'selected' : '' %>>10件
-                                                </option>
-                                                <option value="20" <%=pagination.limit===20 ? 'selected' : '' %>>20件
-                                                </option>
-                                                <option value="50" <%=pagination.limit===50 ? 'selected' : '' %>>50件
-                                                </option>
-                                                <option value="100" <%=pagination.limit===100 ? 'selected' : '' %>>100件
-                                                </option>
+                                            <select onchange="window.location.href='?page=1&limit='+this.value"
+                                                class="px-3 py-2 bg-slate-800 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                                <option value="10" <%= pagination.limit===10?'selected':'' %>>10件</option>
+                                                <option value="20" <%= pagination.limit===20?'selected':'' %>>20件</option>
+                                                <option value="50" <%= pagination.limit===50?'selected':'' %>>50件</option>
+                                                <option value="100" <%= pagination.limit===100?'selected':'' %>>100件</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <% } %>
-
-                                        <div class="flex flex-wrap gap-4 justify-between items-center">
-                                            <button type="submit"
-                                                class="px-6 py-3 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition-ease active:scale-[0.99]">
-                                                <svg class="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                                    </path>
-                                                </svg>
-                                                選択したURLを削除
-                                            </button>
-                                            <% if (content.length> 1) { %>
-                                                <button type="button" id="deleteAllBtn"
-                                                    class="px-6 py-3 bg-red-800 hover:bg-red-700 text-white font-semibold rounded-xl transition-ease active:scale-[0.99] border-2 border-red-600"
-                                                    title="⚠️ 注意：この操作はすべての短縮URLを完全に削除します">
-                                                    <svg class="w-5 h-5 inline-block mr-2" fill="none"
-                                                        stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z">
-                                                        </path>
-                                                    </svg>
-                                                    全てのURLを削除
-                                                </button>
-                                                <% } %>
-                                        </div>
-                            </form>
-                            <% } else { %>
-                                <div class="text-center py-12">
-                                    <svg class="w-16 h-16 mx-auto text-slate-600 mb-4" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1">
-                                        </path>
-                                    </svg>
-                                    <h3 class="text-xl font-semibold text-slate-300 mb-2">短縮URLがありません</h3>
-                                    <p class="text-slate-500 mb-6">最初の短縮URLを作成してみましょう</p>
-                                    <a href="/"
-                                        class="inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-ease">
-                                        URL短縮を開始
-                                    </a>
-                                </div>
                                 <% } %>
+
+                                <div class="flex flex-wrap gap-4 items-center mt-4">
+                                    <button type="submit" id="deleteSelectedBtn"
+                                        class="px-6 py-3 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition-ease active:scale-[0.99] flex items-center gap-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                        選択したURLを削除
+                                    </button>
+                                    <% if (stats.totalUrls > 1) { %>
+                                        <button type="button" id="deleteAllBtn"
+                                            class="px-6 py-3 bg-red-900 hover:bg-red-800 text-red-300 font-semibold rounded-xl transition-ease active:scale-[0.99] border border-red-700 flex items-center gap-2"
+                                            title="全ての短縮URL（全ページ）を削除します">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                            </svg>
+                                            全て削除（<%= stats.totalUrls %>件）
+                                        </button>
+                                    <% } %>
+                                </div>
+                            </form>
+
+                            <!-- 全削除用の独立したフォーム -->
+                            <form id="deleteAllForm" method="POST" action="/dashboard/delete-all" class="hidden"></form>
+
+                        <% } else { %>
+                            <div class="text-center py-12">
+                                <svg class="w-16 h-16 mx-auto text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                                </svg>
+                                <h3 class="text-xl font-semibold text-slate-300 mb-2">短縮URLがありません</h3>
+                                <p class="text-slate-500 mb-6">最初の短縮URLを作成してみましょう</p>
+                                <a href="/" class="inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-ease">
+                                    URL短縮を開始
+                                </a>
+                            </div>
+                        <% } %>
                     </div>
                 </div>
 
                 <!-- サイドバー -->
                 <div class="space-y-6">
-                    <!-- API トークン管理 -->
+                    <!-- APIトークン管理 -->
                     <div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">
-                        <h3 class="text-xl font-bold text-white mb-4 flex items-center">
-                            <svg class="w-6 h-6 mr-2 text-indigo-400" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z">
-                                </path>
+                        <h3 class="text-xl font-bold text-white mb-1 flex items-center gap-2">
+                            <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
                             </svg>
                             APIトークン
                         </h3>
                         <p class="text-slate-400 text-sm mb-4">APIアクセス用のトークンを管理</p>
 
-                        <% if (apiTokens && apiTokens.length> 0) { %>
+                        <% if (apiTokens && apiTokens.length > 0) { %>
                             <div class="space-y-3 mb-4">
-                                <% apiTokens.forEach((token, index)=> { %>
+                                <% apiTokens.forEach((token) => { %>
                                     <div class="bg-slate-700/50 p-3 rounded-lg">
                                         <div class="flex justify-between items-start mb-2">
-                                            <div class="flex-1">
-                                                <p class="text-white font-semibold text-sm">
-                                                    <%= token.name %>
-                                                </p>
-                                                <p class="text-slate-400 text-xs mt-1">作成: <%= new
-                                                        Date(token.createdAt).toLocaleDateString('ja-JP') %>
-                                                </p>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-white font-semibold text-sm truncate"><%= token.name %></p>
+                                                <p class="text-slate-400 text-xs mt-1">作成: <%= new Date(token.createdAt).toLocaleDateString('ja-JP') %></p>
                                                 <% if (token.lastUsed) { %>
-                                                    <p class="text-slate-500 text-xs">最終使用: <%= new
-                                                            Date(token.lastUsed).toLocaleDateString('ja-JP') %>
-                                                    </p>
-                                                    <% } %>
+                                                    <p class="text-slate-500 text-xs">最終使用: <%= new Date(token.lastUsed).toLocaleDateString('ja-JP') %></p>
+                                                <% } %>
                                             </div>
-                                            <span
-                                                class="<%= token.isActive ? 'bg-green-600/20 text-green-400' : 'bg-red-600/20 text-red-400' %> px-2 py-1 rounded text-xs">
+                                            <span class="<%= token.isActive ? 'bg-green-600/20 text-green-400' : 'bg-red-600/20 text-red-400' %> px-2 py-1 rounded text-xs ml-2 flex-shrink-0">
                                                 <%= token.isActive ? '有効' : '無効' %>
                                             </span>
                                         </div>
-                                        <div class="flex items-center space-x-2">
-                                            <input type="text" value="<%= token.token %>" readonly
-                                                class="flex-1 bg-slate-900 text-slate-300 text-xs px-2 py-1 rounded font-mono">
-                                            <button onclick="copyToClipboard('<%= token.token %>')"
-                                                class="p-2 bg-indigo-600 hover:bg-indigo-500 rounded transition-ease">
-                                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5h6m-6 0v4m6-4v4m-6 0h6">
-                                                    </path>
+                                        <!-- トークン値はマスク表示 -->
+                                        <div class="flex items-center gap-2">
+                                            <input type="password" value="<%= token.token %>" readonly
+                                                class="token-field flex-1 bg-slate-900 text-slate-300 text-xs px-2 py-1 rounded font-mono min-w-0">
+                                            <button type="button" onclick="toggleToken(this)"
+                                                class="p-2 bg-slate-600 hover:bg-slate-500 rounded transition-ease flex-shrink-0" title="表示/非表示">
+                                                <svg class="w-4 h-4 text-slate-300 eye-open" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                                <svg class="w-4 h-4 text-slate-300 eye-closed hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/></svg>
+                                            </button>
+                                            <button type="button" onclick="copyToClipboard('<%= token.token %>')"
+                                                class="p-2 bg-indigo-600 hover:bg-indigo-500 rounded transition-ease flex-shrink-0" title="コピー">
+                                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5h6m-6 0v4m6-4v4m-6 0h6"></path>
                                                 </svg>
                                             </button>
-                                            <form method="POST" action="/dashboard/api-token/delete" class="inline">
+                                            <form method="POST" action="/dashboard/api-token/delete" class="inline flex-shrink-0">
                                                 <input type="hidden" name="tokenId" value="<%= token._id %>">
                                                 <button type="submit" onclick="return confirm('このトークンを削除しますか？')"
-                                                    class="p-2 bg-red-600 hover:bg-red-500 rounded transition-ease">
-                                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor"
-                                                        viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                                        </path>
+                                                    class="p-2 bg-red-600 hover:bg-red-500 rounded transition-ease" title="削除">
+                                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                                     </svg>
                                                 </button>
                                             </form>
                                         </div>
                                     </div>
-                                    <% }) %>
+                                <% }) %>
                             </div>
-                            <% } else { %>
-                                <p class="text-slate-500 text-sm mb-4">トークンがありません</p>
-                                <% } %>
+                        <% } else { %>
+                            <p class="text-slate-500 text-sm mb-4">トークンがありません</p>
+                        <% } %>
 
-                                    <form method="POST" action="/dashboard/api-token/create">
-                                        <div class="mb-3">
-                                            <input type="text" name="tokenName" placeholder="トークン名 (オプション)"
-                                                class="w-full px-3 py-2 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease">
-                                        </div>
-                                        <button type="submit"
-                                            class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-lg transition-ease">
-                                            新しいトークンを生成
-                                        </button>
-                                    </form>
+                        <form method="POST" action="/dashboard/api-token/create">
+                            <input type="text" name="tokenName" placeholder="トークン名 (オプション)"
+                                class="w-full px-3 py-2 mb-3 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 transition-ease">
+                            <button type="submit"
+                                class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-lg transition-ease">
+                                新しいトークンを生成
+                            </button>
+                        </form>
                     </div>
 
+                    <!-- プラン情報 -->
                     <% if (!premiu) { %>
-                        <!-- プレミアムアップグレード -->
-                        <div
-                            class="bg-gradient-to-br from-indigo-600/20 to-purple-600/20 p-6 rounded-2xl border border-indigo-500/30">
+                        <div class="bg-gradient-to-br from-indigo-600/20 to-purple-600/20 p-6 rounded-2xl border border-indigo-500/30">
                             <div class="text-center">
                                 <div class="p-3 bg-indigo-600/30 rounded-full w-fit mx-auto mb-4">
-                                    <svg class="w-8 h-8 text-indigo-300" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z">
-                                        </path>
+                                    <svg class="w-8 h-8 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
                                     </svg>
                                 </div>
                                 <h3 class="text-lg font-bold text-white mb-2">プレミアムにアップグレード</h3>
-                                <p class="text-slate-300 text-sm mb-4">無制限のURL短縮とカスタムURLを利用できます</p>
-                                <a href="/buy"
-                                    class="block w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold rounded-xl transition-ease">
+                                <p class="text-slate-300 text-sm mb-4">無制限URL短縮とカスタムURLを利用できます</p>
+                                <a href="/buy" class="block w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold rounded-xl transition-ease">
                                     プレミアムプラン
                                 </a>
                             </div>
                         </div>
-                        <% } else { %>
-                            <!-- プレミアム会員情報 -->
-                            <div
-                                class="bg-gradient-to-br from-yellow-600/20 to-orange-600/20 p-6 rounded-2xl border border-yellow-500/30">
-                                <div class="text-center">
-                                    <div class="p-3 bg-yellow-600/30 rounded-full w-fit mx-auto mb-4">
-                                        <svg class="w-8 h-8 text-yellow-300" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z">
-                                            </path>
-                                        </svg>
-                                    </div>
-                                    <h3 class="text-lg font-bold text-white mb-2">プレミアム会員</h3>
-                                    <p class="text-slate-300 text-sm mb-4">すべての機能をご利用いただけます</p>
-                                    <div class="text-yellow-400 font-semibold text-sm">
-                                        ✨ 無制限URL短縮<br>
-                                        ✨ カスタムURL<br>
-                                        ✨ 高度な分析
-                                    </div>
+                    <% } else { %>
+                        <div class="bg-gradient-to-br from-yellow-600/20 to-orange-600/20 p-6 rounded-2xl border border-yellow-500/30">
+                            <div class="text-center">
+                                <div class="p-3 bg-yellow-600/30 rounded-full w-fit mx-auto mb-3">
+                                    <svg class="w-8 h-8 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="text-lg font-bold text-white mb-2">プレミアム会員</h3>
+                                <div class="text-yellow-400 font-medium text-sm space-y-1">
+                                    <p>✓ 無制限URL短縮</p>
+                                    <p>✓ カスタムURL</p>
+                                    <p>✓ 高度なAPI制限</p>
                                 </div>
                             </div>
-                            <% } %>
+                        </div>
+                    <% } %>
 
-                                <!-- クイックアクション -->
-                                <div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">
-                                    <h3 class="text-lg font-bold text-white mb-4">クイックアクション</h3>
-                                    <div class="space-y-3">
-                                        <a href="/"
-                                            class="block p-3 bg-slate-700 hover:bg-slate-600 rounded-lg transition-ease">
-                                            <div class="flex items-center space-x-3">
-                                                <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                                </svg>
-                                                <span class="text-slate-300 font-medium">新しいURL短縮</span>
-                                            </div>
-                                        </a>
-                                        <a href="/api/reference"
-                                            class="block p-3 bg-slate-700 hover:bg-slate-600 rounded-lg transition-ease">
-                                            <div class="flex items-center space-x-3">
-                                                <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                                                    </path>
-                                                </svg>
-                                                <span class="text-slate-300 font-medium">API リファレンス</span>
-                                            </div>
-                                        </a>
-                                    </div>
+                    <!-- クイックアクション -->
+                    <div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">
+                        <h3 class="text-lg font-bold text-white mb-4">クイックアクション</h3>
+                        <div class="space-y-3">
+                            <a href="/" class="block p-3 bg-slate-700 hover:bg-slate-600 rounded-lg transition-ease">
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-5 h-5 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                    </svg>
+                                    <span class="text-slate-300 font-medium">新しいURL短縮</span>
                                 </div>
+                            </a>
+                            <a href="/api/reference" class="block p-3 bg-slate-700 hover:bg-slate-600 rounded-lg transition-ease">
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    <span class="text-slate-300 font-medium">APIリファレンス</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
 
-                                <!-- 使用量 -->
-                                <div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">
-                                    <h3 class="text-lg font-bold text-white mb-4">今月の使用量</h3>
-                                    <div class="space-y-4">
-                                        <div>
-                                            <div class="flex justify-between text-sm mb-2">
-                                                <span class="text-slate-300">URL短縮</span>
-                                                <span class="text-slate-400">
-                                                    <%= pagination.totalUrls || 0 %>/1000
-                                                </span>
-                                            </div>
-                                            <div class="w-full bg-slate-700 rounded-full h-2">
-                                                <div class="bg-indigo-600 h-2 rounded-full transition-ease"
-                                                    style="width: <%= pagination.totalUrls ? Math.min((pagination.totalUrls / 1000) * 100, 100) : 0 %>%">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="flex justify-between text-sm mb-2">
-                                                <span class="text-slate-300">API リクエスト</span>
-                                                <span class="text-slate-400">
-                                                    <%= apiUsageCount !==undefined ? apiUsageCount : 0 %>/1000
-                                                </span>
-                                            </div>
-                                            <div class="w-full bg-slate-700 rounded-full h-2">
-                                                <div class="bg-green-600 h-2 rounded-full transition-ease"
-                                                    style="width: <%= apiUsageCount !== undefined ? Math.min((apiUsageCount / 1000) * 100, 100) : 0 %>%">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                    <!-- 使用量 -->
+                    <div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">
+                        <h3 class="text-lg font-bold text-white mb-4">今月の使用量</h3>
+                        <% var urlLimit = premiu ? 999999 : 1000; %>
+                        <% var apiLimit = premiu ? 10000 : 1000; %>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-slate-300">URL短縮</span>
+                                    <span class="text-slate-400">
+                                        <%= pagination.totalUrls || 0 %> / <%= premiu ? '無制限' : '1,000' %>
+                                    </span>
                                 </div>
+                                <div class="w-full bg-slate-700 rounded-full h-2">
+                                    <div class="bg-indigo-600 h-2 rounded-full transition-ease"
+                                        style="width: <%= premiu ? Math.min((pagination.totalUrls / 1000) * 100, 100) : Math.min(((pagination.totalUrls || 0) / 1000) * 100, 100) %>%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-slate-300">APIリクエスト</span>
+                                    <span class="text-slate-400">
+                                        <%= apiUsageCount !== undefined ? apiUsageCount : 0 %> / <%= premiu ? '10,000' : '1,000' %>
+                                    </span>
+                                </div>
+                                <div class="w-full bg-slate-700 rounded-full h-2">
+                                    <div class="bg-green-600 h-2 rounded-full transition-ease"
+                                        style="width: <%= Math.min(((apiUsageCount || 0) / (premiu ? 10000 : 1000)) * 100, 100) %>%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
+    <!-- コピー通知 -->
+    <div id="copy-notification" class="fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-all duration-300 opacity-0 pointer-events-none">
+        コピーしました！
+    </div>
+
     <footer class="p-4 sm:p-6 text-center text-slate-400 text-sm bg-slate-800 border-t border-slate-700/50">
-        &copy; 2025 Tiny-URL. All rights reserved. |
+        &copy; <script>document.write(new Date().getFullYear())</script> Tiny-URL. All rights reserved. |
         <a href="/policy" class="hover:text-indigo-400 transition-ease">利用規約</a> |
         <a href="/privacy" class="hover:text-indigo-400 transition-ease">プライバシーポリシー</a> |
         <a href="/contact" class="hover:text-indigo-400 transition-ease">お問い合わせ</a> |
@@ -545,11 +444,34 @@
     </footer>
 
     <script>
+        // モバイルメニュー
+        const menuButton = document.getElementById('menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (menuButton && mobileMenu) {
+            menuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        }
+
+        // 全選択チェックボックス
+        const selectAll = document.getElementById('select-all');
+        if (selectAll) {
+            selectAll.addEventListener('change', () => {
+                document.querySelectorAll('.row-checkbox').forEach(cb => cb.checked = selectAll.checked);
+            });
+            document.querySelectorAll('.row-checkbox').forEach(cb => {
+                cb.addEventListener('change', () => {
+                    const total = document.querySelectorAll('.row-checkbox').length;
+                    const checked = document.querySelectorAll('.row-checkbox:checked').length;
+                    selectAll.checked = checked === total;
+                    selectAll.indeterminate = checked > 0 && checked < total;
+                });
+            });
+        }
+
         // 削除フォームのバリデーション
         const deleteForm = document.getElementById('deleteForm');
         if (deleteForm) {
             deleteForm.addEventListener('submit', (e) => {
-                const checkboxes = document.querySelectorAll('input[name="delnum"]:checked');
+                const checkboxes = document.querySelectorAll('.row-checkbox:checked');
                 if (checkboxes.length === 0) {
                     e.preventDefault();
                     alert('削除するURLを選択してください');
@@ -557,72 +479,40 @@
             });
         }
 
-        // 全削除ボタンの機能
+        // 全削除ボタン - 専用の delete-all エンドポイントを使用
         const deleteAllBtn = document.getElementById('deleteAllBtn');
-        if (deleteAllBtn) {
-            deleteAllBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-
-                // 確認プロンプト
-                const confirmation = confirm(
-                    '⚠️ 警告：この操作は元に戻せません。\n\n' +
-                    'あなたの全ての短縮URLが完全に削除されます。\n' +
-                    '本当にすべてのURLを削除しますか？'
-                );
-
-                if (confirmation) {
-                    // 二重確認
-                    const doubleConfirmation = confirm(
-                        '🚨 最終確認\n\n' +
-                        'この操作により、すべての短縮URLとその統計データが失われます。\n' +
-                        '本当に続行しますか？'
-                    );
-
-                    if (doubleConfirmation) {
-                        // 全てのチェックボックスを選択状態にしてフォーム送信
-                        const checkboxes = document.querySelectorAll('input[name="delnum"]');
-                        checkboxes.forEach(checkbox => {
-                            checkbox.checked = true;
-                        });
-
-                        // フォームを送信
-                        const deleteForm = document.getElementById('deleteForm');
-                        if (deleteForm) {
-                            deleteForm.submit();
-                        }
-                    }
-                }
-            });
-        }
-
-        // モバイルメニューのトグル
-        const menuButton = document.getElementById('menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        if (menuButton && mobileMenu) {
-            menuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
+        const deleteAllForm = document.getElementById('deleteAllForm');
+        if (deleteAllBtn && deleteAllForm) {
+            deleteAllBtn.addEventListener('click', () => {
+                if (!confirm('⚠️ 警告：この操作は元に戻せません。\nあなたの全ての短縮URLが完全に削除されます。\n本当に続行しますか？')) return;
+                if (!confirm('🚨 最終確認\nすべての短縮URLを削除します。よろしいですか？')) return;
+                deleteAllForm.submit();
             });
         }
 
         // コピー機能
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
-                // 一時的な成功メッセージを表示
-                const notification = document.createElement('div');
-                notification.className = 'fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-ease';
-                notification.textContent = 'URLをコピーしました！';
-                document.body.appendChild(notification);
-
+                const notification = document.getElementById('copy-notification');
+                notification.style.opacity = '1';
+                notification.style.pointerEvents = 'auto';
                 setTimeout(() => {
-                    notification.remove();
-                }, 3000);
-            }).catch(err => {
-                console.error('コピーに失敗しました:', err);
+                    notification.style.opacity = '0';
+                    notification.style.pointerEvents = 'none';
+                }, 2000);
+            }).catch(() => {
                 alert('コピーに失敗しました');
             });
         }
+
+        // トークン表示/非表示トグル
+        function toggleToken(btn) {
+            const input = btn.closest('.flex').querySelector('.token-field');
+            const isPassword = input.type === 'password';
+            input.type = isPassword ? 'text' : 'password';
+            btn.querySelector('.eye-open').classList.toggle('hidden', isPassword);
+            btn.querySelector('.eye-closed').classList.toggle('hidden', !isPassword);
+        }
     </script>
 </body>
-
 </html>

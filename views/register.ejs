@@ -6,35 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Tiny-URLの新規アカウント登録ページ。無料でアカウントを作成し、URL短縮サービスを便利にご利用いただけます。メールアドレスとパスワードで簡単登録。">
     <title>新規登録 | Tiny-URL</title>
-    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="icon" href="/images/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <script src="https://cdn.tailwindcss.com" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"
         media="print" onload="this.media='all'">
     <style>
-        :root {
-            --primary-color: #4f46e5;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f172a;
-            color: #e2e8f0;
-        }
-
+        :root { --primary-color: #4f46e5; }
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #e2e8f0; }
         .gradient-text {
             background-image: linear-gradient(90deg, #6366f1, #a855f7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
-        .transition-ease {
-            transition: all 0.3s ease-in-out;
-        }
-
-        /* hCaptcha removed */
+        .transition-ease { transition: all 0.3s ease-in-out; }
     </style>
 </head>
 
@@ -44,128 +31,142 @@
             <a href="/" class="text-3xl font-extrabold gradient-text tracking-tight">Tiny-URL</a>
             <nav class="hidden md:flex space-x-6 items-center">
                 <a href="/" class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">ホーム</a>
-                <a href="/api/reference"
-                    class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">APIリファレンス</a>
-                <a href="/buy"
-                    class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">プレミアム</a>
-                <a href="/login"
-                    class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-md transition-ease">ログイン</a>
+                <a href="/api/reference" class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">APIリファレンス</a>
+                <a href="/buy" class="text-slate-300 hover:text-indigo-400 transition-ease text-sm font-medium">プレミアム</a>
+                <a href="/login" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-md transition-ease">ログイン</a>
             </nav>
-            <button id="menu-button" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-700 transition-ease"
-                aria-label="メニューを開く" title="メニュー">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
-                    </path>
+            <button id="menu-button" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-slate-700 transition-ease" aria-label="メニューを開く" title="メニュー">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
                 </svg>
             </button>
         </div>
-        <!-- モバイルメニュー -->
         <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-2">
             <a href="/" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">ホーム</a>
-            <a href="/api/reference"
-                class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">APIリファレンス</a>
-            <a href="/buy"
-                class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">プレミアム</a>
-            <a href="/login"
-                class="block px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-ease">ログイン</a>
+            <a href="/api/reference" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">APIリファレンス</a>
+            <a href="/buy" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 rounded-lg transition-ease">プレミアム</a>
+            <a href="/login" class="block px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-ease">ログイン</a>
         </div>
     </header>
+
     <main class="flex-grow flex items-center justify-center p-4 sm:p-8">
         <div class="max-w-xl w-full">
-            <section class="text-center mb-12">
-                <h1
-                    class="text-5xl sm:text-6xl md:text-7xl lg:text-6xl font-extrabold leading-tight sm:leading-none tracking-tight mb-4 gradient-text">
-                    アカウント作成
-                </h1>
-                <p class="text-base sm:text-lg md:text-xl text-slate-400 mb-8 px-2 sm:px-4 leading-relaxed">
-                    無料でアカウントを作成して、<br class="hidden sm:inline">
-                    すべての機能をご利用ください。
+            <div class="text-center mb-8">
+                <h1 class="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight mb-4 gradient-text">アカウント作成</h1>
+                <p class="text-base sm:text-lg text-slate-400 leading-relaxed">
+                    無料でアカウントを作成して、<br class="hidden sm:inline">すべての機能をご利用ください。
                 </p>
-                <form action="/register" method="POST" id="register-form"
-                    class="bg-slate-800 p-6 sm:p-8 rounded-2xl shadow-2xl border border-slate-700/50">
-                    <div
-                        class="text-xs font-semibold uppercase tracking-wider text-blue-400 bg-blue-900/30 py-1 px-3 rounded-full inline-block mb-6">
-                        新規登録
-                    </div>
-                    <div class="space-y-4">
-                        <input type="text" name="name" id="name" placeholder="ユーザー名を入力してください"
-                            class="w-full p-4 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
+            </div>
+
+            <% if (typeof error !== 'undefined' && error) { %>
+                <div class="mb-6 p-4 rounded-xl text-left bg-red-900/50 text-red-300 border border-red-700">
+                    <p class="font-semibold"><%= error %></p>
+                </div>
+            <% } %>
+
+            <form action="/register" method="POST" id="register-form"
+                class="bg-slate-800 p-6 sm:p-8 rounded-2xl shadow-2xl border border-slate-700/50">
+                <div class="text-xs font-semibold uppercase tracking-wider text-blue-400 bg-blue-900/30 py-1 px-3 rounded-full inline-block mb-6">
+                    新規登録
+                </div>
+
+                <div class="space-y-4">
+                    <input type="text" name="name" id="name" placeholder="ユーザー名を入力してください"
+                        class="w-full p-4 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
+                        required>
+
+                    <!-- メール + PIN送信 -->
+                    <div class="flex items-stretch gap-3">
+                        <input type="email" name="email" id="email" placeholder="メールアドレスを入力してください"
+                            class="flex-1 p-4 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
                             required>
-                        <div class="flex items-center space-x-3">
-                            <input type="email" name="email" id="email" placeholder="メールアドレスを入力してください"
-                                class="flex-1 p-4 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
-                                required>
-                            <button type="button" id="send-pin-button"
-                                class="px-4 py-3 bg-slate-700 border border-slate-600 text-slate-200 rounded-xl hover:bg-slate-600 transition-ease">PIN送信</button>
-                        </div>
-                        <div id="pin-send-status" class="text-sm text-slate-400 mt-1"></div>
-                        <input type="password" name="password" id="password" placeholder="パスワードを入力してください"
-                            class="w-full p-4 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
-                            required>
-                        <input type="password" name="password_confirmation" id="password_confirmation"
-                            placeholder="パスワードを再入力してください"
-                            class="w-full p-4 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
-                            required>
-                        <input type="text" name="pinCode" id="pinCode" placeholder="メールで受け取ったPINを入力してください"
-                            class="w-full p-4 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
-                            required>
+                        <button type="button" id="send-pin-button"
+                            class="px-4 py-3 bg-slate-600 border border-slate-500 text-slate-200 rounded-xl hover:bg-slate-500 transition-ease whitespace-nowrap text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+                            PIN送信
+                        </button>
                     </div>
-                    <button type="submit" id="register-button" disabled
-                        class="w-full mt-6 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-indigo-500/50 transition-ease active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-indigo-600">
-                        <span class="inline sm:hidden">アカウント<br>作成</span>
-                        <span class="hidden sm:inline">アカウント作成</span>
-                    </button>
-                    <div class="mt-4 flex justify-center">
-                        <label class="flex items-start cursor-pointer">
-                            <input type="checkbox" name="agree_terms" id="agree-terms" checked
-                                class="mt-1 w-4 h-4 text-indigo-600 bg-slate-700 border-slate-600 rounded focus:ring-indigo-500 transition-ease">
-                            <span class="ml-2 text-sm text-slate-400">「<a href="https://orrn.net/policy" target="_blank"
-                                    class="text-indigo-400 hover:text-indigo-300 transition-ease underline">利用規約</a>」を読み、同意しました</span>
-                        </label>
+                    <div id="pin-send-status" class="text-sm min-h-[1.25rem]"></div>
+
+                    <!-- パスワード -->
+                    <div class="relative">
+                        <input type="password" name="password" id="password" placeholder="パスワード（8文字以上）"
+                            class="w-full p-4 pr-12 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
+                            required>
+                        <button type="button" class="toggle-password absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition-ease" data-target="password" aria-label="パスワードを表示">
+                            <svg class="w-5 h-5 eye-open" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            <svg class="w-5 h-5 eye-closed hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/></svg>
+                        </button>
                     </div>
-                    <div class="mt-6 text-center">
-                        <p class="text-sm text-slate-400">
-                            既にアカウントをお持ちですか？
-                            <a href="/login"
-                                class="text-indigo-400 hover:text-indigo-300 transition-ease underline">ログイン</a>
-                        </p>
+
+                    <div class="relative">
+                        <input type="password" name="password_confirmation" id="password_confirmation" placeholder="パスワードを再入力してください"
+                            class="w-full p-4 pr-12 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
+                            required>
+                        <button type="button" class="toggle-password absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition-ease" data-target="password_confirmation" aria-label="パスワードを表示">
+                            <svg class="w-5 h-5 eye-open" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            <svg class="w-5 h-5 eye-closed hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/></svg>
+                        </button>
                     </div>
-                </form>
-            </section>
+
+                    <!-- PIN入力 -->
+                    <input type="text" name="pinCode" id="pinCode" placeholder="メールで届いたPINコードを入力"
+                        class="w-full p-4 bg-slate-700 border border-slate-600 text-slate-200 placeholder-slate-400 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-ease"
+                        autocomplete="one-time-code" inputmode="numeric" required>
+                </div>
+
+                <button type="submit" id="register-button" disabled
+                    class="w-full mt-6 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-indigo-500/50 transition-ease active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-indigo-600">
+                    アカウントを作成する
+                </button>
+
+                <div class="mt-4 flex justify-center">
+                    <label class="flex items-start cursor-pointer">
+                        <input type="checkbox" name="agree_terms" id="agree-terms" checked
+                            class="mt-1 w-4 h-4 text-indigo-600 bg-slate-700 border-slate-600 rounded focus:ring-indigo-500 transition-ease">
+                        <span class="ml-2 text-sm text-slate-400">「<a href="/policy" target="_blank"
+                                class="text-indigo-400 hover:text-indigo-300 transition-ease underline">利用規約</a>」を読み、同意しました</span>
+                    </label>
+                </div>
+
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-slate-400">
+                        既にアカウントをお持ちですか？
+                        <a href="/login" class="text-indigo-400 hover:text-indigo-300 transition-ease underline">ログイン</a>
+                    </p>
+                </div>
+            </form>
         </div>
     </main>
+
     <footer class="p-4 sm:p-6 text-center text-slate-400 text-sm bg-slate-800 border-t border-slate-700/50">
-        &copy; 2025 Tiny-URL. All rights reserved. |
+        &copy; <script>document.write(new Date().getFullYear())</script> Tiny-URL. All rights reserved. |
         <a href="/policy" class="hover:text-indigo-400 transition-ease">利用規約</a> |
         <a href="/privacy" class="hover:text-indigo-400 transition-ease">プライバシーポリシー</a> |
         <a href="/contact" class="hover:text-indigo-400 transition-ease">お問い合わせ</a> |
         <a href="/about" class="hover:text-indigo-400 transition-ease">運営者情報</a>
     </footer>
-    <script>
-        function enableSubmit(token) {
-            const agreeTermsCheckbox = document.getElementById('agree-terms');
-            const registerButton = document.getElementById('register-button');
-            if (agreeTermsCheckbox.checked) {
-                registerButton.disabled = false;
-            }
-        }
 
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // モバイルメニューのトグル
             const menuButton = document.getElementById('menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
-
             if (menuButton && mobileMenu) {
-                menuButton.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                });
+                menuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
             }
 
-            // 利用規約チェックボックスで送信ボタンを有効化/無効化
+            // パスワード表示トグル
+            document.querySelectorAll('.toggle-password').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const input = document.getElementById(btn.dataset.target);
+                    const isPassword = input.type === 'password';
+                    input.type = isPassword ? 'text' : 'password';
+                    btn.querySelector('.eye-open').classList.toggle('hidden', isPassword);
+                    btn.querySelector('.eye-closed').classList.toggle('hidden', !isPassword);
+                });
+            });
+
             const agreeTermsCheckbox = document.getElementById('agree-terms');
             const registerButton = document.getElementById('register-button');
-
             const pinInput = document.getElementById('pinCode');
             const sendPinButton = document.getElementById('send-pin-button');
             const pinStatus = document.getElementById('pin-send-status');
@@ -175,20 +176,43 @@
                 registerButton.disabled = !(agreeTermsCheckbox.checked && hasPin);
             }
 
-            if (agreeTermsCheckbox && registerButton) {
-                agreeTermsCheckbox.addEventListener('change', updateButtonState);
-                if (pinInput) pinInput.addEventListener('input', updateButtonState);
-                updateButtonState();
-            }
+            if (agreeTermsCheckbox) agreeTermsCheckbox.addEventListener('change', updateButtonState);
+            if (pinInput) pinInput.addEventListener('input', updateButtonState);
+            updateButtonState();
 
+            // PIN送信ボタン
             if (sendPinButton) {
+                let cooldown = 0;
+                let timer = null;
+
+                function startCooldown(seconds) {
+                    cooldown = seconds;
+                    sendPinButton.disabled = true;
+                    timer = setInterval(() => {
+                        cooldown--;
+                        if (cooldown <= 0) {
+                            clearInterval(timer);
+                            sendPinButton.disabled = false;
+                            sendPinButton.textContent = 'PIN送信';
+                        } else {
+                            sendPinButton.textContent = `再送信 (${cooldown}s)`;
+                        }
+                    }, 1000);
+                }
+
                 sendPinButton.addEventListener('click', async () => {
                     const emailField = document.getElementById('email');
                     if (!emailField || !emailField.value) {
+                        pinStatus.className = 'text-sm text-red-400 min-h-[1.25rem]';
                         pinStatus.textContent = 'メールアドレスを入力してください';
                         return;
                     }
+
+                    sendPinButton.disabled = true;
+                    sendPinButton.textContent = '送信中...';
+                    pinStatus.className = 'text-sm text-slate-400 min-h-[1.25rem]';
                     pinStatus.textContent = '送信中...';
+
                     try {
                         const res = await fetch('/register/send-pin', {
                             method: 'POST',
@@ -197,18 +221,25 @@
                         });
                         const data = await res.json();
                         if (res.ok && data.ok) {
-                            pinStatus.textContent = 'PINを送信しました。有効期限: ' + (data.expiresAt || '不明');
+                            pinStatus.className = 'text-sm text-green-400 min-h-[1.25rem]';
+                            pinStatus.textContent = 'PINを送信しました。メールをご確認ください。' + (data.expiresAt ? '（有効期限: ' + data.expiresAt + '）' : '');
+                            startCooldown(60);
                         } else {
+                            pinStatus.className = 'text-sm text-red-400 min-h-[1.25rem]';
                             pinStatus.textContent = (data && data.error) ? data.error : 'PIN送信に失敗しました';
+                            sendPinButton.disabled = false;
+                            sendPinButton.textContent = 'PIN送信';
                         }
                     } catch (err) {
                         console.error('send pin error', err);
+                        pinStatus.className = 'text-sm text-red-400 min-h-[1.25rem]';
                         pinStatus.textContent = '送信時にエラーが発生しました';
+                        sendPinButton.disabled = false;
+                        sendPinButton.textContent = 'PIN送信';
                     }
                 });
             }
         });
     </script>
 </body>
-
 </html>
