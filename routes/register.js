@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const axios = require('axios');
 const bcrypt = require('bcryptjs');
 const Users = require('../models/users');
-const getUsers = require('../functions/register');
+const getUsers = require('../functions/registerHelper');
 
 const ORARAN_BASE = process.env.ORARAN_BASE || 'https://oraran.jp';
 const ORARAN_API_KEY = process.env.ORARAN_API_KEY || '';
