@@ -1,18 +1,17 @@
 const express = require('express');
 const router = express.Router();
+const crypto = require('crypto');
 const tinyurl = require('../models/tinyurl');
 const premium = require('../models/premium');
 const preuser = require('../models/preuser');
 const User = require('../models/users');
 const { checkUrlLimit } = require('../functions/usageLimits');
 
-// ユーザー認証情報を取得する共通関数
 async function getUserAuth(req, res) {
-	// メール/パスワードログインのセッションチェック
-	if (req.cookies.user_session) {
+	const raw = req.signedCookies.user_session;
+	if (raw) {
 		try {
-			const userSession = JSON.parse(req.cookies.user_session);
-			// DBからユーザー情報を取得してuniqueIdを含める
+			const userSession = JSON.parse(raw);
 			const user = await User.findById(userSession.id);
 			if (user) {
 				return {
@@ -24,7 +23,6 @@ async function getUserAuth(req, res) {
 			}
 		} catch (err) {
 			console.error('Session parse error:', err);
-			// 無効なセッションをクリア
 			res.clearCookie('user_session');
 		}
 	}
@@ -32,10 +30,9 @@ async function getUserAuth(req, res) {
 	return null;
 }
 
-// プレミアムユーザー情報を取得する共通関数
 async function getPremiumStatus(uniqueId) {
 	if (!uniqueId) return { isPremium: false, demo: false };
-	
+
 	try {
 		const premiumUser = await preuser.findOne({ id: uniqueId });
 		return {
@@ -48,7 +45,6 @@ async function getPremiumStatus(uniqueId) {
 	}
 }
 
-// レンダリング用のデータを生成する共通関数
 function getRenderData(userAuth, premiumStatus, additionalData = {}) {
 	return {
 		url: '',
@@ -62,33 +58,23 @@ function getRenderData(userAuth, premiumStatus, additionalData = {}) {
 	};
 }
 
-// メインページの表示
 router.get('/', async (req, res) => {
 	try {
-		// ユーザー認証情報を取得
 		const userAuth = await getUserAuth(req, res);
-		
-		// プレミアムステータスを取得（uniqueIdを使用）
 		const premiumStatus = await getPremiumStatus(userAuth?.uniqueId);
-		
-		// レンダリングデータを生成
 		const renderData = getRenderData(userAuth, premiumStatus);
-		
 		res.status(200).render('index', renderData);
 	} catch (error) {
 		console.error('Index page error:', error);
-		// エラー時は未ログイン状態で表示
 		const renderData = getRenderData(null, { isPremium: false, demo: false });
 		res.status(500).render('index', renderData);
 	}
 });
 
-// URL短縮処理
 router.post('/tiny_url', async (req, res) => {
 	try {
 		const { original, custom, domain } = req.body;
-		
-		// URL形式の検証
+
 		if (!original || !original.match(/^https?:\/\/.+/)) {
 			const userAuth = await getUserAuth(req, res);
 			const premiumStatus = await getPremiumStatus(userAuth?.uniqueId);
@@ -99,16 +85,12 @@ router.post('/tiny_url', async (req, res) => {
 			return res.status(400).render('index', renderData);
 		}
 
-		// ユーザー認証情報を取得
 		const userAuth = await getUserAuth(req, res);
-		
-		// プレミアムステータスを取得（uniqueIdを使用）
 		const premiumStatus = await getPremiumStatus(userAuth?.uniqueId);
-		
-		// 使用量制限をチェック（ログインユーザーのみ）
+
 		if (userAuth && userAuth.uniqueId) {
 			const limitCheck = await checkUrlLimit(userAuth.uniqueId);
-			
+
 			if (!limitCheck.allowed) {
 				const renderData = getRenderData(userAuth, premiumStatus, {
 					url: 'error',
@@ -120,20 +102,18 @@ router.post('/tiny_url', async (req, res) => {
 				});
 			}
 		}
-		
-		// 短縮URLの生成
-		const tinyCode = Math.random().toString(32).substring(2);
+
+		const tinyCode = crypto.randomBytes(4).toString('hex');
 		const baseUrl = process.env.domain || 'orrn.net';
 		const finalTinyCode = (premiumStatus.isPremium && custom) ? custom : tinyCode;
-		
-		console.log('URL短縮処理開始:', { 
-			original, 
-			custom, 
+
+		console.log('URL短縮処理開始:', {
+			original,
+			custom,
 			isPremium: premiumStatus.isPremium,
-			username: userAuth?.username 
+			username: userAuth?.username
 		});
 
-		// カスタムURLの重複チェック（カスタム指定時のみ）
 		if (custom && premiumStatus.isPremium) {
 			const existingUrl = await tinyurl.findOne({ tiny: custom });
 			if (existingUrl) {
@@ -145,12 +125,11 @@ router.post('/tiny_url', async (req, res) => {
 			}
 		}
 
-		// 統合モデルに保存（フリー・プレミアム共通）
 		const newUrl = new tinyurl({
 			userid: userAuth?.id || null,
 			uniqueId: userAuth?.uniqueId || null,
 			username: userAuth?.username || 'Anonymous',
-			original: original,
+			original,
 			tiny: finalTinyCode,
 			isPremium: premiumStatus.isPremium,
 			isCustom: !!(custom && premiumStatus.isPremium),
@@ -158,18 +137,17 @@ router.post('/tiny_url', async (req, res) => {
 		});
 
 		await newUrl.save();
-		
+
 		const renderData = getRenderData(userAuth, premiumStatus, {
-			tiny: `https://${domain || baseUrl}/t/${finalTinyCode}`
+			tiny: `https://${baseUrl}/t/${finalTinyCode}`
 		});
-		
+
 		console.log('短縮URL作成完了:', finalTinyCode);
 		res.status(200).render('index', renderData);
 
 	} catch (error) {
 		console.error('URL短縮エラー:', error);
-		
-		// エラー時の処理
+
 		try {
 			const userAuth = await getUserAuth(req, res);
 			const premiumStatus = await getPremiumStatus(userAuth?.uniqueId);

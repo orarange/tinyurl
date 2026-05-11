@@ -6,50 +6,42 @@ const preuser = require('../models/preuser');
 
 router.get('/', async (req, res) => {
 	let username = null;
-	let userId = null;
 	let isPremium = false;
 
-	// メール/パスワードログインのセッションチェック
-	if (req.cookies.user_session) {
+	const raw = req.signedCookies.user_session;
+	if (raw) {
 		try {
-			const userSession = JSON.parse(req.cookies.user_session);
+			const userSession = JSON.parse(raw);
 			username = userSession.username;
-			userId = userSession.id;
+			const userId = userSession.uniqueId || userSession.id;
 
-			// プレミアムステータスをチェック
 			const premiumUser = await preuser.findOne({ id: userId });
 			isPremium = !!premiumUser;
 
 		} catch (error) {
 			console.error('セッション解析エラー:', error);
-			// 無効なセッションをクリア
 			res.clearCookie('user_session');
 		}
 	}
 
-	// レンダリング
 	if (!username) {
-		// 未ログイン状態
-		res.render('buypremium', { 
-			url: '', 
-			tiny: '', 
-			premiu: '', 
-			name: '', 
-			demo: '', 
-			log: 'in' 
+		res.render('buypremium', {
+			url: '',
+			tiny: '',
+			premiu: '',
+			name: '',
+			demo: '',
+			log: 'in'
 		});
 	} else {
-		// ログイン済み状態
-		const renderData = {
-			url: '', 
-			tiny: '', 
-			premiu: isPremium ? 'yes' : '', 
-			name: username, 
-			demo: '', 
-			log: 'out' 
-		};
-
-		res.render('buypremium', renderData);
+		res.render('buypremium', {
+			url: '',
+			tiny: '',
+			premiu: isPremium ? 'yes' : '',
+			name: username,
+			demo: '',
+			log: 'out'
+		});
 	}
 });
 
