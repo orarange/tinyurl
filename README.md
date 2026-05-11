@@ -272,7 +272,7 @@ node .
 ### ユーザーのuniqueIDを確認
 
 ```bash
-node check-unique-ids.js
+node scripts/check-unique-ids.js
 ```
 
 管理者に設定したいユーザーの`uniqueId`を`.env`の`admin_unique_ids`に追加してください。

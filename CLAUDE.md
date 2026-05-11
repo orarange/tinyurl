@@ -12,7 +12,7 @@ node index.js
 npm install
 
 # ユーザーのuniqueIdを確認（管理者設定用）
-node check-unique-ids.js
+node scripts/check-unique-ids.js
 
 # DBマイグレーション（uniqueId付与）
 node migrations/add-unique-ids.js
@@ -45,6 +45,12 @@ node migrations/add-unique-ids.js
 ### プレミアム判定
 
 `preuser`（コレクション名: `preuseradd`）に `{ id: uniqueId }` が存在するかどうかで判定。プレミアムユーザーはカスタム短縮URLを使える。
+
+### ディレクトリ構成の注意点
+
+- `apis/` — REST APIルーター（`routes/` とは別、認証必須エンドポイント群）
+- `functions/loginHelper.js` / `functions/registerHelper.js` — 同名の `routes/login.js` / `routes/register.js` と区別するためにHelperサフィックスを付与
+- `scripts/check-unique-ids.js` — 管理用スクリプト（本番コードではない）
 
 ### API認証フロー
 

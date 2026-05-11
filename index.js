@@ -41,11 +41,11 @@ const refe = require('./routes/refe');
 const buy = require('./routes/buypremium');
 const register = require('./routes/register');
 
-const API1 = require('./APIs/index');
-const APIAuth = require('./APIs/auth');
-const pull = require('./APIs/pull');
-const get = require('./APIs/geturl');
-const gettiny = require('./APIs/gettiny');
+const API1 = require('./apis/index');
+const APIAuth = require('./apis/auth');
+const pull = require('./apis/pull');
+const get = require('./apis/geturl');
+const gettiny = require('./apis/gettiny');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
