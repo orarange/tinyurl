@@ -15,7 +15,7 @@ Tiny-URLは、Node.js + Express + MongoDBで構築されたURL短縮サービス
 - ⭐ **プレミアムプラン**: カスタムURL設定機能
 - 📊 **ダッシュボード**: 自分が作成したURLとAPIトークンの管理
 - 🚀 **高パフォーマンス**: レート制限・MongoDB接続最適化
-- 📱 **レスポンシブデザイン**: Tailwind CSSによるモダンUI
+- 📱 **レスポンシブデザイン**: カスタムCSS（Bootstrap 3風）によるUI
 
 ## 技術スタック
 
@@ -23,7 +23,7 @@ Tiny-URLは、Node.js + Express + MongoDBで構築されたURL短縮サービス
 - **データベース**: MongoDB (Mongoose ODM)
 - **認証**: Cookie-based セッション管理
 - **テンプレートエンジン**: EJS
-- **スタイリング**: Tailwind CSS
+- **スタイリング**: カスタムCSS（Bootstrap 3風、`public/css/main.css`）
 - **セキュリティ**: bcrypt (パスワードハッシュ化)
 - **その他**: express-rate-limit, cloudflare-express
 
@@ -62,8 +62,15 @@ domain=yourdomain.com
 # ポート設定
 PORT=3000
 
+# Cookie署名シークレット（本番環境では必ず強力なランダム文字列を設定）
+SESSION_SECRET=your-strong-random-secret
+
 # 管理者uniqueIdリスト（カンマ区切り）
 admin_unique_ids=your_unique_id_1,your_unique_id_2
+
+# PIN認証外部API（メール認証用）
+ORARAN_BASE=https://oraran.jp
+ORARAN_API_KEY=your_api_key
 ```
 
 ### 4. アプリケーションを起動
@@ -274,7 +281,7 @@ node check-unique-ids.js
 
 - ✅ パスワードはbcryptでハッシュ化
 - ✅ HTTPSでの通信を推奨
-- ✅ Rate Limiting (10秒間に5リクエスト)
+- ✅ Rate Limiting (1分間に30リクエスト、APIエンドポイント)
 - ✅ Cookie httpOnly フラグ
 - ⚠️ 本番環境では`secure`フラグを有効化推奨
 
@@ -293,33 +300,3 @@ orarange
 ---
 
 **ドメイン**: [orrn.net](https://orrn.net)
-A simple URL shortener service.
-
-## Features
-
-- Shorten long URLs
-- Custom short URL aliases
-- URL analytics and statistics
-- RESTful API
-
-## Installation
-
-```bash
-npm install
-```
-
-## Usage
-
-```bash
-npm start
-```
-
-## API Endpoints
-
-- `POST /api/shorten` - Create a short URL
-- `GET /:shortCode` - Redirect to original URL
-- `GET /api/stats/:shortCode` - Get URL statistics
-
-## License
-
-MIT

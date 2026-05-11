@@ -71,9 +71,21 @@ router.get('/', async (req, res) => {
 	}
 });
 
+const CUSTOM_CODE_MAX_LENGTH = 50;
+const CUSTOM_CODE_PATTERN = /^[a-zA-Z0-9_-]+$/;
+
+async function generateUniqueCode(maxAttempts = 5) {
+	for (let i = 0; i < maxAttempts; i++) {
+		const code = crypto.randomBytes(4).toString('hex');
+		const existing = await tinyurl.findOne({ tiny: code });
+		if (!existing) return code;
+	}
+	throw new Error('短縮コードの生成に失敗しました。再度お試しください。');
+}
+
 router.post('/tiny_url', async (req, res) => {
 	try {
-		const { original, custom, domain } = req.body;
+		const { original, custom } = req.body;
 
 		if (!original || !original.match(/^https?:\/\/.+/)) {
 			const userAuth = await getUserAuth(req, res);
@@ -103,18 +115,23 @@ router.post('/tiny_url', async (req, res) => {
 			}
 		}
 
-		const tinyCode = crypto.randomBytes(4).toString('hex');
 		const baseUrl = process.env.domain || 'orrn.net';
-		const finalTinyCode = (premiumStatus.isPremium && custom) ? custom : tinyCode;
-
-		console.log('URL短縮処理開始:', {
-			original,
-			custom,
-			isPremium: premiumStatus.isPremium,
-			username: userAuth?.username
-		});
 
 		if (custom && premiumStatus.isPremium) {
+			if (!CUSTOM_CODE_PATTERN.test(custom)) {
+				const renderData = getRenderData(userAuth, premiumStatus, {
+					url: original,
+					tiny: 'カスタムコードは英数字・ハイフン・アンダースコアのみ使用できます'
+				});
+				return res.status(400).render('index', renderData);
+			}
+			if (custom.length > CUSTOM_CODE_MAX_LENGTH) {
+				const renderData = getRenderData(userAuth, premiumStatus, {
+					url: original,
+					tiny: `カスタムコードは${CUSTOM_CODE_MAX_LENGTH}文字以内にしてください`
+				});
+				return res.status(400).render('index', renderData);
+			}
 			const existingUrl = await tinyurl.findOne({ tiny: custom });
 			if (existingUrl) {
 				const renderData = getRenderData(userAuth, premiumStatus, {
@@ -124,6 +141,8 @@ router.post('/tiny_url', async (req, res) => {
 				return res.status(400).render('index', renderData);
 			}
 		}
+
+		const finalTinyCode = (premiumStatus.isPremium && custom) ? custom : await generateUniqueCode();
 
 		const newUrl = new tinyurl({
 			userid: userAuth?.id || null,
@@ -142,11 +161,14 @@ router.post('/tiny_url', async (req, res) => {
 			tiny: `https://${baseUrl}/t/${finalTinyCode}`
 		});
 
-		console.log('短縮URL作成完了:', finalTinyCode);
 		res.status(200).render('index', renderData);
 
 	} catch (error) {
-		console.error('URL短縮エラー:', error);
+		if (error.code === 11000) {
+			console.error('短縮コード重複エラー（DB一意制約）:', error.message);
+		} else {
+			console.error('URL短縮エラー:', error);
+		}
 
 		try {
 			const userAuth = await getUserAuth(req, res);

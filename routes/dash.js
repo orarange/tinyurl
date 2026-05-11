@@ -6,6 +6,7 @@ const preuser = require('../models/preuser');
 const apiToken = require('../models/apiToken');
 const apiUsage = require('../models/apiUsage');
 const crypto = require('crypto');
+const User = require('../models/users');
 
 function parseSession(req) {
 	const raw = req.signedCookies.user_session;
@@ -21,6 +22,12 @@ router.get('/', async (req, res) => {
 	try {
 		const userSession = parseSession(req);
 		if (!userSession) {
+			return res.redirect('/login');
+		}
+
+		const dbUser = await User.findById(userSession.id);
+		if (!dbUser) {
+			res.clearCookie('user_session');
 			return res.redirect('/login');
 		}
 
